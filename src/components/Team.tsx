@@ -42,7 +42,7 @@ const team: TeamMember[] = [
   },
   {
     image: "/Piyush Yadav.png",
-    name: "Piyush Yadav",
+    name: "Piyush Ray",
     role: "COO",
     bio: "5+ years streamlining business operations, scaling execution frameworks, and driving sustainable client growth.",
     achievements: [
@@ -50,7 +50,7 @@ const team: TeamMember[] = [
       "Optimized delivery pipelines, cutting lead times by 65%",
       "Oversees global QA & service delivery standards"
     ],
-    instagram: "https://www.instagram.com/piyush.yadav.ai/",
+    instagram: "https://www.instagram.com/piyushray.ai/",
   },
   {
     image: "/Lavish Sharma.jpeg",
