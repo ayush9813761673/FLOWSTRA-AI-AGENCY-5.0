@@ -1,21 +1,25 @@
 import React from "react";
 import { Navbar } from "@/components/ui/mini-navbar";
+import { FloatingDock } from "@/components/ui/floating-dock";
 import { CinematicHero } from "@/components/ui/cinematic-landing-hero";
 import { TrustedBy } from "./components/TrustedBy";
+import { SocialProofCounters } from "./components/SocialProofCounters";
 import { CaseStudies } from "./components/CaseStudies";
 import { Features } from "./components/Features";
 import { ToolsWeUse } from "./components/ToolsWeUse";
 import { Testimonials } from "./components/Testimonials";
 import { Calculator } from "./components/Calculator";
+import { WorkspaceAutomation } from "./components/WorkspaceAutomation";
 import { Pricing } from "./components/Pricing";
 import { Team } from "./components/Team";
 import { FinalCTA } from "./components/FinalCTA";
 import { Footer } from "./components/Footer";
-import { ExitIntentModal } from "./components/ExitIntentModal";
 import { AutomationAuditModal } from "./components/AutomationAuditModal";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { AmbientMusicPlayer } from "@/components/ui/ambient-music-player";
 import { DynamicSEO } from "./components/DynamicSEO";
+import { BackToTop } from "./components/BackToTop";
+import { KeyboardNavigation } from "./components/KeyboardNavigation";
 
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
@@ -29,6 +33,7 @@ export default function App() {
       <SmoothCursor />
       <GradientBackground />
       <Navbar />
+      <FloatingDock />
       <main>
         <div className="relative w-full">
           <CinematicHero
@@ -38,6 +43,7 @@ export default function App() {
             className="pt-20 pb-16"
           />
           <TrustedBy />
+          <SocialProofCounters />
         </div>
         <SectionDivider glowColor="rgba(59, 130, 246, 0.12)" />
         <CaseStudies />
@@ -52,14 +58,17 @@ export default function App() {
         <SectionDivider glowColor="rgba(59, 130, 246, 0.1)" />
         <Calculator />
         <SectionDivider glowColor="rgba(16, 185, 129, 0.08)" />
+        <WorkspaceAutomation />
+        <SectionDivider glowColor="rgba(99, 102, 241, 0.12)" />
         <Pricing />
         <SectionDivider glowColor="rgba(99, 102, 241, 0.12)" />
         <FinalCTA />
       </main>
       <Footer />
-      <ExitIntentModal />
       <AutomationAuditModal />
       <AmbientMusicPlayer />
+      <BackToTop />
+      <KeyboardNavigation />
     </div>
   );
 }

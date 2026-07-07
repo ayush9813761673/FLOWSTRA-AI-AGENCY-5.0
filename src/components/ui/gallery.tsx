@@ -164,16 +164,18 @@ export const PhotoGallery = ({
   return (
     <div className="mt-20 relative">
       <div className="absolute inset-0 max-md:hidden top-[200px] -z-10 h-[300px] w-full bg-transparent bg-[linear-gradient(to_right,#57534e_1px,transparent_1px),linear-gradient(to_bottom,#57534e_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-20 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)] dark:bg-[linear-gradient(to_right,#a8a29e_1px,transparent_1px),linear-gradient(to_bottom,#a8a29e_1px,transparent_1px)]"></div>
-      <p className="lg:text-md my-2 text-center text-xs font-light uppercase tracking-widest text-[var(--text-secondary)]">
-        Our powerful automation stack
-      </p>
-      <h3 className="z-20 mx-auto max-w-2xl justify-center py-3 text-center text-4xl font-bold text-[var(--text-primary)] md:text-7xl">
-        <HyperText
-          text="Tools We Use"
-          className="text-4xl md:text-7xl font-bold text-[var(--text-primary)]"
-          containerClassName="justify-center"
-        />
-      </h3>
+      
+      <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto mb-16">
+        <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
+          Integration Ecosystem
+        </span>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <HyperText text="Tools We Use" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
+        </h2>
+        <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
+          Our modular pipelines interface with top-tier business applications, databases, and LLM providers in real-time.
+        </p>
+      </div>
       <div
         ref={ref}
         className="relative mb-8 h-[350px] w-full items-center justify-center lg:flex"

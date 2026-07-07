@@ -198,30 +198,17 @@ export function ClippedVideoTab() {
       className="py-20 overflow-hidden w-full max-w-7xl mx-auto rounded-3xl mt-12 bg-transparent text-left"
     >
       {/* TOP */}
-      <div className="w-full">
-        <div className="grid md:grid-cols-2 gap-14 items-start mb-10 w-full">
-          {/* LEFT */}
-          <motion.div variants={fadeUp}>
-            <h2 className="text-[46px] leading-[50px] tracking-tight font-bold text-[var(--text-primary)] max-w-2xl">
-              <HyperText
-                text="Powerful Features for Lead Generation"
-                className="text-[32px] md:text-[46px] leading-[40px] md:leading-[50px] font-bold text-[var(--text-primary)]"
-              />
-            </h2>
-          </motion.div>
-
-          {/* RIGHT */}
-          <motion.div variants={fadeUp}>
-            <p className="text-[18px] leading-[32px] text-[var(--text-secondary)] max-w-lg">
-              Explore the advanced AI and automation capabilities that
-              supercharge your lead generation pipelines— designed and developed
-              by{" "}
-              <span className="font-medium text-[var(--text-primary)]">
-                Flowstra
-              </span>
-              .
-            </p>
-          </motion.div>
+      <div className="w-full mb-16">
+        <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto">
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
+            Core Solutions & Modules
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <HyperText text="Powerful Features for Lead Generation" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
+          </h2>
+          <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
+            Explore the advanced AI and automation capabilities that supercharge your lead generation pipelines—designed and engineered by Flowstra.
+          </p>
         </div>
       </div>
 

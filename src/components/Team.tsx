@@ -352,22 +352,17 @@ export function Team() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="flex flex-col gap-4 max-w-3xl items-center text-center mx-auto"
+          className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)]">
-            <HyperText
-              text="Meet Our Team!"
-              className="text-4xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)]"
-              containerClassName="justify-center"
-            />
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
+            Founding Leadership
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <HyperText text="Meet Our Team" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
           </h2>
-          <motion.p
-            variants={headingVariants}
-            className="text-lg text-[var(--text-secondary)]"
-          >
-            The brilliant minds behind Nepal's most innovative AI lead
-            generation solutions
-          </motion.p>
+          <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
+            The brilliant minds and automation architects behind Nepal's leading AI-driven operations agency.
+          </p>
         </motion.div>
 
         <motion.div 

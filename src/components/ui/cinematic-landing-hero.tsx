@@ -11,8 +11,14 @@ const INJECTED_STYLES = `
   /* Environment Overlays */
   .film-grain {
       position: absolute; inset: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 50; opacity: 0.05; mix-blend-mode: overlay;
-      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+      pointer-events: none; z-index: 50; opacity: 0.03; mix-blend-mode: overlay;
+      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+  }
+
+  @media (max-width: 1024px) {
+    .film-grain {
+      display: none;
+    }
   }
 
   @keyframes slow-pan {
@@ -72,7 +78,7 @@ export function CinematicHero({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const lastSpaceIndex = tagline2.lastIndexOf(" ");
-  const otherWords = lastSpaceIndex !== -1 ? tagline2.substring(0, lastSpaceIndex + 1) : "";
+  const otherWords = lastSpaceIndex !== -1 ? tagline2.substring(0, lastSpaceIndex).trim() : "";
   const lastWord = lastSpaceIndex !== -1 ? tagline2.substring(lastSpaceIndex + 1) : tagline2;
 
   useEffect(() => {
@@ -88,7 +94,11 @@ export function CinematicHero({
           filter: "blur(20px)",
           rotationX: -20,
         });
-        gsap.set(".text-days", { autoAlpha: 1, clipPath: "inset(0 100% 0 0)" });
+        gsap.set(".text-days", {
+          autoAlpha: 1,
+          clipPath: "inset(0 100% 0 0)",
+          WebkitClipPath: "inset(0 100% 0 0)",
+        });
 
         const introTl = gsap.timeline({ delay: 0.2 });
         introTl
@@ -103,7 +113,12 @@ export function CinematicHero({
           })
           .to(
             ".text-days",
-            { duration: 1.4, clipPath: "inset(0 0% 0 0)", ease: "power4.inOut" },
+            {
+              duration: 1.6,
+              clipPath: "inset(0 0% 0 0)",
+              WebkitClipPath: "inset(0 0% 0 0)",
+              ease: "power4.inOut",
+            },
             "-=1.0",
           );
       }, containerRef);
@@ -117,7 +132,11 @@ export function CinematicHero({
       filter: "blur(20px)",
       rotationX: -20,
     });
-    gsap.set(".text-days", { autoAlpha: 0, clipPath: "inset(0 100% 0 0)" });
+    gsap.set(".text-days", {
+      autoAlpha: 0,
+      clipPath: "inset(0 100% 0 0)",
+      WebkitClipPath: "inset(0 100% 0 0)",
+    });
 
     if ((window as any).__flowstraIntroGateDismissed) {
       playHeroAnimation();
@@ -139,9 +158,10 @@ export function CinematicHero({
 
   return (
     <div
+      id="hero"
       ref={containerRef}
       className={cn(
-        "relative w-screen min-h-[100vh] pb-32 overflow-hidden flex flex-col items-center justify-center bg-transparent text-foreground font-sans antialiased",
+        "relative w-full min-h-[100vh] pb-32 overflow-hidden flex flex-col items-center justify-center bg-transparent text-foreground font-sans antialiased",
         className,
       )}
       style={{ perspective: "1500px" }}
@@ -155,15 +175,18 @@ export function CinematicHero({
       />
 
       {/* BACKGROUND LAYER: Hero Texts */}
-      <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-screen px-4 mt-20 will-change-transform transform-style-3d">
-        <h1 className="text-track gsap-reveal text-3d-matte text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight mb-2">
+      <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-4 mt-20 will-change-transform transform-style-3d">
+        <h1 className="text-track gsap-reveal text-3d-matte text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight mb-2">
           {tagline1}
         </h1>
-        <h1 className="text-days gsap-reveal text-silver-matte text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter flex items-center justify-center flex-wrap gap-x-2 md:gap-x-4">
-          <span>{otherWords}</span>
+        <h1 
+          className="text-days gsap-reveal text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter flex items-center justify-center flex-wrap gap-x-2 md:gap-x-4"
+          style={{ opacity: 0, clipPath: "inset(0 100% 0 0)", WebkitClipPath: "inset(0 100% 0 0)" }}
+        >
+          <span className="text-silver-matte">{otherWords}</span>
           <SparklesText
             text={lastWord}
-            className="text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-silver-matte inline-block"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-silver-matte inline-block"
             starColors={["#FFD700", "#FF2E93", "#3b82f6", "#06b6d4", "#a855f7", "#10b981"]}
             sparklesCount={10}
           />

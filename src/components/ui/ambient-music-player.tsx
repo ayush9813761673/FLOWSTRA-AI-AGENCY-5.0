@@ -9,7 +9,6 @@ export function AmbientMusicPlayer() {
   const fadeIntervalRef = useRef<number | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false); // starts false until played
-  const [showTip, setShowTip] = useState(false);
   const [showIntroGate, setShowIntroGate] = useState(true);
 
   // Set global state and dispatch event when intro gate is dismissed
@@ -116,12 +115,17 @@ export function AmbientMusicPlayer() {
 
   // Auto-play / Gesture unlock listener as secondary fallback
   useEffect(() => {
+    if (!showIntroGate) {
+      // If intro gate is already dismissed, we do NOT want any click-to-play background listeners.
+      return;
+    }
+
     const audio = audioRef.current;
     if (!audio) return;
 
     let isAttempting = false;
 
-    // Resume playback handler when user interacts with the page
+    // Resume playback handler when user interacts with the page (restricted only to the gate)
     const resumePlayback = () => {
       if (audio && audio.paused && !isAttempting) {
         isAttempting = true;
@@ -130,7 +134,6 @@ export function AmbientMusicPlayer() {
         audio.play()
           .then(() => {
             console.log("Audio started successfully via user interaction.");
-            removeEngagementListeners();
             setShowIntroGate(false); // Dismiss gate automatically on first successful background play
           })
           .catch((err) => {
@@ -142,15 +145,8 @@ export function AmbientMusicPlayer() {
       }
     };
 
-    const removeEngagementListeners = () => {
-      document.removeEventListener("click", resumePlayback);
-      document.removeEventListener("mousemove", resumePlayback);
-    };
-
-    const addEngagementListeners = () => {
-      document.addEventListener("click", resumePlayback, { passive: true });
-      document.addEventListener("mousemove", resumePlayback, { passive: true });
-    };
+    // Only add click listener if the gate is still showing
+    document.addEventListener("click", resumePlayback, { passive: true });
 
     // Set volume to 0 prior to autoplay check for a potential fade-in
     audio.volume = 0;
@@ -161,25 +157,41 @@ export function AmbientMusicPlayer() {
         setShowIntroGate(false); // If immediate play works, we can enter directly
       })
       .catch((error) => {
-        console.log("Immediate automatic playback was blocked by browser. Setting up resume listeners.", error.message);
-        // If initial attempt is blocked, add listeners to document 'click' or 'mousemove' events
-        addEngagementListeners();
+        console.log("Immediate automatic playback was blocked by browser. Setup interaction listener.", error.message);
       });
 
-    // Show the helpful short message after a 3 second delay
-    const showTimer = setTimeout(() => {
-      setShowTip(true);
-    }, 3000);
-
-    // Auto-hide the non-intrusive message 6 seconds after showing (9 seconds total)
-    const hideTimer = setTimeout(() => setShowTip(false), 9000);
-
     return () => {
-      removeEngagementListeners();
-      clearTimeout(showTimer);
-      clearTimeout(hideTimer);
+      document.removeEventListener("click", resumePlayback);
     };
-  }, []);
+  }, [showIntroGate]);
+
+  // Handle custom toggle-music event
+  useEffect(() => {
+    const handleToggle = () => {
+      if (showIntroGate) {
+        // If the gate is still up, dismiss it and play
+        handleEnter();
+        return;
+      }
+      setHasInteracted(true);
+      if (audioRef.current) {
+        if (isPlaying) {
+          fadeVolume(0, 1000, () => {
+            audioRef.current?.pause();
+          });
+          setIsPlaying(false);
+        } else {
+          audioRef.current.volume = 0;
+          audioRef.current.play().catch(() => {});
+        }
+      }
+    };
+
+    window.addEventListener("toggle-ambient-music", handleToggle);
+    return () => {
+      window.removeEventListener("toggle-ambient-music", handleToggle);
+    };
+  }, [isPlaying, showIntroGate, handleEnter, fadeVolume]);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -192,19 +204,12 @@ export function AmbientMusicPlayer() {
           audioRef.current?.pause();
         });
         setIsPlaying(false); // Update UI instantly for premium responsiveness
-        setShowTip(true);
-        setTimeout(() => setShowTip(false), 4000);
       } else {
         // Set volume to 0, start playing, and the handlePlay hook will fade it back to 1
         audioRef.current.volume = 0;
         audioRef.current.play().catch(() => {});
       }
     }
-  };
-
-  const closeTip = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setShowTip(false);
   };
 
   return (
@@ -223,7 +228,7 @@ export function AmbientMusicPlayer() {
               transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] } 
             }}
             onClick={() => handleEnter()}
-            className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-transparent text-white p-6 cursor-pointer select-none overflow-hidden"
+            className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-[#05050a] text-white p-6 cursor-pointer select-none overflow-hidden"
             style={{
               backdropFilter: 'url("#gate-glass-filter") blur(32px)',
               WebkitBackdropFilter: 'url("#gate-glass-filter") blur(32px)'
@@ -356,7 +361,7 @@ export function AmbientMusicPlayer() {
         )}
       </AnimatePresence>
 
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] pointer-events-auto flex flex-col-reverse items-center gap-2.5 max-w-[calc(100vw-32px)]">
+      <div className="fixed bottom-24 sm:bottom-8 left-1/2 -translate-x-1/2 z-[9999] pointer-events-auto flex flex-col-reverse items-center gap-2.5 max-w-[calc(100vw-32px)]">
         {/* Hidden Audio Player */}
         <audio
           ref={audioRef}
@@ -443,28 +448,6 @@ export function AmbientMusicPlayer() {
             </defs>
           </svg>
         </motion.div>
-
-        {/* Elegant, Non-Intrusive Tooltip Hint (Properly bounded on mobile screens, floats above the controller) */}
-        <AnimatePresence>
-          {showTip && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              className="relative rounded-2xl border border-white/15 bg-slate-950/95 backdrop-blur-md p-3.5 shadow-2xl max-w-[280px] text-center overflow-hidden group"
-            >
-              <button 
-                onClick={closeTip}
-                className="absolute top-2 right-2 text-slate-500 hover:text-slate-300 transition-colors p-1 rounded-full hover:bg-white/5"
-              >
-                <X className="h-3 w-3" />
-              </button>
-              <p className="text-[11px] leading-relaxed text-slate-300 pr-5">
-                🎵 You can pause music here.
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </>
   );

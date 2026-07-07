@@ -254,25 +254,18 @@ export const WaitlistHero = () => {
         />
 
         {/* Content Container */}
-        <div className="relative z-20 w-full h-full flex flex-col items-center justify-end pb-24 gap-6 px-4">
-          <h1
-            className="text-4xl md:text-6xl font-bold text-center tracking-tight"
-            style={{ color: colors.textMain }}
-          >
-            <HyperText
-              text="Custom Solutions, Custom Pricing"
-              className="text-4xl md:text-6xl font-bold text-center tracking-tight text-white"
-              containerClassName="justify-center"
-            />
-          </h1>
-
-          <p
-            className="text-lg md:text-xl font-medium text-center max-w-2xl text-balance"
-            style={{ color: colors.textSecondary }}
-          >
-            Every business is unique. That's why we don't believe in
-            one-size-fits-all pricing. Get a personalized AI growth strategy.
-          </p>
+        <div className="relative z-20 w-full h-full flex flex-col items-center justify-end pb-24 px-4">
+          <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto mb-6">
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
+              Pricing & Implementation
+            </span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+              <HyperText text="Custom Solutions, Custom Pricing" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
+            </h1>
+            <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
+              Every business is unique. That's why we don't believe in one-size-fits-all pricing. Get a personalized AI growth strategy.
+            </p>
+          </div>
 
           {/* Form / Success Container */}
           <div

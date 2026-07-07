@@ -1,10 +1,20 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import * as THREE from "three"
 
 export function WebGLShader() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
+
+  useEffect(() => {
+    setIsTouchDevice(
+      window.matchMedia("(pointer: coarse)").matches ||
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0
+    );
+  }, []);
+
   const sceneRef = useRef<{
     scene: THREE.Scene | null
     camera: THREE.OrthographicCamera | null
@@ -22,7 +32,7 @@ export function WebGLShader() {
   })
 
   useEffect(() => {
-    if (!canvasRef.current) return
+    if (isTouchDevice || !canvasRef.current) return
 
     const canvas = canvasRef.current
     const { current: refs } = sceneRef
@@ -150,6 +160,12 @@ export function WebGLShader() {
       refs.renderer?.dispose()
     }
   }, [])
+
+  if (isTouchDevice) {
+    return (
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-950/20 via-black to-slate-950/40 -z-10 pointer-events-none" />
+    )
+  }
 
   return (
     <canvas

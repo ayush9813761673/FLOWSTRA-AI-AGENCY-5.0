@@ -106,98 +106,144 @@ export function Navbar() {
   );
 
   return (
-    <header
-      className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-[100]
-                       flex flex-col items-center
-                       px-4 sm:px-6 py-3
-                       ${headerShapeClass}
-                       border border-white/20
-                       w-[calc(100%-2rem)] sm:w-auto
-                       transition-[border-radius] duration-300 ease-in-out`}
-      style={{
-        backdropFilter: 'url("#navbar-glass-filter") blur(16px)',
-        WebkitBackdropFilter: 'url("#navbar-glass-filter") blur(16px)'
-      }}
-    >
-      {/* Liquid Glass Highlight & Shadow Layers */}
-      <div className={`absolute inset-0 ${headerShapeClass} z-0 pointer-events-none 
-        shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.2),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.7),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.5),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.5),inset_0_0_6px_6px_rgba(255,255,255,0.1),inset_0_0_2px_2px_rgba(255,255,255,0.05),0_0_12px_rgba(255,255,255,0.1)] 
-        bg-white/[0.04] transition-[border-radius] duration-300`} 
-      />
+    <>
+      {/* Un-attached Logo and Brand with Liquid Glass - Pinned separately at the left side of the viewport (Desktop/Tablet only) */}
+      <div 
+        className="fixed top-6 left-6 md:left-12 z-[110] hidden sm:flex items-center h-12 sm:h-14 px-4 sm:px-5 border border-white/20 rounded-full transition-all duration-300 ease-in-out select-none"
+        style={{
+          backdropFilter: 'url("#navbar-glass-filter") blur(16px)',
+          WebkitBackdropFilter: 'url("#navbar-glass-filter") blur(16px)'
+        }}
+      >
+        {/* Liquid Glass Highlight & Shadow Layers */}
+        <div className="absolute inset-0 rounded-full z-0 pointer-events-none 
+          shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.2),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.7),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.5),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.5),inset_0_0_6px_6px_rgba(255,255,255,0.1),inset_0_0_2px_2px_rgba(255,255,255,0.05),0_0_12px_rgba(255,255,255,0.1)] 
+          bg-white/[0.04]" 
+        />
 
-      {/* Glass SVG Displacement Filter */}
-      <svg className="absolute w-0 h-0 opacity-0 pointer-events-none">
-        <defs>
-          <filter
-            id="navbar-glass-filter"
-            x="0%"
-            y="0%"
-            width="100%"
-            height="100%"
-            colorInterpolationFilters="sRGB"
-          >
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.04 0.04"
-              numOctaves="1"
-              seed="2"
-              result="noise"
-            />
-            <feGaussianBlur in="noise" stdDeviation="1" result="blurredNoise" />
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="blurredNoise"
-              scale="12"
-              xChannelSelector="R"
-              yChannelSelector="B"
-              result="displaced"
-            />
-            <feComposite in="displaced" in2="displaced" operator="over" />
-          </filter>
-        </defs>
-      </svg>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="relative z-10 flex items-center gap-3 group cursor-pointer"
+        >
+          <img 
+            src="/logo.png" 
+            alt="Flowstra Logo" 
+            className="w-[26px] h-[26px] sm:w-[32px] sm:h-[32px] object-contain transition-all duration-300 group-hover:scale-110 group-hover:rotate-[12deg]" 
+          />
+          <span className="text-white/85 font-semibold text-sm sm:text-[15px] tracking-[0.22em] uppercase mt-[1px] transition-all duration-300 ease-out group-hover:text-white group-hover:tracking-[0.27em] group-hover:[text-shadow:0_0_20px_rgba(255,255,255,1),0_0_40px_rgba(255,255,255,0.6)]">
+            Flowstra
+          </span>
+        </a>
+      </div>
 
-      <div className="relative z-10 flex items-center justify-between w-full gap-x-3 sm:gap-x-12">
-        <div className="flex items-center shrink-0">{logoElement}</div>
+      {/* Unified Mobile Flowstra Navigation Bar with Liquid Glass (Mobile Preview Only) */}
+      <div 
+        className="fixed top-6 left-6 right-6 z-[110] sm:hidden flex items-center justify-between h-14 px-4 border border-white/20 rounded-full transition-all duration-300 ease-in-out select-none"
+        style={{
+          backdropFilter: 'url("#navbar-glass-filter") blur(16px)',
+          WebkitBackdropFilter: 'url("#navbar-glass-filter") blur(16px)'
+        }}
+      >
+        {/* Liquid Glass Highlight & Shadow Layers */}
+        <div className="absolute inset-0 rounded-full z-0 pointer-events-none 
+          shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.2),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.7),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.5),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.5),inset_0_0_6px_6px_rgba(255,255,255,0.1),inset_0_0_2px_2px_rgba(255,255,255,0.05),0_0_12px_rgba(255,255,255,0.1)] 
+          bg-white/[0.04]" 
+        />
 
-        <nav className="hidden sm:flex items-center space-x-4 sm:space-x-8 text-sm">
-          {navLinksData.map((link) => (
-            <AnimatedNavLink key={link.href} href={link.href}>
-              {link.label}
-            </AnimatedNavLink>
-          ))}
-        </nav>
+        {/* Mobile Logo on Left */}
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="relative z-10 flex items-center gap-2.5 group cursor-pointer"
+        >
+          <img 
+            src="/logo.png" 
+            alt="Flowstra Logo" 
+            className="w-7 h-7 object-contain transition-all duration-300 group-hover:scale-110 group-hover:rotate-[12deg]" 
+          />
+          <span className="text-white/85 font-semibold text-xs tracking-[0.2em] uppercase mt-[1px] transition-all duration-300 ease-out group-hover:text-white">
+            Flowstra
+          </span>
+        </a>
 
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        {/* Mobile CTA Button on Right */}
+        <div className="relative z-10 flex items-center">
           {mobileCtaButton}
-          {desktopCtaButton}
-          <button
-            className="sm:hidden flex items-center justify-center w-8 h-8 text-gray-300 focus:outline-none bg-white/5 border border-white/10 backdrop-blur-md rounded-full hover:bg-white/10 transition-colors"
-            onClick={toggleMenu}
-            aria-label={isOpen ? "Close Menu" : "Open Menu"}
-          >
-            {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-          </button>
         </div>
       </div>
 
-      <div
-        className={`sm:hidden relative z-10 flex flex-col items-center w-full transition-all ease-in-out duration-300 overflow-hidden
-                       ${isOpen ? "max-h-[500px] opacity-100 pt-6 pb-2" : "max-h-0 opacity-0 pt-0 pb-0 pointer-events-none"}`}
+      <header
+        className="fixed top-6 left-1/2 -translate-x-1/2 z-[100]
+                   hidden sm:flex flex-col items-center
+                   px-6 py-2.5
+                   rounded-full
+                   border border-white/20
+                   w-auto
+                   transition-[border-radius,width] duration-300 ease-in-out"
+        style={{
+          backdropFilter: 'url("#navbar-glass-filter") blur(16px)',
+          WebkitBackdropFilter: 'url("#navbar-glass-filter") blur(16px)'
+        }}
       >
-        <nav className="flex flex-col items-center space-y-5 text-base w-full">
-          {navLinksData.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className="text-gray-300 hover:text-white transition-colors w-full text-center tracking-wide"
+        {/* Liquid Glass Highlight & Shadow Layers (Desktop only) */}
+        <div className="absolute inset-0 rounded-full z-0 pointer-events-none 
+          shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.2),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.7),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.5),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.5),inset_0_0_6px_6px_rgba(255,255,255,0.1),inset_0_0_2px_2px_rgba(255,255,255,0.05),0_0_12px_rgba(255,255,255,0.1)] 
+          bg-white/[0.04]" 
+        />
+
+        {/* Glass SVG Displacement Filter */}
+        <svg className="absolute w-0 h-0 opacity-0 pointer-events-none">
+          <defs>
+            <filter
+              id="navbar-glass-filter"
+              x="0%"
+              y="0%"
+              width="100%"
+              height="100%"
+              colorInterpolationFilters="sRGB"
             >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-      </div>
-    </header>
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.04 0.04"
+                numOctaves="1"
+                seed="2"
+                result="noise"
+              />
+              <feGaussianBlur in="noise" stdDeviation="1" result="blurredNoise" />
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="blurredNoise"
+                scale="12"
+                xChannelSelector="R"
+                yChannelSelector="B"
+                result="displaced"
+              />
+              <feComposite in="displaced" in2="displaced" operator="over" />
+            </filter>
+          </defs>
+        </svg>
+
+        <div className="relative z-10 flex items-center justify-between w-full gap-x-12">
+          <nav className="flex items-center space-x-8 text-sm">
+            {navLinksData.map((link) => (
+              <AnimatedNavLink key={link.href} href={link.href}>
+                {link.label}
+              </AnimatedNavLink>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3 shrink-0">
+            {desktopCtaButton}
+          </div>
+        </div>
+      </header>
+    </>
   );
 }

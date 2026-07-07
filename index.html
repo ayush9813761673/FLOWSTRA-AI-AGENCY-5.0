@@ -8,6 +8,14 @@
     <title>Flowstra | AI-driven Business Growth Systems</title>
     <meta name="title" content="Flowstra | AI-driven Business Growth Systems" />
     <meta name="description" content="Founder-led AI systems that automate lead qualification, routing, and CRM logic for scaling businesses." />
+    
+    <!-- Progressive Web App Meta Tags -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Flowstra" />
+    <link rel="manifest" href="/manifest.json" />
+
     <link rel="canonical" href="https://flowstra.org/" />
     <link rel="icon" href="/logo.png" />
     <link rel="apple-touch-icon" href="/logo.png" />
@@ -50,5 +58,18 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('ServiceWorker registered successfully with scope: ', registration.scope);
+            })
+            .catch((error) => {
+              console.error('ServiceWorker registration failed: ', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

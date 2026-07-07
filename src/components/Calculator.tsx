@@ -111,27 +111,16 @@ export function Calculator() {
           viewport={{ once: true }}
           className="flex flex-col gap-16"
         >
-        <div className="flex flex-col gap-4 max-w-3xl items-center text-center mx-auto">
-          <motion.p
-            variants={fadeUp}
-            className="text-[12px] font-semibold tracking-widest text-[var(--accent-blue)] uppercase"
-          >
-            Interactive Calculator
-          </motion.p>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)]">
-            <HyperText
-              text="Revenue Leak & ROI Calculator"
-              className="text-4xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)]"
-              containerClassName="justify-center"
-            />
+        <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto mb-16">
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
+            Interactive ROI Calculator
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <HyperText text="Revenue Leak & ROI Calculator" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
           </h2>
-          <motion.p
-            variants={fadeUp}
-            className="text-lg text-[var(--text-secondary)]"
-          >
-            See how much revenue you're leaving on the table — and what Flowstra
-            AI can recover.
-          </motion.p>
+          <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
+            See how much revenue you're leaving on the table — and what Flowstra AI can recover.
+          </p>
         </div>
 
         <motion.div variants={fadeUp}>

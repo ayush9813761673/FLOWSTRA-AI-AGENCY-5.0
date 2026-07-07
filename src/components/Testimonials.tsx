@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "motion/react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { fadeUp, stagger } from "../constants";
 import { Quote } from "lucide-react";
 import { GlowCard } from "./ui/spotlight-card";
@@ -80,7 +80,52 @@ const testimonials = [
   },
 ];
 
+const SkeletonTestimonialCard = () => {
+  return (
+    <div className="relative flex flex-col justify-between rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-6 md:p-8 backdrop-blur-md overflow-hidden animate-pulse min-h-[480px]">
+      {/* Glare line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+      
+      {/* Accent lighting top gradient */}
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-zinc-800/5 to-transparent rounded-t-2xl pointer-events-none" />
+
+      {/* Top: Photo Illustration of Niche & Badge */}
+      <div className="relative h-44 w-full overflow-hidden rounded-xl bg-zinc-900/60 mb-6 shrink-0 flex items-end p-3">
+        <div className="h-6 w-28 bg-zinc-800/80 rounded-full" />
+      </div>
+
+      {/* Middle: Content with Quote icon */}
+      <div className="flex-1 flex flex-col gap-3">
+        <div className="h-5 w-5 bg-zinc-800/60 rounded shrink-0 mb-1" />
+        <div className="space-y-2">
+          <div className="h-3.5 w-full bg-zinc-800/40 rounded" />
+          <div className="h-3.5 w-11/12 bg-zinc-800/40 rounded" />
+          <div className="h-3.5 w-4/5 bg-zinc-800/40 rounded" />
+        </div>
+      </div>
+
+      {/* Bottom: Divider & Profile */}
+      <div className="mt-6 pt-4 border-t border-zinc-800/80 flex items-center gap-4 shrink-0">
+        <div className="w-10 h-10 rounded-full bg-zinc-900/80 border border-zinc-800/50 shrink-0" />
+        <div className="flex flex-col min-w-0 w-full gap-2">
+          <div className="h-3.5 w-24 bg-zinc-800/80 rounded" />
+          <div className="h-2.5 w-36 bg-zinc-800/50 rounded" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export function Testimonials() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1300);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section
       id="testimonials"
@@ -93,86 +138,92 @@ export function Testimonials() {
         viewport={{ once: true }}
         className="flex flex-col gap-12"
       >
-        <div className="flex flex-col gap-4 max-w-3xl items-center text-center mx-auto">
-          <motion.div
-            variants={fadeUp}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-green-500/30 bg-green-500/5 text-green-400 text-xs font-semibold tracking-wider uppercase"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />{" "}
+        <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto mb-16">
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
             Verified Client Metrics
-          </motion.div>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)]">
-            <HyperText
-              text="Client Success Stories"
-              className="text-3xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)]"
-              containerClassName="justify-center"
-            />
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <HyperText text="Client Success Stories" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
           </h2>
-          <motion.p
-            variants={fadeUp}
-            className="text-base md:text-lg text-[var(--text-secondary)]"
-          >
-            Real results from real businesses who trusted us with their workflow automation
-          </motion.p>
+          <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
+            Real results from real businesses who trusted us with their workflow automation.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((item, idx) => {
-            return (
-              <motion.div
-                key={idx}
-                variants={fadeUp}
-                className="group relative flex flex-col justify-between rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-6 md:p-8 backdrop-blur-md transition-all duration-300 hover:border-zinc-700/80 hover:bg-zinc-900/40"
-              >
-                {/* Accent lighting top gradient */}
-                <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-emerald-500/5 to-transparent rounded-t-2xl pointer-events-none" />
+          <AnimatePresence mode="popLayout">
+            {isLoading ? (
+              Array.from({ length: testimonials.length || 3 }).map((_, sIdx) => (
+                <motion.div
+                  key={`skeleton-testimonial-${sIdx}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <SkeletonTestimonialCard />
+                </motion.div>
+              ))
+            ) : (
+              testimonials.map((item, idx) => {
+                return (
+                  <motion.div
+                    key={idx}
+                    layout
+                    variants={fadeUp}
+                    className="group relative flex flex-col justify-between rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-6 md:p-8 backdrop-blur-md transition-all duration-300 hover:border-zinc-700/80 hover:bg-zinc-900/40 hover:scale-[1.01] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),_0_0_30px_rgba(16,185,129,0.02)]"
+                  >
+                    {/* Accent lighting top gradient */}
+                    <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-emerald-500/5 to-transparent rounded-t-2xl pointer-events-none" />
 
-                {/* Top: Photo Illustration of Niche & Badge */}
-                <div className="relative h-44 w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 mb-6 shrink-0">
-                  <img
-                    src={item.image}
-                    alt={item.role}
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
-                  <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium backdrop-blur-md">
-                    {item.metrics}
-                  </span>
-                </div>
+                    {/* Top: Photo Illustration of Niche & Badge */}
+                    <div className="relative h-44 w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 mb-6 shrink-0">
+                      <img
+                        src={item.image}
+                        alt={item.role}
+                        referrerPolicy="no-referrer"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
+                      <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium backdrop-blur-md">
+                        {item.metrics}
+                      </span>
+                    </div>
 
-                {/* Middle: Content with Quote icon */}
-                <div className="flex-1 flex flex-col gap-3">
-                  <div className="flex gap-1 text-emerald-500 shrink-0">
-                    <Quote className="w-5 h-5 opacity-40 fill-current" />
-                  </div>
-                  <p className="text-sm md:text-base text-zinc-300 leading-relaxed italic">
-                    "{item.quote}"
-                  </p>
-                </div>
+                    {/* Middle: Content with Quote icon */}
+                    <div className="flex-1 flex flex-col gap-3">
+                      <div className="flex gap-1 text-emerald-500 shrink-0">
+                        <Quote className="w-5 h-5 opacity-40 fill-current" />
+                      </div>
+                      <p className="text-sm md:text-base text-zinc-300 leading-relaxed italic">
+                        "{item.quote}"
+                      </p>
+                    </div>
 
-                {/* Bottom: Divider & Profile */}
-                <div className="mt-6 pt-4 border-t border-zinc-800/80 flex items-center gap-4 shrink-0">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border border-zinc-800 bg-zinc-900">
-                    <img
-                      src={item.avatar}
-                      alt={item.name}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-sm font-semibold text-white truncate">
-                      {item.name}
-                    </span>
-                    <span className="text-xs text-zinc-400 truncate font-medium">
-                      {item.role}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+                    {/* Bottom: Divider & Profile */}
+                    <div className="mt-6 pt-4 border-t border-zinc-800/80 flex items-center gap-4 shrink-0">
+                      <div className="w-10 h-10 rounded-full overflow-hidden border border-zinc-800 bg-zinc-900">
+                        <img
+                          src={item.avatar}
+                          alt={item.name}
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-sm font-semibold text-white truncate">
+                          {item.name}
+                        </span>
+                        <span className="text-xs text-zinc-400 truncate font-medium">
+                          {item.role}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
     </section>

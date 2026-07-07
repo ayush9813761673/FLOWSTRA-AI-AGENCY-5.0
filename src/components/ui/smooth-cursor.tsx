@@ -331,8 +331,8 @@ export function SmoothCursor({}: SmoothCursorProps) {
       const isInteractive = !!target.closest(interactiveSelector);
       const isText = !!target.closest(textSelector);
 
-      setIsHoveringInteractive(isInteractive);
-      setIsHoveringText(isText);
+      setIsHoveringInteractive((prev) => (prev !== isInteractive ? isInteractive : prev));
+      setIsHoveringText((prev) => (prev !== isText ? isText : prev));
     };
 
     const handleMouseLeave = () => {

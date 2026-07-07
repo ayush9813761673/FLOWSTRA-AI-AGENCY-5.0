@@ -401,21 +401,15 @@ export function CaseStudies() {
         <div className="flex flex-col gap-10">
           <motion.div 
             variants={fadeUp}
-            className="flex flex-col gap-4 text-center md:text-left md:flex-row md:items-end md:justify-between border-b border-zinc-800 pb-6"
+            className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto mb-12"
           >
-            <div>
-              <span className="text-emerald-400 text-xs font-semibold tracking-wider uppercase">
-                Proven Impact Showcase
-              </span>
-              <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-white mt-1">
-                <HyperText
-                  text="Deep Dive Case Studies"
-                  className="text-2xl md:text-3xl font-bold tracking-tight text-white"
-                  highlightCount={2}
-                />
-              </h3>
-            </div>
-            <p className="text-sm md:text-base text-zinc-400 max-w-md">
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
+              Proven Impact Showcase
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+              <HyperText text="Deep Dive Case Studies" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
+            </h2>
+            <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
               Explore concrete examples of how we automated operations and supercharged conversion workflows for each specific niche.
             </p>
           </motion.div>
@@ -585,7 +579,7 @@ export function CaseStudies() {
       {/* Modern High-Depth Interactive Detail Modal */}
       <AnimatePresence>
         {activeCase && (
-          <div data-is-modal="true" className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 overflow-hidden">
+          <div data-is-modal="true" className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-6 overflow-hidden">
             {/* Backdrop Blur overlay */}
             <motion.div
               initial={{ opacity: 0 }}
