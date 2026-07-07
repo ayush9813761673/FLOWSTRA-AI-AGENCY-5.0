@@ -69,6 +69,15 @@ export function WorkspaceAutomation() {
   useEffect(() => {
     const unsubscribe = initAuth(
       (currentUser, currentToken) => {
+        if (currentUser.email !== "rajayush9823@gmail.com") {
+          logout().then(() => {
+            setUser(null);
+            setToken(null);
+            setErrorMsg("Access Denied: Only rajayush9823@gmail.com is authorized for workspace integrations.");
+            setIsLoading(false);
+          });
+          return;
+        }
         setUser(currentUser);
         setToken(currentToken);
         setIsLoading(false);
@@ -169,6 +178,11 @@ export function WorkspaceAutomation() {
     try {
       const result = await googleSignIn();
       if (result) {
+        if (result.user.email !== "rajayush9823@gmail.com") {
+          await logout();
+          setErrorMsg("Access Denied: Only rajayush9823@gmail.com is permitted to use the Workspace Automation Sandbox.");
+          return;
+        }
         setUser(result.user);
         setToken(result.accessToken);
         fetchWorkspaceData(result.accessToken);
@@ -330,9 +344,17 @@ export function WorkspaceAutomation() {
             </div>
 
             <h3 className="text-xl font-bold text-white mt-4 mb-3">Authorize Google Workspace Integration</h3>
-            <p className="text-slate-400 text-sm mb-8 leading-relaxed">
+            <p className="text-slate-400 text-sm mb-6 leading-relaxed">
               Log in with your Google Account to safely authorize read/write access to your Google Calendar and Gmail APIs. We only utilize in-memory tokens. No data is stored or saved on any servers.
             </p>
+
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-amber-500/10 px-3 py-1.5 border border-amber-500/20 text-[11px] font-semibold text-amber-400">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+              </span>
+              <span>Integration restricted exclusively to <span className="underline font-mono">rajayush9823@gmail.com</span></span>
+            </div>
 
             {errorMsg && (
               <div className="mb-6 flex items-center gap-2 text-xs text-red-400 bg-red-950/20 border border-red-500/20 p-3 rounded-xl justify-center">
