@@ -259,8 +259,12 @@ export const WaitlistHero = () => {
             <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
               Pricing & Implementation
             </span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              <HyperText text="Custom Solutions, Custom Pricing" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight w-full flex justify-center">
+              <HyperText 
+                text="Custom Solutions, Custom Pricing" 
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block"
+                containerClassName="justify-center text-center w-full"
+              />
             </h1>
             <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
               Every business is unique. That's why we don't believe in one-size-fits-all pricing. Get a personalized AI growth strategy.

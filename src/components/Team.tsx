@@ -28,7 +28,7 @@ const cardGradients = [
 
 const team: TeamMember[] = [
   {
-    image: "/AYUSH YADAV.png",
+    image: "/Ayush Yadav.jpeg",
     name: "Ayush Yadav",
     role: "Founder & CEO",
     bio: "5+ years architecting AI solutions and automation strategies for enterprise growth.",
@@ -41,7 +41,7 @@ const team: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/ayush-yadav-pro/",
   },
   {
-    image: "/Piyush Yadav.png",
+    image: "/Piyush Ray.jpeg",
     name: "Piyush Ray",
     role: "COO",
     bio: "5+ years streamlining business operations, scaling execution frameworks, and driving sustainable client growth.",

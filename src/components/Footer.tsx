@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Mail,
   Phone,
@@ -99,7 +99,11 @@ export function Footer() {
           {/* Brand section */}
           <div className="flex flex-col space-y-6">
             <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="Flowstra Logo" className="w-6 h-6 object-contain" />
+              <img
+                src="/logo.png?v=2"
+                alt="Flowstra Logo"
+                className="w-8 h-8 object-contain rounded-full"
+              />
               <span className="text-white font-bold text-2xl tracking-tight">
                 Flowstra
               </span>

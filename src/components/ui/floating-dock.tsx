@@ -78,26 +78,12 @@ export function FloatingDock() {
             delay: 0.5
           }}
           className="pointer-events-auto relative flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 bg-slate-950/60 backdrop-blur-xl shadow-[0_12px_28px_rgba(0,0,0,0.5),0_0_12px_rgba(255,255,255,0.03)]"
-          style={{
-            backdropFilter: 'url("#navbar-glass-filter") blur(16px)',
-            WebkitBackdropFilter: 'url("#navbar-glass-filter") blur(16px)'
-          }}
         >
           {/* Liquid Glass Highlight Overlay to match top navbar */}
           <div className="absolute inset-0 rounded-full z-0 pointer-events-none 
             shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.2),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.7),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.5),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.5),inset_0_0_6px_6px_rgba(255,255,255,0.1),inset_0_0_2px_2px_rgba(255,255,255,0.05),0_0_12px_rgba(255,255,255,0.1)] 
             bg-white/[0.04]" 
           />
-
-          {/* Glass SVG Displacement Filter for bottom dock */}
-          <svg className="absolute w-0 h-0" width="0" height="0">
-            <defs>
-              <filter id="navbar-glass-filter">
-                <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
-                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
-              </filter>
-            </defs>
-          </svg>
 
           <div className="relative z-10 flex items-center gap-1">
             {dockItems.map((item, index) => {

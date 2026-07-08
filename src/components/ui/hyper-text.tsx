@@ -62,7 +62,7 @@ export function HyperText({
         if (interations.current < text.length) {
           setDisplayText((t) =>
             t.map((l, i) =>
-              l === " "
+              l === " " || l === "\u00A0"
                 ? l
                 : i <= interations.current
                   ? text[i]
@@ -95,7 +95,7 @@ export function HyperText({
     <div
       ref={containerRef}
       className={cn(
-        "flex flex-wrap scale-100 cursor-default py-1 select-none gap-x-[0.28em] gap-y-1 text-left items-center",
+        "flex flex-wrap scale-100 cursor-default py-1 select-none gap-x-[0.28em] gap-y-1 justify-center text-center items-center w-full",
         containerClassName
       )}
       onMouseEnter={triggerAnimation}

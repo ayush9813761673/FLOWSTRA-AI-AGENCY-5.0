@@ -20,7 +20,6 @@ const SECTIONS = [
   "testimonials",
   "tools",
   "features",
-  "roadmap",
   "team",
   "calculator",
   "workspace-integration",
@@ -34,7 +33,6 @@ const SECTION_INFO: Record<string, { title: string; badge: string }> = {
   "testimonials": { title: "What Our Clients Say", badge: "Testimonials" },
   "tools": { title: "Core Integrations & Tech", badge: "Integrations" },
   "features": { title: "Advanced Automation System", badge: "System" },
-  "roadmap": { title: "Strategic Service Roadmap", badge: "Roadmap" },
   "team": { title: "Our Elite Expert Team", badge: "Team" },
   "calculator": { title: "Interactive ROI Calculator", badge: "ROI Analysis" },
   "workspace-integration": { title: "Google Workspace Sandbox", badge: "Workspace" },
@@ -50,13 +48,24 @@ export function KeyboardNavigation() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const timeoutRef = useRef<number | null>(null);
 
-  // Monitor scroll height to show shortcuts trigger button at the same time as BackToTop
+  const activeSectionIndexRef = useRef<number>(0);
+  const isKeyboardScrollingRef = useRef<boolean>(false);
+
+  // Monitor scroll height to show shortcuts trigger button and update section tracking
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 600) {
         setHasScrolled(true);
       } else {
         setHasScrolled(false);
+      }
+
+      if (!isKeyboardScrollingRef.current) {
+        const currentId = getCurrentSectionId();
+        const index = SECTIONS.indexOf(currentId);
+        if (index !== -1) {
+          activeSectionIndexRef.current = index;
+        }
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -139,9 +148,9 @@ export function KeyboardNavigation() {
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }
-      if (key === "r") {
+      if (key === "p") {
         e.preventDefault();
-        const el = document.getElementById("roadmap");
+        const el = document.getElementById("pricing");
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }
@@ -175,22 +184,46 @@ export function KeyboardNavigation() {
       // Hide standard hint on first arrow press
       setShowHint(false);
 
-      const currentId = getCurrentSectionId();
-      const currentIndex = SECTIONS.indexOf(currentId);
+      const currentIndex = activeSectionIndexRef.current;
       
       let targetIndex = currentIndex;
+      let targetEl: HTMLElement | null = null;
+
       if (e.key === "ArrowDown") {
-        targetIndex = Math.min(currentIndex + 1, SECTIONS.length - 1);
+        // Find the next section in SECTIONS list that actually exists in the DOM
+        for (let i = currentIndex + 1; i < SECTIONS.length; i++) {
+          const el = document.getElementById(SECTIONS[i]);
+          if (el) {
+            targetEl = el;
+            targetIndex = i;
+            break;
+          }
+        }
       } else {
-        targetIndex = Math.max(currentIndex - 1, 0);
+        // Find the previous section in SECTIONS list that actually exists in the DOM
+        for (let i = currentIndex - 1; i >= 0; i--) {
+          const el = document.getElementById(SECTIONS[i]);
+          if (el) {
+            targetEl = el;
+            targetIndex = i;
+            break;
+          }
+        }
       }
 
-      const targetId = SECTIONS[targetIndex];
-      const targetEl = document.getElementById(targetId);
-      
       if (targetEl) {
+        const targetId = SECTIONS[targetIndex];
         setHudSection(targetId);
         setShowHud(true);
+        
+        activeSectionIndexRef.current = targetIndex;
+        isKeyboardScrollingRef.current = true;
+
+        const scrollTimeoutId = (window as any)._keyboardScrollTimeoutId;
+        if (scrollTimeoutId) window.clearTimeout(scrollTimeoutId);
+        (window as any)._keyboardScrollTimeoutId = window.setTimeout(() => {
+          isKeyboardScrollingRef.current = false;
+        }, 800);
         
         if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
         timeoutRef.current = window.setTimeout(() => {
@@ -214,7 +247,7 @@ export function KeyboardNavigation() {
     { key: "A", label: "Operations Audit", desc: "Open free automation audit & guide modal", icon: Sparkles, color: "text-blue-400" },
     { key: "C", label: "ROI Calculator", desc: "Jump instantly to interactive business savings calculator", icon: Calculator, color: "text-emerald-400" },
     { key: "G", label: "Google Workspace", desc: "Jump instantly to Google Calendar & Gmail integration sandbox", icon: Calendar, color: "text-sky-400" },
-    { key: "R", label: "Service Roadmap", desc: "Jump instantly to service timeline & future roadmap", icon: Milestone, color: "text-indigo-400" },
+    { key: "P", label: "Rates & Pricing", desc: "Jump instantly to scalable pricing plans", icon: Milestone, color: "text-indigo-400" },
     { key: "M", label: "Ambient Soundtrack", desc: "Play or pause ambient cinema sound effects", icon: Music, color: "text-rose-400" },
     { key: "H", label: "Home Identity", desc: "Jump back to top cinematic welcome banner", icon: Home, color: "text-amber-400" },
     { key: "↑ / ↓", label: "Step Navigation", desc: "Step smoothly through major website modules", icon: ArrowDown, color: "text-slate-400" },

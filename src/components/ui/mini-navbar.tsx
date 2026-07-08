@@ -33,6 +33,16 @@ export function Navbar() {
   const [headerShapeClass, setHeaderShapeClass] = useState("rounded-full");
   const shapeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const renderLogo = (imgClassName: string, containerClassName: string) => {
+    return (
+      <img
+        src="/logo.png?v=2"
+        alt="Flowstra Logo"
+        className={`${imgClassName} object-contain rounded-full`}
+      />
+    );
+  };
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -66,7 +76,10 @@ export function Navbar() {
       }}
       className="flex items-center gap-2.5 relative z-10 group"
     >
-      <img src="/logo.png" alt="Flowstra Logo" className="w-6 h-6 object-contain transition-opacity duration-300 group-hover:opacity-80 md:group-hover:opacity-100" />
+      {renderLogo(
+        "w-6 h-6 transition-opacity duration-300 group-hover:opacity-80 md:group-hover:opacity-100",
+        "w-6 h-6"
+      )}
       <span className="text-white/85 font-semibold text-[13px] sm:text-sm tracking-[0.2em] uppercase mt-[1px] transition-all duration-300 ease-out md:group-hover:text-white md:group-hover:tracking-[0.26em] md:group-hover:[text-shadow:0_0_20px_rgba(255,255,255,1),0_0_40px_rgba(255,255,255,0.6)]">
         Flowstra
       </span>
@@ -109,11 +122,7 @@ export function Navbar() {
     <>
       {/* Un-attached Logo and Brand with Liquid Glass - Pinned separately at the left side of the viewport (Desktop/Tablet only) */}
       <div 
-        className="fixed top-6 left-6 md:left-12 z-[110] hidden sm:flex items-center h-12 sm:h-14 px-4 sm:px-5 border border-white/20 rounded-full transition-all duration-300 ease-in-out select-none"
-        style={{
-          backdropFilter: 'url("#navbar-glass-filter") blur(16px)',
-          WebkitBackdropFilter: 'url("#navbar-glass-filter") blur(16px)'
-        }}
+        className="fixed top-6 left-6 md:left-12 z-[110] hidden sm:flex items-center h-12 sm:h-14 px-4 sm:px-5 border border-white/20 rounded-full transition-all duration-300 ease-in-out select-none bg-slate-950/40 backdrop-blur-xl"
       >
         {/* Liquid Glass Highlight & Shadow Layers */}
         <div className="absolute inset-0 rounded-full z-0 pointer-events-none 
@@ -129,11 +138,10 @@ export function Navbar() {
           }}
           className="relative z-10 flex items-center gap-3 group cursor-pointer"
         >
-          <img 
-            src="/logo.png" 
-            alt="Flowstra Logo" 
-            className="w-[26px] h-[26px] sm:w-[32px] sm:h-[32px] object-contain transition-all duration-300 group-hover:scale-110 group-hover:rotate-[12deg]" 
-          />
+          {renderLogo(
+            "w-[26px] h-[26px] sm:w-[32px] sm:h-[32px] transition-all duration-300 group-hover:scale-110 group-hover:rotate-[12deg]",
+            "w-[26px] h-[26px] sm:w-[32px] sm:h-[32px]"
+          )}
           <span className="text-white/85 font-semibold text-sm sm:text-[15px] tracking-[0.22em] uppercase mt-[1px] transition-all duration-300 ease-out group-hover:text-white group-hover:tracking-[0.27em] group-hover:[text-shadow:0_0_20px_rgba(255,255,255,1),0_0_40px_rgba(255,255,255,0.6)]">
             Flowstra
           </span>
@@ -142,11 +150,7 @@ export function Navbar() {
 
       {/* Unified Mobile Flowstra Navigation Bar with Liquid Glass (Mobile Preview Only) */}
       <div 
-        className="fixed top-6 left-6 right-6 z-[110] sm:hidden flex items-center justify-between h-14 px-4 border border-white/20 rounded-full transition-all duration-300 ease-in-out select-none"
-        style={{
-          backdropFilter: 'url("#navbar-glass-filter") blur(16px)',
-          WebkitBackdropFilter: 'url("#navbar-glass-filter") blur(16px)'
-        }}
+        className="fixed top-6 left-6 right-6 z-[110] sm:hidden flex items-center justify-between h-14 px-4 border border-white/20 rounded-full transition-all duration-300 ease-in-out select-none bg-slate-950/40 backdrop-blur-xl"
       >
         {/* Liquid Glass Highlight & Shadow Layers */}
         <div className="absolute inset-0 rounded-full z-0 pointer-events-none 
@@ -163,11 +167,10 @@ export function Navbar() {
           }}
           className="relative z-10 flex items-center gap-2.5 group cursor-pointer"
         >
-          <img 
-            src="/logo.png" 
-            alt="Flowstra Logo" 
-            className="w-7 h-7 object-contain transition-all duration-300 group-hover:scale-110 group-hover:rotate-[12deg]" 
-          />
+          {renderLogo(
+            "w-7 h-7 transition-all duration-300 group-hover:scale-110 group-hover:rotate-[12deg]",
+            "w-7 h-7"
+          )}
           <span className="text-white/85 font-semibold text-xs tracking-[0.2em] uppercase mt-[1px] transition-all duration-300 ease-out group-hover:text-white">
             Flowstra
           </span>
@@ -186,49 +189,14 @@ export function Navbar() {
                    rounded-full
                    border border-white/20
                    w-auto
-                   transition-[border-radius,width] duration-300 ease-in-out"
-        style={{
-          backdropFilter: 'url("#navbar-glass-filter") blur(16px)',
-          WebkitBackdropFilter: 'url("#navbar-glass-filter") blur(16px)'
-        }}
+                   transition-[border-radius,width] duration-300 ease-in-out
+                   bg-slate-950/40 backdrop-blur-xl"
       >
         {/* Liquid Glass Highlight & Shadow Layers (Desktop only) */}
         <div className="absolute inset-0 rounded-full z-0 pointer-events-none 
           shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.2),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.7),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.5),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.5),inset_0_0_6px_6px_rgba(255,255,255,0.1),inset_0_0_2px_2px_rgba(255,255,255,0.05),0_0_12px_rgba(255,255,255,0.1)] 
           bg-white/[0.04]" 
         />
-
-        {/* Glass SVG Displacement Filter */}
-        <svg className="absolute w-0 h-0 opacity-0 pointer-events-none">
-          <defs>
-            <filter
-              id="navbar-glass-filter"
-              x="0%"
-              y="0%"
-              width="100%"
-              height="100%"
-              colorInterpolationFilters="sRGB"
-            >
-              <feTurbulence
-                type="fractalNoise"
-                baseFrequency="0.04 0.04"
-                numOctaves="1"
-                seed="2"
-                result="noise"
-              />
-              <feGaussianBlur in="noise" stdDeviation="1" result="blurredNoise" />
-              <feDisplacementMap
-                in="SourceGraphic"
-                in2="blurredNoise"
-                scale="12"
-                xChannelSelector="R"
-                yChannelSelector="B"
-                result="displaced"
-              />
-              <feComposite in="displaced" in2="displaced" operator="over" />
-            </filter>
-          </defs>
-        </svg>
 
         <div className="relative z-10 flex items-center justify-between w-full gap-x-12">
           <nav className="flex items-center space-x-8 text-sm">

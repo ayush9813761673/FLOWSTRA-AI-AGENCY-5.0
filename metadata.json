@@ -2,5 +2,7 @@
   "name": "Remix: Flowstra AI Agency 3.0 ",
   "description": "Custom AI automation systems for high-growth teams. Flowstra builds your inbound revenue engine from lead intake to CRM sync.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
