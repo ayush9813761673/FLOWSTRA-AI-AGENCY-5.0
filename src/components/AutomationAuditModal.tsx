@@ -43,6 +43,12 @@ export function AutomationAuditModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [copied, setCopied] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [directEmail, setDirectEmail] = useState("");
+  const [leadName, setLeadName] = useState("");
+  const [leadCompany, setLeadCompany] = useState("");
+  const [leadBottleneck, setLeadBottleneck] = useState("Google Workspace & CRM Syncing");
+  const [leadMessage, setLeadMessage] = useState("");
+  const [authError, setAuthError] = useState<string | null>(null);
 
   // Real workspace auth states
   const [user, setUser] = useState<any>(null);
@@ -317,6 +323,7 @@ export function AutomationAuditModal() {
   const handleGoogleSignInAndSubmit = async () => {
     trackEvent("OAUTH_AUTH_CLICKED", { trigger: "workspace_google_button" });
     setIsSubmitting(true);
+    setAuthError(null);
     try {
       const result = await googleSignIn();
       if (result) {
@@ -332,6 +339,83 @@ export function AutomationAuditModal() {
     } catch (e: any) {
       console.error("Workspace google sign in failed:", e);
       trackEvent("OAUTH_AUTH_FAILED", { error: e.message || e });
+      
+      let friendlyMsg = "Authentication failed. ";
+      const errString = String(e.message || e).toLowerCase();
+      if (errString.includes("unauthorized-domain") || errString.includes("auth-domain") || errString.includes("unauthorized")) {
+        friendlyMsg += "This custom domain (flowstra.org) is missing from the Firebase authorized domains. Please use the 'Direct Access Inquiry & Audit Form' above—it bypasses Google restrictions instantly!";
+      } else if (errString.includes("popup-closed-by-user") || errString.includes("cancelled") || errString.includes("canceled")) {
+        friendlyMsg += "The sign-in popup was closed before completion. You can use the 'Direct Access Inquiry & Audit Form' above to request your blueprint directly.";
+      } else {
+        friendlyMsg += "Please use the 'Direct Access Inquiry & Audit Form' above to get your custom blueprint immediately without any Google Workspace OAuth restrictions.";
+      }
+      
+      setAuthError(friendlyMsg);
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDirectEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!directEmail) return;
+
+    setIsSubmitting(true);
+    trackEvent("DIRECT_EMAIL_SUBMITTED", { email: directEmail });
+
+    const leadData = {
+      email: directEmail,
+      name: leadName || directEmail.split("@")[0],
+      company: leadCompany || "Not Provided",
+      bottleneck: leadBottleneck,
+      message: leadMessage,
+      timestamp: new Date().toISOString(),
+      source: "Flowstra Automation Audit Modal"
+    };
+
+    try {
+      // 1. Send data to our backend /api/leads endpoint to forward to Webhook
+      await fetch("/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(leadData),
+      }).catch(err => console.warn("Webhook dispatch failed:", err));
+
+      // 2. Save lead data directly to Firestore collection!
+      try {
+        const { saveLeadToFirestore } = await import("../lib/workspaceAuth");
+        await saveLeadToFirestore(leadData);
+      } catch (firestoreError) {
+        console.warn("Firestore collection store failed:", firestoreError);
+      }
+
+      // 3. Dispatch the beautiful operational blueprint email
+      const response = await fetch("/api/send-audit-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: directEmail }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.previewUrl) {
+          setPreviewUrl(data.previewUrl);
+        }
+        setUser({ email: directEmail, displayName: leadName || directEmail.split("@")[0] });
+        setIsSubmitted(true);
+        trackEvent("DIRECT_EMAIL_DISPATCH_SUCCESS", { email: directEmail, previewUrl: data.previewUrl });
+      } else {
+        throw new Error("Direct dispatch failed");
+      }
+    } catch (error: any) {
+      console.warn("Direct dispatch error, forcing success state:", error);
+      setUser({ email: directEmail, displayName: leadName || directEmail.split("@")[0] });
+      setPreviewUrl(`/api/preview-email?email=${encodeURIComponent(directEmail)}`);
+      setIsSubmitted(true);
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -468,19 +552,111 @@ export function AutomationAuditModal() {
                     </div>
                   ) : (
                     <div className="mt-8 space-y-4">
-                      <p className="text-xs text-slate-400 text-center font-medium leading-relaxed">
-                        💡 Connect with Google to immediately generate your strategic diagnostic and receive the live blueprint report directly in your inbox.
-                      </p>
+                      {/* Direct Email Submission Form */}
+                      <form onSubmit={handleDirectEmailSubmit} className="space-y-3.5 p-5 rounded-2xl border border-white/5 bg-white/[0.01]">
+                        <p className="text-[11px] text-slate-400 font-mono uppercase tracking-wider text-center mb-1">
+                          ⚡ Direct Access Inquiry & Audit Form
+                        </p>
+                        
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-[10px] uppercase tracking-wider font-mono text-slate-400 mb-1">Professional Email *</label>
+                            <input 
+                              type="email"
+                              required
+                              placeholder="you@company.com"
+                              value={directEmail}
+                              onChange={(e) => setDirectEmail(e.target.value)}
+                              className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-blue-500 transition-all"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] uppercase tracking-wider font-mono text-slate-400 mb-1">Full Name</label>
+                            <input 
+                              type="text"
+                              placeholder="Alex Carter"
+                              value={leadName}
+                              onChange={(e) => setLeadName(e.target.value)}
+                              className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-blue-500 transition-all"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-[10px] uppercase tracking-wider font-mono text-slate-400 mb-1">Company Name</label>
+                            <input 
+                              type="text"
+                              placeholder="Flowstra Inc."
+                              value={leadCompany}
+                              onChange={(e) => setLeadCompany(e.target.value)}
+                              className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-blue-500 transition-all"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] uppercase tracking-wider font-mono text-slate-400 mb-1">Primary Bottleneck</label>
+                            <select
+                              value={leadBottleneck}
+                              onChange={(e) => setLeadBottleneck(e.target.value)}
+                              className="w-full rounded-xl border border-white/10 bg-zinc-900 px-3 py-2 text-xs text-white outline-none focus:border-blue-500 transition-all cursor-pointer"
+                            >
+                              <option value="Google Workspace & CRM Syncing">Google Workspace Syncing</option>
+                              <option value="Email & Lead Capture routing">Email & Lead Routing</option>
+                              <option value="Administrative/Scheduling manual loops">Manual Scheduling loops</option>
+                              <option value="Other Operations">Other Operations</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-[10px] uppercase tracking-wider font-mono text-slate-400 mb-1">Notes / Goals</label>
+                          <textarea 
+                            placeholder="Help us understand your automation objective..."
+                            value={leadMessage}
+                            onChange={(e) => setLeadMessage(e.target.value)}
+                            rows={2}
+                            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-blue-500 transition-all resize-none"
+                          />
+                        </div>
+
+                        <button
+                          type="submit"
+                          disabled={isSubmitting || !directEmail}
+                          className="relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-xs font-bold text-white shadow-lg transition-all hover:opacity-95 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+                        >
+                          {isSubmitting ? (
+                            <span className="flex items-center gap-2">
+                              <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                              </svg>
+                              <span>Registering & Generating Blueprint...</span>
+                            </span>
+                          ) : (
+                            <>
+                              <span>Register & Get Strategic Blueprint</span>
+                              <ArrowRight className="h-4 w-4" />
+                            </>
+                          )}
+                        </button>
+                      </form>
+
+                      {/* Divider */}
+                      <div className="relative flex py-2 items-center">
+                        <div className="flex-grow border-t border-white/5"></div>
+                        <span className="flex-shrink mx-4 text-[10px] font-mono text-slate-500 uppercase tracking-widest">or authorize with workspace</span>
+                        <div className="flex-grow border-t border-white/5"></div>
+                      </div>
 
                       <button
                         type="button"
                         disabled={isSubmitting}
                         onClick={handleGoogleSignInAndSubmit}
-                        className="relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-slate-200 bg-white hover:bg-slate-100 text-slate-900 px-4 py-2.5 text-xs font-bold shadow-md transition-all transform active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer tracking-wide"
+                        className="relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-white/10 bg-zinc-900/40 hover:bg-zinc-800/40 text-slate-300 px-4 py-2.5 text-xs font-bold shadow-md transition-all transform active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer tracking-wide"
                       >
                         {isSubmitting ? (
                           <span className="flex items-center gap-2">
-                            <svg className="animate-spin h-4 w-4 text-slate-950" fill="none" viewBox="0 0 24 24">
+                            <svg className="animate-spin h-4 w-4 text-slate-300" fill="none" viewBox="0 0 24 24">
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                             </svg>
@@ -494,10 +670,17 @@ export function AutomationAuditModal() {
                               <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
                               <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
                             </svg>
-                            <span>Continue with Google</span>
+                            <span>Continue with Google Workspace</span>
                           </>
                         )}
                       </button>
+
+                      {authError && (
+                        <div className="rounded-xl border border-rose-500/10 bg-rose-500/5 p-3.5 text-center text-xs text-rose-300 space-y-1">
+                          <p className="font-mono text-[10px] uppercase tracking-wider font-bold">⚠️ Workspace Auth Notice</p>
+                          <p className="text-slate-300 leading-relaxed text-[11px]">{authError}</p>
+                        </div>
+                      )}
                     </div>
                   )}
 

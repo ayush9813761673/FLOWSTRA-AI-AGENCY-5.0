@@ -36,9 +36,10 @@ export function Navbar() {
   const renderLogo = (imgClassName: string, containerClassName: string) => {
     return (
       <img
-        src="/logo.png?v=2"
+        src="/logo.svg"
         alt="Flowstra Logo"
         className={`${imgClassName} object-contain rounded-full`}
+        referrerPolicy="no-referrer"
       />
     );
   };

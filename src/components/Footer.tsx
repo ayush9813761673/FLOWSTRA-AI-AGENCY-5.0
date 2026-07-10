@@ -100,9 +100,10 @@ export function Footer() {
           <div className="flex flex-col space-y-6">
             <div className="flex items-center gap-3">
               <img
-                src="/logo.png?v=2"
+                src="/logo.svg"
                 alt="Flowstra Logo"
                 className="w-8 h-8 object-contain rounded-full"
+                referrerPolicy="no-referrer"
               />
               <span className="text-white font-bold text-2xl tracking-tight">
                 Flowstra

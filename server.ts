@@ -160,6 +160,46 @@ async function startServer() {
     }
   });
 
+  // Backend API route to register leads and trigger external webhooks
+  app.post("/api/leads", async (req, res) => {
+    const { email, name, company, bottleneck, message } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    const leadPayload = {
+      email,
+      name: name || "Anonymous Lead",
+      company: company || "Not Provided",
+      bottleneck: bottleneck || "Not Specified",
+      message: message || "No message provided",
+      timestamp: new Date().toISOString(),
+      source: "Flowstra Automation Audit Form"
+    };
+
+    console.log("[Flowstra Leads Database] Registering lead:", leadPayload);
+
+    const webhookUrl = process.env.LEAD_WEBHOOK_URL;
+    if (webhookUrl) {
+      try {
+        console.log(`[Flowstra Leads] Forwarding lead to external webhook: ${webhookUrl}`);
+        const response = await fetch(webhookUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(leadPayload),
+        });
+        console.log(`[Flowstra Leads] Webhook response status: ${response.status}`);
+      } catch (webhookError: any) {
+        console.error("[Flowstra Leads] Error forwarding to external webhook:", webhookError);
+      }
+    }
+
+    return res.json({ success: true, lead: leadPayload });
+  });
+
+
   // Serve Vite in development, static files in production
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

@@ -2,7 +2,7 @@ const CACHE_NAME = "flowstra-pwa-cache-v1";
 const ASSETS_TO_CACHE = [
   "/",
   "/index.html",
-  "/logo.png",
+  "/logo.svg",
   "/manifest.json"
 ];
 

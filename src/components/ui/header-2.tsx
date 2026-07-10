@@ -64,9 +64,10 @@ export function Header() {
         >
           <div className="flex items-center gap-3 relative z-10">
             <img
-              src="/logo.png?v=2"
+              src="/logo.svg"
               alt="Flowstra Logo"
               className="w-6 h-6 object-contain rounded-full"
+              referrerPolicy="no-referrer"
             />
             <span className="text-white font-extrabold text-lg tracking-tight">
               Flowstra

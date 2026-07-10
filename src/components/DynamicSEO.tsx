@@ -17,12 +17,12 @@ const seoMap: Record<string, SEOConfig> = {
     keywords: "AI Automation, Business Systems, Lead Generation, CRM Integration, Workflow Automation, Sales pipelines, Flowstra",
     ogTitle: "Flowstra | AI-driven Business Growth Systems",
     ogDescription: "Transform your business with AI-powered lead generation and growth systems. Get 24/7 automated sales processes that work while you sleep.",
-    ogImage: "https://flowstra.org/flowstra_insta_clean_hd.png",
+    ogImage: "https://flowstra.org/logo.svg",
     schema: {
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
       "name": "Flowstra",
-      "image": "https://flowstra.org/logo.png",
+      "image": "https://flowstra.org/logo.svg",
       "url": "https://flowstra.org/",
       "telephone": "+1-800-555-FLOW",
       "priceRange": "$$",
@@ -62,7 +62,7 @@ const seoMap: Record<string, SEOConfig> = {
     keywords: "Automation Case Studies, AI Success Stories, Client Acquisition Case Study, Flowstra Results",
     ogTitle: "Flowstra Case Studies | AI-Driven Success",
     ogDescription: "Discover how Flowstra streamlined workflows, built dynamic scraping pipelines, and achieved massive ROI for our clients.",
-    ogImage: "https://flowstra.org/flowstra_insta_clean_hd.png",
+    ogImage: "https://flowstra.org/logo.svg",
     schema: {
       "@context": "https://schema.org",
       "@type": "ItemList",
@@ -90,12 +90,12 @@ const seoMap: Record<string, SEOConfig> = {
     keywords: "Flowstra Reviews, AI Automation Agency Reviews, Flowstra Testimonials, Customer Success",
     ogTitle: "What Founders Say About Flowstra AI",
     ogDescription: "Our clients save thousands of hours and secure hundreds of high-quality leads. Read their true stories.",
-    ogImage: "https://flowstra.org/flowstra_insta_clean_hd.png",
+    ogImage: "https://flowstra.org/logo.svg",
     schema: {
       "@context": "https://schema.org",
       "@type": "Product",
       "name": "Flowstra AI Automation Service",
-      "image": "https://flowstra.org/logo.png",
+      "image": "https://flowstra.org/logo.svg",
       "description": "Full-scale AI-driven operations and lead routing system built for high-growth modern companies.",
       "aggregateRating": {
         "@type": "AggregateRating",
@@ -110,7 +110,7 @@ const seoMap: Record<string, SEOConfig> = {
     keywords: "Make.com, Zapier, Airtable, OpenAI, Gemini API, Google Workspace Integration",
     ogTitle: "The Intelligent Tech Stack behind Flowstra",
     ogDescription: "We build on robust, industry-leading APIs to link your favorite workspaces seamlessly under dynamic AI management.",
-    ogImage: "https://flowstra.org/flowstra_insta_clean_hd.png",
+    ogImage: "https://flowstra.org/logo.svg",
     schema: {
       "@context": "https://schema.org",
       "@type": "TechArticle",
@@ -128,7 +128,7 @@ const seoMap: Record<string, SEOConfig> = {
     keywords: "Lead enrichment, Automated CRM routing, AI Agent development, Cold email automation",
     ogTitle: "Advanced Features of Flowstra Growth Engines",
     ogDescription: "From dynamic web scraping to automated lead hand-offs, discover why Flowstra is the chosen system for modern scale-ups.",
-    ogImage: "https://flowstra.org/flowstra_insta_clean_hd.png",
+    ogImage: "https://flowstra.org/logo.svg",
     schema: {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -168,7 +168,7 @@ const seoMap: Record<string, SEOConfig> = {
     keywords: "Flowstra founders, AI engineers, Flowstra organization, Automation architects",
     ogTitle: "The Minds Behind Flowstra's Growth Tech",
     ogDescription: "Meet our collective of elite systems architects, integrations engineers, and workflow experts crafting the future of automation.",
-    ogImage: "https://flowstra.org/flowstra_insta_clean_hd.png",
+    ogImage: "https://flowstra.org/logo.svg",
     schema: {
       "@context": "https://schema.org",
       "@type": "AboutPage",
@@ -191,7 +191,7 @@ const seoMap: Record<string, SEOConfig> = {
     keywords: "ROI Calculator, Business automation calculator, Time savings calculator, Automation profit estimate",
     ogTitle: "Interactive Automation ROI Calculator | Flowstra",
     ogDescription: "Adjust variables for leads, meetings, and team hours to see how much money and time Flowstra can reclaim for your business.",
-    ogImage: "https://flowstra.org/flowstra_insta_clean_hd.png",
+    ogImage: "https://flowstra.org/logo.svg",
     schema: {
       "@context": "https://schema.org",
       "@type": "WebApplication",
@@ -208,7 +208,7 @@ const seoMap: Record<string, SEOConfig> = {
     keywords: "Google Workspace automation, Google Calendar API, Gmail API integration, OAuth secure syncing",
     ogTitle: "Secure Workspace Automation Orchestrator",
     ogDescription: "Flowstra connects directly to your active work hubs with robust safety, sorting inbounds, setting auto-meetings, and updating logs instantly.",
-    ogImage: "https://flowstra.org/flowstra_insta_clean_hd.png",
+    ogImage: "https://flowstra.org/logo.svg",
     schema: {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
@@ -224,7 +224,7 @@ const seoMap: Record<string, SEOConfig> = {
     keywords: "Flowstra pricing, AI agency costs, Automation subscription, Flowstra waitlist",
     ogTitle: "Flowstra Plans, Waitlist & Pricing",
     ogDescription: "Select from our bespoke, retainer, or custom enterprise packages built with fixed pricing and guaranteed ROI delivery timelines.",
-    ogImage: "https://flowstra.org/flowstra_insta_clean_hd.png",
+    ogImage: "https://flowstra.org/logo.svg",
     schema: {
       "@context": "https://schema.org",
       "@type": "Product",
@@ -258,7 +258,7 @@ const seoMap: Record<string, SEOConfig> = {
     keywords: "Book discovery call, Flowstra consultation, Custom AI roadmap, Automation audit",
     ogTitle: "Unlock Your custom AI Strategy with Flowstra",
     ogDescription: "Join high-growth founders mapping their automated pipelines. Book a slot while our limited client cohort slots remain open.",
-    ogImage: "https://flowstra.org/flowstra_insta_clean_hd.png",
+    ogImage: "https://flowstra.org/logo.svg",
     schema: {
       "@context": "https://schema.org",
       "@type": "ContactPage",

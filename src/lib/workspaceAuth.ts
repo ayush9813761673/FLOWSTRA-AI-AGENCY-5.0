@@ -7,11 +7,13 @@ import {
   User,
   signOut
 } from "firebase/auth";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import firebaseConfig from "../../firebase-applet-config.json";
 
 // Initialize Firebase App
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+export const db = getFirestore(app);
 
 // Google Auth Provider with requested scopes for Gmail and Google Calendar
 const provider = new GoogleAuthProvider();
@@ -156,4 +158,23 @@ export const logout = async () => {
     console.warn("Failed to clear token from localStorage:", e);
   }
   notifyFailure();
+};
+
+export const saveLeadToFirestore = async (leadData: {
+  email: string;
+  name?: string;
+  company?: string;
+  bottleneck?: string;
+  message?: string;
+  timestamp: string;
+  source?: string;
+}) => {
+  try {
+    const docRef = await addDoc(collection(db, "leads"), leadData);
+    console.log("Lead successfully stored in Firestore with ID:", docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error storing lead in Firestore:", error);
+    throw error;
+  }
 };
