@@ -144,7 +144,7 @@ export const PhotoGallery = ({
       yMobile: 15,
       zIndex: 30,
       direction: "right" as Direction,
-      src: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.svg",
+      src: "https://cdn.simpleicons.org/notion/ffffff",
       alt: "Notion",
     },
     {
