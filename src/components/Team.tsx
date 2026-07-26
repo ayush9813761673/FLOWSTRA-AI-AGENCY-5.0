@@ -24,6 +24,7 @@ const cardGradients = [
   { from: "#ffbc00", to: "#ff0058" },
   { from: "#03a9f4", to: "#ff0058" },
   { from: "#4dff03", to: "#00d0ff" },
+  { from: "#a855f7", to: "#ec4899" },
 ];
 
 const team: TeamMember[] = [
@@ -63,6 +64,18 @@ const team: TeamMember[] = [
       "Generated $2.5M+ in client pipeline through appointment systems"
     ],
     instagram: "https://www.instagram.com/lavish_sh30/",
+  },
+  {
+    image: "/Marwan.jpg",
+    name: "Marwan",
+    role: "Content & Lead Specialist",
+    bio: "Specializing in high-converting content frameworks, lead generation pipelines, and multi-channel audience engagement.",
+    achievements: [
+      "Crafted content strategies driving high-volume inbound leads",
+      "Architected automated lead capture & engagement funnels",
+      "Specialist in AI-driven copywriting & prospect qualification"
+    ],
+    instagram: "https://www.instagram.com/marwan.works/",
   },
 ];
 
