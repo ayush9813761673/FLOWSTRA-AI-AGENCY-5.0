@@ -1,11 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { fadeUp, stagger } from "../constants";
-import { Quote } from "lucide-react";
+import { Quote, Play, X, Video } from "lucide-react";
 import { GlowCard } from "./ui/spotlight-card";
 import { HyperText } from "./ui/hyper-text";
 
-const testimonials = [
+interface TestimonialItem {
+  quote: string;
+  metrics: string;
+  avatar: string;
+  image: string;
+  name: string;
+  role: string;
+  video: boolean;
+  videoUrl?: string;
+}
+
+const testimonials: TestimonialItem[] = [
+  {
+    quote:
+      "Flowstra's AI automation completely revolutionized our real estate lead management in Sydney. Enquiries get qualified and engaged via instant WhatsApp & CRM triggers, giving us a massive competitive edge.",
+    metrics: "4x Conversion Rate",
+    avatar: "/Thomas_Shelly_avatar.jpg",
+    image: "/Sydney_Real_Estate.jpg",
+    name: "Thomas Shelly",
+    role: "Real Estate Agent, Sydney (Australia)",
+    video: true,
+    videoUrl: "https://res.cloudinary.com/dy4bqxt8p/video/upload/v1779622196/new107_qhrklf.mp4",
+  },
   {
     quote:
       "Flowstra's AI completely changed how I handle my leads and content. My engagement and conversions skyrocketed in just weeks.",
@@ -29,6 +51,7 @@ const testimonials = [
     name: "Punit Sarda",
     role: "Managing Director, Leading Sanitation Group",
     video: true,
+    videoUrl: "https://res.cloudinary.com/dy4bqxt8p/video/upload/v1779621768/new105_meaomd.mp4",
   },
   {
     quote:
@@ -53,6 +76,7 @@ const testimonials = [
     name: "E-Com Founder",
     role: "Owner, Ecom Brands (France)",
     video: true,
+    videoUrl: "https://res.cloudinary.com/dy4bqxt8p/video/upload/v1779622220/new108_k1a47m.mp4",
   },
   {
     quote:
@@ -77,6 +101,7 @@ const testimonials = [
     name: "Elena Rodriguez",
     role: "Head of Marketing, CloudScale",
     video: true,
+    videoUrl: "https://res.cloudinary.com/dy4bqxt8p/video/upload/v1779622271/02_u2efg7.mp4",
   },
 ];
 
@@ -118,6 +143,7 @@ const SkeletonTestimonialCard = () => {
 
 export function Testimonials() {
   const [isLoading, setIsLoading] = useState(true);
+  const [activeVideo, setActiveVideo] = useState<TestimonialItem | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -177,7 +203,10 @@ export function Testimonials() {
                     <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-emerald-500/5 to-transparent rounded-t-2xl pointer-events-none" />
 
                     {/* Top: Photo Illustration of Niche & Badge */}
-                    <div className="relative h-44 w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 mb-6 shrink-0">
+                    <div 
+                      onClick={() => item.video && setActiveVideo(item)}
+                      className={`relative h-44 w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 mb-6 shrink-0 ${item.video ? 'cursor-pointer' : ''}`}
+                    >
                       <img
                         src={item.image}
                         alt={item.role}
@@ -185,9 +214,25 @@ export function Testimonials() {
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
+                      
                       <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium backdrop-blur-md">
                         {item.metrics}
                       </span>
+
+                      {item.video && (
+                        <>
+                          <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold backdrop-blur-md shadow-lg">
+                            <Video className="w-3.5 h-3.5 text-blue-400" />
+                            Video Case Study
+                          </span>
+
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
+                            <div className="w-12 h-12 rounded-full bg-emerald-500/90 text-black flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] transition-transform duration-300 group-hover:scale-110">
+                              <Play className="w-5 h-5 fill-current ml-0.5" />
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     {/* Middle: Content with Quote icon */}
@@ -202,7 +247,7 @@ export function Testimonials() {
 
                     {/* Bottom: Divider & Profile */}
                     <div className="mt-6 pt-4 border-t border-zinc-800/80 flex items-center gap-4 shrink-0">
-                      <div className="w-10 h-10 rounded-full overflow-hidden border border-zinc-800 bg-zinc-900">
+                      <div className="w-10 h-10 rounded-full overflow-hidden border border-zinc-800 bg-zinc-900 shrink-0">
                         <img
                           src={item.avatar}
                           alt={item.name}
@@ -226,6 +271,67 @@ export function Testimonials() {
           </AnimatePresence>
         </div>
       </motion.div>
+
+      {/* Video Modal Player */}
+      <AnimatePresence>
+        {activeVideo && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveVideo(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            />
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-4xl bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl z-10 flex flex-col"
+            >
+              <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-950">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full overflow-hidden border border-zinc-700">
+                    <img src={activeVideo.avatar} alt={activeVideo.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-white">{activeVideo.name}</h3>
+                    <p className="text-xs text-zinc-400">{activeVideo.role}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveVideo(null)}
+                  className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="relative aspect-video w-full bg-black flex items-center justify-center">
+                {activeVideo.videoUrl ? (
+                  <video
+                    src={activeVideo.videoUrl}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <div className="p-8 text-center text-zinc-400">
+                    <Video className="w-12 h-12 mx-auto mb-3 text-zinc-600" />
+                    <p>Video testimonial for {activeVideo.name}</p>
+                  </div>
+                )}
+              </div>
+
+              <div className="p-6 bg-zinc-950 border-t border-zinc-800/80">
+                <p className="text-sm text-zinc-300 italic">"{activeVideo.quote}"</p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

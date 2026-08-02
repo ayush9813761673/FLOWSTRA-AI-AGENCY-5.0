@@ -54,16 +54,16 @@ const team: TeamMember[] = [
     instagram: "https://www.instagram.com/piyushray.ai/",
   },
   {
-    image: "/Lavish Sharma.jpeg",
-    name: "Lavish Sharma",
-    role: "Client Success Manager",
-    bio: "5+ years orchestrating scalable operations and high-converting outreach systems.",
+    image: "/tasmia.png",
+    name: "Tasmia Nadeem",
+    role: "Data Analyst",
+    bio: "Specializing in operational data intelligence, predictive metrics, and automated performance tracking across growth workflows.",
     achievements: [
-      "Delivered cold email flows with avg. 45% open rates",
-      "Engineered automated inbox warmups & custom rotations",
-      "Generated $2.5M+ in client pipeline through appointment systems"
+      "Built custom data pipelines & real-time analytics dashboards",
+      "Optimized lead scoring models to maximize conversion efficiency",
+      "Transforms complex workflow data into actionable growth insights"
     ],
-    instagram: "https://www.instagram.com/lavish_sh30/",
+    instagram: "https://www.instagram.com/elitedata.solution/",
   },
   {
     image: "/Marwan.jpg",
@@ -91,29 +91,6 @@ const headingVariants = {
   },
 };
 
-const cardVariants = {
-  hidden: { 
-    opacity: 0, 
-    y: 120, 
-    rotateX: 25, 
-    scale: 0.85, 
-    filter: "blur(12px)" 
-  },
-  show: (idx: number) => ({
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: {
-      type: "spring",
-      stiffness: 55,
-      damping: 15,
-      mass: 1,
-      delay: idx * 0.18,
-    },
-  }),
-};
 
 interface TeamMemberCardProps {
   member: TeamMember;
@@ -174,9 +151,7 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
   };
 
   return (
-    <motion.div
-      custom={idx}
-      variants={cardVariants}
+    <div
       className="h-[32rem] min-w-[320px] max-w-[320px] md:min-w-[400px] md:max-w-[400px] perspective-[1000px] cursor-pointer"
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
@@ -328,7 +303,7 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
           </CardHoverReveal>
         </GradientCard>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -378,12 +353,7 @@ export function Team() {
           </p>
         </motion.div>
 
-        <motion.div 
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15, margin: "0px 0px -50px 0px" }}
-          className="flex flex-wrap justify-center gap-12 w-full px-4 md:px-0"
-        >
+        <div className="flex flex-wrap justify-center gap-12 w-full px-4 md:px-0">
           {team.map((member, idx) => {
             const grad = cardGradients[idx % cardGradients.length];
             return (
@@ -395,7 +365,7 @@ export function Team() {
               />
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
