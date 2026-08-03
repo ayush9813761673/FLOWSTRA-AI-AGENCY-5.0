@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { fadeUp, stagger } from "../constants";
-import { Quote, Play, X, Video } from "lucide-react";
+import { Quote, Play, X, Video, ExternalLink } from "lucide-react";
 import { GlowCard } from "./ui/spotlight-card";
 import { HyperText } from "./ui/hyper-text";
 
@@ -21,12 +21,14 @@ const testimonials: TestimonialItem[] = [
     quote:
       "Flowstra's AI automation completely revolutionized our real estate lead management in Sydney. Enquiries get qualified and engaged via instant WhatsApp & CRM triggers, giving us a massive competitive edge.",
     metrics: "4x Conversion Rate",
-    avatar: "/Thomas_Shelly_avatar.jpg",
-    image: "/Sydney_Real_Estate.jpg",
+    avatar:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=400",
+    image:
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=800&h=500",
     name: "Thomas Shelly",
     role: "Real Estate Agent, Sydney (Australia)",
     video: true,
-    videoUrl: "https://res.cloudinary.com/dy4bqxt8p/video/upload/v1779622196/new107_qhrklf.mp4",
+    videoUrl: "https://www.instagram.com/p/DaIxvAyPqgn/",
   },
   {
     quote:
@@ -100,8 +102,7 @@ const testimonials: TestimonialItem[] = [
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600&h=400",
     name: "Elena Rodriguez",
     role: "Head of Marketing, CloudScale",
-    video: true,
-    videoUrl: "https://res.cloudinary.com/dy4bqxt8p/video/upload/v1779622271/02_u2efg7.mp4",
+    video: false,
   },
 ];
 
@@ -300,23 +301,47 @@ export function Testimonials() {
                     <p className="text-xs text-zinc-400">{activeVideo.role}</p>
                   </div>
                 </div>
-                <button
-                  onClick={() => setActiveVideo(null)}
-                  className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                <div className="flex items-center gap-2">
+                  {activeVideo.videoUrl?.includes("instagram.com") && (
+                    <a
+                      href={activeVideo.videoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-pink-600/20 hover:bg-pink-600/30 border border-pink-500/30 text-pink-300 text-xs font-medium transition-colors"
+                    >
+                      <span>Watch on Instagram</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                  <button
+                    onClick={() => setActiveVideo(null)}
+                    className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
 
-              <div className="relative aspect-video w-full bg-black flex items-center justify-center">
+              <div className="relative aspect-video w-full bg-black flex items-center justify-center min-h-[380px] max-h-[75vh] overflow-hidden">
                 {activeVideo.videoUrl ? (
-                  <video
-                    src={activeVideo.videoUrl}
-                    controls
-                    autoPlay
-                    playsInline
-                    className="w-full h-full object-contain"
-                  />
+                  activeVideo.videoUrl.includes("instagram.com") ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-950 relative p-1 overflow-hidden">
+                      <iframe
+                        src={`${activeVideo.videoUrl.replace(/\/+$/, "")}/embed/`}
+                        className="w-full h-full min-h-[420px] max-w-[480px] border-0 rounded-lg"
+                        allow="encrypted-media"
+                        title={`Instagram testimonial from ${activeVideo.name}`}
+                      />
+                    </div>
+                  ) : (
+                    <video
+                      src={activeVideo.videoUrl}
+                      controls
+                      autoPlay
+                      playsInline
+                      className="w-full h-full object-contain"
+                    />
+                  )
                 ) : (
                   <div className="p-8 text-center text-zinc-400">
                     <Video className="w-12 h-12 mx-auto mb-3 text-zinc-600" />

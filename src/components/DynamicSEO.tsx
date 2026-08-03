@@ -20,8 +20,14 @@ const seoMap: Record<string, SEOConfig> = {
     ogImage: "https://flowstra.org/logo.png",
     schema: {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
+      "@type": ["Organization", "ProfessionalService"],
       "name": "Flowstra",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://flowstra.org/logo.png",
+        "width": 512,
+        "height": 512
+      },
       "image": "https://flowstra.org/logo.png",
       "url": "https://flowstra.org/",
       "telephone": "+1-800-555-FLOW",
