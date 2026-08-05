@@ -42,21 +42,9 @@ const team: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/ayush-yadav-pro/",
   },
   {
-    image: "/Piyush Ray.jpeg",
-    name: "Piyush Ray",
-    role: "COO",
-    bio: "5+ years streamlining business operations, scaling execution frameworks, and driving sustainable client growth.",
-    achievements: [
-      "Scaled client operations by 300% via unified automation",
-      "Optimized delivery pipelines, cutting lead times by 65%",
-      "Oversees global QA & service delivery standards"
-    ],
-    instagram: "https://www.instagram.com/piyushray.ai/",
-  },
-  {
     image: "/tasmia.png",
     name: "Tasmia Nadeem",
-    role: "Data Analyst",
+    role: "Co-Founder",
     bio: "Specializing in operational data intelligence, predictive metrics, and automated performance tracking across growth workflows.",
     achievements: [
       "Built custom data pipelines & real-time analytics dashboards",
@@ -64,18 +52,6 @@ const team: TeamMember[] = [
       "Transforms complex workflow data into actionable growth insights"
     ],
     instagram: "https://www.instagram.com/elitedata.solution/",
-  },
-  {
-    image: "/Marwan.jpg",
-    name: "Marwan",
-    role: "Content & Lead Specialist",
-    bio: "Specializing in high-converting content frameworks, lead generation pipelines, and multi-channel audience engagement.",
-    achievements: [
-      "Crafted content strategies driving high-volume inbound leads",
-      "Architected automated lead capture & engagement funnels",
-      "Specialist in AI-driven copywriting & prospect qualification"
-    ],
-    instagram: "https://www.instagram.com/marwan.works/",
   },
 ];
 
