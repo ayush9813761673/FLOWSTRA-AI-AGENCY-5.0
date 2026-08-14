@@ -2,7 +2,12 @@ const CACHE_NAME = "flowstra-pwa-cache-v1";
 const ASSETS_TO_CACHE = [
   "/",
   "/index.html",
+  "/favicon.ico",
+  "/favicon.png",
+  "/favicon-48x48.png",
+  "/logo.png",
   "/logo.svg",
+  "/apple-touch-icon.png",
   "/manifest.json"
 ];
 
