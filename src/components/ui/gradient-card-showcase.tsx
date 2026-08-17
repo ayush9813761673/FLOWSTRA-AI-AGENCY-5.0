@@ -47,7 +47,7 @@ export function GradientCard({
         {/* Content with smooth left-offset group hover translation */}
         <div
           className={cn(
-            "relative z-20 left-0 w-full h-full bg-[#111] shadow-2xl rounded-2xl transition-all duration-500 group-hover/gradient:-left-[25px] border border-white/5",
+            "relative z-20 left-0 w-full h-full bg-[var(--surface)] shadow-xl rounded-2xl transition-all duration-500 group-hover/gradient:-left-[25px] border border-[var(--card-border)] backdrop-blur-md",
             contentClassName,
           )}
         >

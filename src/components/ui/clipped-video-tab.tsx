@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { HyperText } from "./hyper-text";
+import { useLanguage } from "@/context/LanguageContext";
 import {
   Globe,
   BrainCircuit,
@@ -185,6 +186,7 @@ const items = [
 ];
 
 export function ClippedVideoTab() {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState(0);
 
   const activeItem = items[activeTab];
@@ -201,13 +203,13 @@ export function ClippedVideoTab() {
       <div className="w-full mb-16">
         <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto">
           <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
-            Core Solutions & Modules
+            {t.features.badge}
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            <HyperText text="Powerful Features for Lead Generation" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
+            <HyperText text={t.features.title} className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
           </h2>
           <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
-            Explore the advanced AI and automation capabilities that supercharge your lead generation pipelines—designed and engineered by Flowstra.
+            {t.features.description}
           </p>
         </div>
       </div>
@@ -241,21 +243,21 @@ export function ClippedVideoTab() {
                 transition={{ duration: 0.35 }}
                 className="w-[320px] max-md:w-[90%] pointer-events-auto"
               >
-                <MagneticCard className="w-full rounded-[26px] border border-white/30 bg-white/80 backdrop-blur-xl shadow-2xl p-5 cursor-default">
+                <MagneticCard className="w-full rounded-[26px] border border-[var(--card-border)] bg-[var(--surface)]/90 backdrop-blur-xl shadow-2xl p-5 cursor-default">
                   {/* HEADER */}
                   <div className="flex items-center justify-between">
-                    <h3 className="text-[18px] font-semibold text-[#131313]">
+                    <h3 className="text-[18px] font-semibold text-[var(--text-primary)]">
                       {activeItem.card.heading}
                     </h3>
-                    <span className="text-[11px] bg-blue-50 text-blue-700 px-2 py-1 rounded-md">
+                    <span className="text-[11px] font-medium bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 px-2.5 py-1 rounded-md">
                       {activeItem.card.badge}
                     </span>
                   </div>
 
                   {/* GOAL */}
-                  <div className="mt-4 border border-[#e7e7e7] rounded-xl p-3 bg-white/50">
-                    <p className="text-[11px] text-[#777]">Goal</p>
-                    <p className="text-[13px] leading-[20px] mt-1 text-[#131313]">
+                  <div className="mt-4 border border-[var(--card-border)] rounded-xl p-3 bg-[var(--surface)]/60">
+                    <p className="text-[11px] font-medium text-[var(--text-muted)]">Goal</p>
+                    <p className="text-[13px] leading-[20px] mt-1 text-[var(--text-primary)]">
                       {activeItem.card.goal}
                     </p>
                   </div>
@@ -267,13 +269,13 @@ export function ClippedVideoTab() {
                         {/* ICON */}
                         <div className="mt-[2px]">
                           {task.status === "completed" && (
-                            <CheckCircle2 className="w-4 h-4 text-blue-600" />
+                            <CheckCircle2 className="w-4 h-4 text-blue-500" />
                           )}
                           {task.status === "progress" && (
-                            <LoaderCircle className="w-4 h-4 text-blue-600 animate-spin" />
+                            <LoaderCircle className="w-4 h-4 text-blue-500 animate-spin" />
                           )}
                           {task.status === "pending" && (
-                            <Circle className="w-4 h-4 text-[#bdbdbd]" />
+                            <Circle className="w-4 h-4 text-[var(--text-muted)] opacity-50" />
                           )}
                         </div>
 
@@ -284,23 +286,23 @@ export function ClippedVideoTab() {
                               text-[13px]
                               ${
                                 task.status === "completed"
-                                  ? "line-through text-[#666]"
+                                  ? "line-through text-[var(--text-muted)]"
                                   : task.status === "progress"
-                                    ? "text-blue-600 font-medium"
-                                    : "text-[#999]"
+                                    ? "text-blue-500 font-medium"
+                                    : "text-[var(--text-secondary)]"
                               }
                             `}
                           >
                             {task.title}
                           </p>
-                          <p className="text-[11px] text-[#999]">{task.meta}</p>
+                          <p className="text-[11px] text-[var(--text-muted)]">{task.meta}</p>
                         </div>
                       </div>
                     ))}
                   </div>
 
                   {/* FOOTER */}
-                  <div className="flex items-center justify-between mt-5 text-[11px] text-[#888]">
+                  <div className="flex items-center justify-between mt-5 pt-3 border-t border-[var(--card-border)] text-[11px] text-[var(--text-muted)]">
                     <span>{activeItem.card.tasks.filter((t) => t.status === "completed").length}/{activeItem.card.tasks.length} tasks complete</span>
                     <span>Est. 45s remaining</span>
                   </div>

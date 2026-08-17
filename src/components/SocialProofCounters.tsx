@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
 import { Cpu, Clock, Zap, BarChart3 } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface StatItemProps {
   label: string;
@@ -57,25 +57,22 @@ function StatCard({
 
   return (
     <div 
-      className="relative flex flex-col justify-between p-6 rounded-2xl border border-white/10 bg-slate-950/40 backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-white/20 hover:bg-slate-950/60 group"
-      style={{
-        boxShadow: `0 8px 32px rgba(0, 0, 0, 0.4), inset 0 0 12px ${glowColor}`,
-      }}
+      className="relative flex flex-col justify-between p-6 rounded-2xl border border-[var(--card-border)] bg-[var(--surface)]/90 backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-blue-500/30 hover:bg-[var(--surface)] group shadow-[var(--shadow-day-card)]"
     >
       {/* Decorative ambient background glow */}
       <div 
-        className="absolute -right-8 -bottom-8 w-24 h-24 rounded-full blur-2xl opacity-15 transition-opacity duration-500 group-hover:opacity-30"
+        className="absolute -right-8 -bottom-8 w-24 h-24 rounded-full blur-2xl opacity-15 transition-opacity duration-500 group-hover:opacity-30 pointer-events-none"
         style={{ backgroundColor: glowColor.replace("0.15", "0.6") }}
       />
 
       <div className="flex items-start justify-between mb-4 relative z-10">
-        <span className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">
+        <span className="text-[10px] font-bold tracking-[0.2em] text-[var(--text-muted)] uppercase">
           {label}
         </span>
         <div 
-          className="p-2 rounded-xl border border-white/5 bg-white/[0.03] text-slate-400 group-hover:text-white transition-all duration-300"
+          className="p-2 rounded-xl border border-[var(--card-border)] bg-[var(--surface)]/40 text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-all duration-300"
           style={{
-            borderColor: pulsing ? glowColor : "rgba(255, 255, 255, 0.05)",
+            borderColor: pulsing ? glowColor : undefined,
             boxShadow: pulsing ? `0 0 15px ${glowColor}` : "none",
           }}
         >
@@ -84,11 +81,11 @@ function StatCard({
       </div>
 
       <div className="relative z-10 flex items-baseline gap-1 mt-1">
-        <span className="text-zinc-500 font-medium text-lg mr-0.5 select-none">{prefix}</span>
-        <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white font-mono select-all">
+        <span className="text-[var(--text-muted)] font-medium text-lg mr-0.5 select-none">{prefix}</span>
+        <span className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--text-primary)] font-mono select-all">
           {formattedNum}
         </span>
-        <span className="text-zinc-400 font-medium text-xs ml-1 select-none">{suffix}</span>
+        <span className="text-[var(--text-muted)] font-medium text-xs ml-1 select-none">{suffix}</span>
 
         {/* Live Indicator Dot */}
         <span className="absolute -top-1 -right-4 flex h-2.5 w-2.5">
@@ -98,20 +95,22 @@ function StatCard({
       </div>
 
       {/* Tiny live activity text */}
-      <div className="mt-3 text-[9px] font-mono text-slate-500 flex items-center gap-1 relative z-10">
-        <span className={`inline-block w-1 h-1 rounded-full ${pulsing ? "bg-green-400 animate-pulse" : "bg-slate-600"}`} />
-        <span>{pulsing ? "Syncing metrics..." : "Live automation metrics"}</span>
+      <div className="mt-3 text-[9px] font-mono text-[var(--text-muted)] flex items-center gap-1.5 relative z-10">
+        <span className={`inline-block w-1.5 h-1.5 rounded-full ${pulsing ? "bg-green-400 animate-pulse" : "bg-blue-500/60"}`} />
+        <span>{pulsing ? "Syncing..." : "Live pipeline"}</span>
       </div>
     </div>
   );
 }
 
 export function SocialProofCounters() {
+  const { t } = useLanguage();
+
   return (
     <section className="w-full max-w-7xl mx-auto px-6 pb-20 relative z-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <StatCard
-          label="Automations Deployed"
+          label={t.counters.automationsDeployed}
           initialValue={1482}
           incrementMin={1}
           incrementMax={2}
@@ -121,18 +120,18 @@ export function SocialProofCounters() {
           glowColor="rgba(59, 130, 246, 0.15)"
         />
         <StatCard
-          label="Hours of Work Saved"
+          label={t.counters.hoursSaved}
           initialValue={24192.4}
           incrementMin={0.1}
           incrementMax={0.3}
           intervalMs={1500}
           icon={Clock}
-          suffix=" hrs"
+          suffix={` ${t.counters.hrs}`}
           isDecimal={true}
           glowColor="rgba(16, 185, 129, 0.15)"
         />
         <StatCard
-          label="Active API Actions"
+          label={t.counters.activeApi}
           initialValue={8241920}
           incrementMin={15}
           incrementMax={45}
@@ -141,7 +140,7 @@ export function SocialProofCounters() {
           glowColor="rgba(168, 85, 247, 0.15)"
         />
         <StatCard
-          label="Estimated Client ROI"
+          label={t.counters.estimatedRoi}
           initialValue={14821400}
           incrementMin={25}
           incrementMax={75}

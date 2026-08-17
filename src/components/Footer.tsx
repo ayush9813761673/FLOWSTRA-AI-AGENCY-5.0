@@ -9,31 +9,34 @@ import {
   Linkedin,
 } from "lucide-react";
 import { FooterBackgroundGradient, TextHoverEffect } from "./ui/hover-footer";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Footer() {
+  const { t } = useLanguage();
+
   // Footer link data
   const footerLinks = [
     {
-      title: "Solutions",
+      title: t.footer.solutions,
       links: [
-        { label: "CRM Automation", href: "#solutions" },
-        { label: "Lead Qualification", href: "#solutions" },
-        { label: "Outbound Logic", href: "#solutions" },
-        { label: "Pipeline Routing", href: "#solutions" },
+        { label: t.footer.crmAutomation, href: "#solutions" },
+        { label: t.footer.leadQualification, href: "#solutions" },
+        { label: t.footer.outboundLogic, href: "#solutions" },
+        { label: t.footer.pipelineRouting, href: "#solutions" },
       ],
     },
     {
-      title: "Helpful Links",
+      title: t.footer.helpfulLinks,
       links: [
         {
-          label: "Book a Call",
+          label: t.footer.bookCall,
           href: "https://cal.com/flowstra/30min",
           target: "_blank",
           rel: "noopener noreferrer",
         },
-        { label: "Outcomes", href: "#outcomes" },
+        { label: t.footer.outcomes, href: "#outcomes" },
         {
-          label: "Direct Support",
+          label: t.footer.directSupport,
           href: "https://wa.me/9779813761673?text=Hi%20Ayush%2C%20I%20want%20to%20know%20more%20about%20Flowstra%27s%20automation%20services.",
           target: "_blank",
           rel: "noopener noreferrer",
@@ -57,7 +60,7 @@ export function Footer() {
     },
     {
       icon: <MapPin size={18} className="text-[#3b82f6]" />,
-      text: "Directly through WhatsApp",
+      text: t.footer.directWhatsApp,
       href: "https://wa.me/9779813761673?text=Hi%20Ayush%2C%20I%20want%20to%20know%20more%20about%20Flowstra%27s%20automation%20services.",
       target: "_blank",
       rel: "noopener noreferrer",
@@ -84,7 +87,7 @@ export function Footer() {
     ];
 
   return (
-    <footer className="bg-[rgba(5,5,10,0.4)] relative h-fit rounded-[32px] overflow-hidden m-6 border border-[var(--card-border)]">
+    <footer className="bg-[var(--surface)] relative h-fit rounded-[32px] overflow-hidden m-6 border border-[var(--card-border)] shadow-xl">
       <FooterBackgroundGradient />
 
       {/* Text hover effect */}
@@ -105,13 +108,12 @@ export function Footer() {
                 className="w-8 h-8 object-contain rounded-full"
                 referrerPolicy="no-referrer"
               />
-              <span className="text-white font-bold text-2xl tracking-tight">
+              <span className="text-[var(--text-primary)] font-bold text-2xl tracking-tight">
                 Flowstra
               </span>
             </div>
             <p className="text-sm leading-relaxed text-[var(--text-secondary)] max-w-xs">
-              Founder-led AI systems that automate lead qualification, routing,
-              and CRM logic around how your team actually operates.
+              {t.footer.brandDesc}
             </p>
             <div className="flex gap-5 pt-2 pointer-events-auto">
               {socialLinks.map(({ icon, label, href, target, rel }) => (
@@ -121,7 +123,7 @@ export function Footer() {
                   aria-label={label}
                   target={target}
                   rel={rel}
-                  className="text-white/60 hover:text-[var(--accent-blue)] transition-colors inline-block"
+                  className="text-[var(--text-muted)] hover:text-[var(--accent-blue)] transition-colors inline-block"
                 >
                   {icon}
                 </a>
@@ -159,7 +161,7 @@ export function Footer() {
           {/* Contact section */}
           <div>
             <h4 className="text-[var(--text-primary)] text-sm font-bold uppercase tracking-widest mb-8">
-              Contact
+              {t.footer.contact}
             </h4>
             <ul className="space-y-5">
               {contactInfo.map((item, i) => (
@@ -197,16 +199,16 @@ export function Footer() {
         {/* Footer bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center text-xs space-y-4 md:space-y-0 text-[var(--text-muted)] font-medium tracking-wide pointer-events-auto mt-auto pt-8">
           <div className="flex space-x-8">
-            <a href="#" className="hover:text-white transition-colors block py-2">
-              Privacy Policy
+            <a href="#" className="hover:text-[var(--text-primary)] transition-colors block py-2">
+              {t.footer.privacyPolicy}
             </a>
-            <a href="#" className="hover:text-white transition-colors block py-2">
-              Terms of Service
+            <a href="#" className="hover:text-[var(--text-primary)] transition-colors block py-2">
+              {t.footer.termsOfService}
             </a>
           </div>
 
           <p className="text-center md:text-left pointer-events-auto">
-            &copy; {new Date().getFullYear()} FLOWSTRA. ALL RIGHTS RESERVED.
+            &copy; {new Date().getFullYear()} FLOWSTRA. {t.footer.allRightsReserved}
           </p>
         </div>
       </div>

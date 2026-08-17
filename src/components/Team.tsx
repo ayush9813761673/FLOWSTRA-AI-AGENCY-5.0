@@ -9,6 +9,7 @@ import {
 } from "./ui/reveal-on-hover";
 import { GradientCard } from "./ui/gradient-card-showcase";
 import { HyperText } from "./ui/hyper-text";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface TeamMember {
   image: string;
@@ -180,7 +181,7 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
               <div className={`absolute bottom-6 left-6 right-6 transition-all duration-500 ease-in-out pointer-events-auto z-20 ${
                 isHovered ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
               }`}>
-                <h3 className="text-3xl font-bold text-white drop-shadow-md">
+                <h3 className="text-3xl font-bold text-white !text-white drop-shadow-md">
                   {member.name}
                 </h3>
                 <div className="flex items-center justify-between mt-2">
@@ -209,7 +210,7 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
                   }}
                   transition={{ duration: 0.4, delay: 0.05 }}
                 >
-                  <h3 className="text-3xl font-bold text-white">
+                  <h3 className="text-3xl font-bold text-white !text-white">
                     {member.name}
                   </h3>
                   <div className="flex items-center gap-3 mt-1">
@@ -309,6 +310,7 @@ const SkeletonTeamCard = () => {
 };
 
 export function Team() {
+  const { t } = useLanguage();
   return (
     <section id="team" className="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
       <div className="flex flex-col gap-16">
@@ -319,13 +321,13 @@ export function Team() {
           className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto"
         >
           <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
-            Founding Leadership
+            {t.team.badge}
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            <HyperText text="Meet Our Team" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
+            <HyperText text={t.team.title} className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
           </h2>
           <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
-            The brilliant minds and automation architects behind Nepal's leading AI-driven operations agency.
+            {t.team.description}
           </p>
         </motion.div>
 

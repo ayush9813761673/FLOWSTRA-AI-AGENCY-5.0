@@ -20,6 +20,7 @@ import {
 import { initAuth, googleSignIn, logout } from "../lib/workspaceAuth";
 import { User } from "firebase/auth";
 import { HyperText } from "./ui/hyper-text";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface CalendarEvent {
   id: string;
@@ -37,6 +38,7 @@ interface GmailMessage {
 }
 
 export function WorkspaceAutomation() {
+  const { t } = useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [sandboxEmail, setSandboxEmail] = useState("");
@@ -562,52 +564,52 @@ export function WorkspaceAutomation() {
   };
 
   return (
-    <section id="workspace-integration" className="relative w-full py-24 md:py-32 border-t border-[var(--card-border)] bg-slate-950/20 overflow-hidden">
+    <section id="workspace-integration" className="relative w-full py-24 md:py-32 border-t border-[var(--card-border)] bg-transparent overflow-hidden">
       {/* Decorative dynamic ambient background glows */}
       <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto mb-16">
-          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono flex items-center gap-1.5">
+          <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-500 dark:text-blue-400 font-mono flex items-center gap-1.5">
             <Sparkles className="h-3.5 w-3.5 animate-pulse" />
-            Interactive Live Sandbox
+            {t.workspace.badge}
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            <HyperText text="Connect Your Workspace" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight">
+            <HyperText text={t.workspace.title} className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] inline-block" />
           </h2>
-          <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
-            Experience real-world automation. Connect your actual Google Calendar & Gmail securely via Google OAuth to view events, schedule consultations, and dispatch emails live.
+          <p className="text-sm md:text-base leading-relaxed text-[var(--text-secondary)] max-w-2xl mt-1.5 font-medium">
+            {t.workspace.description}
           </p>
         </div>
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center min-h-[300px]">
             <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
-            <p className="text-slate-400 text-sm mt-4 font-medium">Synchronizing with Google Identity Securely...</p>
+            <p className="text-[var(--text-secondary)] text-sm mt-4 font-medium">Synchronizing with Google Identity Securely...</p>
           </div>
         ) : !user ? (
           /* Locked State - Call to Action with Google Button */
-          <div className="max-w-xl mx-auto rounded-3xl border border-white/10 bg-zinc-900/40 p-8 md:p-12 text-center backdrop-blur-md shadow-2xl relative">
+          <div className="max-w-xl mx-auto rounded-3xl border border-[var(--card-border)] bg-[var(--surface)] p-8 md:p-12 text-center backdrop-blur-md shadow-xl relative">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-500/10 border border-blue-500/20 w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg">
-              <Lock className="h-6 w-6 text-blue-400" />
+              <Lock className="h-6 w-6 text-blue-500" />
             </div>
 
-            <h3 className="text-xl font-bold text-white mt-4 mb-3">Authorize Google Workspace Integration</h3>
-            <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-              Log in with your Google Account to safely authorize read/write access to your Google Calendar and Gmail APIs. We only utilize in-memory tokens. No data is stored or saved on any servers.
+            <h3 className="text-xl font-bold text-[var(--text-primary)] mt-4 mb-3">{t.workspace.authTitle}</h3>
+            <p className="text-[var(--text-secondary)] text-sm mb-6 leading-relaxed">
+              {t.workspace.authDesc}
             </p>
 
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-green-500/10 px-3 py-1.5 border border-green-500/20 text-[11px] font-semibold text-green-400">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-green-500/10 px-3 py-1.5 border border-green-500/20 text-[11px] font-semibold text-green-600 dark:text-green-400">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
               </span>
-              <span>Open Integration: All Google Workspace Accounts Authorized</span>
+              <span>{t.workspace.allAuthorized}</span>
             </div>
 
             {errorMsg && (
-              <div className="mb-6 flex items-center gap-2 text-xs text-red-400 bg-red-950/20 border border-red-500/20 p-3 rounded-xl justify-center">
+              <div className="mb-6 flex items-center gap-2 text-xs text-red-500 dark:text-red-400 bg-red-500/10 border border-red-500/20 p-3 rounded-xl justify-center">
                 <AlertCircle className="h-4 w-4 shrink-0" />
                 <span>{errorMsg}</span>
               </div>
@@ -618,10 +620,10 @@ export function WorkspaceAutomation() {
                 <input 
                   type="email"
                   required
-                  placeholder="Enter professional email to unlock"
+                  placeholder={t.workspace.emailPlaceholder}
                   value={sandboxEmail}
                   onChange={(e) => setSandboxEmail(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs text-white placeholder-slate-500 outline-none focus:border-blue-500 transition-all text-center"
+                  className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--surface-hover)] px-4 py-2.5 text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none focus:border-blue-500 transition-all text-center"
                 />
               </div>
               <button
@@ -629,21 +631,21 @@ export function WorkspaceAutomation() {
                 disabled={!sandboxEmail}
                 className="w-full flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-xs font-bold text-white shadow-lg transition-all hover:opacity-95 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
               >
-                Unlock Live Sandbox Environment
+                {t.workspace.unlockBtn}
               </button>
             </form>
 
             <div className="relative flex py-2 items-center max-w-sm mx-auto mb-6">
-              <div className="flex-grow border-t border-white/5"></div>
-              <span className="flex-shrink mx-4 text-[10px] font-mono text-slate-500 uppercase tracking-widest">or login with google</span>
-              <div className="flex-grow border-t border-white/5"></div>
+              <div className="flex-grow border-t border-[var(--card-border)]"></div>
+              <span className="flex-shrink mx-4 text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-widest">{t.workspace.orLogin}</span>
+              <div className="flex-grow border-t border-[var(--card-border)]"></div>
             </div>
 
             <div className="flex justify-center">
               <button 
                 type="button"
                 onClick={handleLogin}
-                className="inline-flex items-center gap-2.5 px-4.5 py-2 rounded-xl border border-white/10 bg-zinc-900/40 hover:bg-zinc-800/40 text-slate-300 font-bold text-xs cursor-pointer shadow-md active:scale-95 transition-all"
+                className="inline-flex items-center gap-2.5 px-4.5 py-2 rounded-xl border border-[var(--card-border)] bg-[var(--surface-hover)] hover:opacity-90 text-[var(--text-primary)] font-bold text-xs cursor-pointer shadow-md active:scale-95 transition-all"
               >
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="h-3.5 w-3.5 shrink-0">
                   <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
@@ -651,36 +653,36 @@ export function WorkspaceAutomation() {
                   <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
                   <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
                 </svg>
-                Continue with Google
+                {t.workspace.continueGoogle}
               </button>
             </div>
 
-            <p className="text-[11px] text-slate-500 mt-6 leading-relaxed">
-              Secure authentication provided by Firebase Auth. Google scopes requested: calendar, gmail.readonly, gmail.send.
+            <p className="text-[11px] text-[var(--text-muted)] mt-6 leading-relaxed">
+              {t.workspace.scopesDisclaimer}
             </p>
           </div>
         ) : (
           /* Active Logged-In Live Dashboard */
           <div className="space-y-8">
             {/* Header Toolbar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl border border-white/10 bg-zinc-900/40 backdrop-blur-md">
+            <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl border border-[var(--card-border)] bg-[var(--surface)] backdrop-blur-md shadow-sm">
               <div className="flex items-center gap-3">
                 {user.photoURL ? (
                   <img src={user.photoURL} alt={user.displayName || "User"} className="h-10 w-10 rounded-full border border-blue-500/20" referrerPolicy="no-referrer" />
                 ) : (
-                  <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20 text-blue-400 font-bold">
+                  <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20 text-blue-500 font-bold">
                     {user.displayName ? user.displayName[0] : "U"}
                   </div>
                 )}
                 <div className="text-left">
-                  <p className="text-sm font-bold text-white leading-none mb-1 flex items-center gap-1.5">
+                  <p className="text-sm font-bold text-[var(--text-primary)] leading-none mb-1 flex items-center gap-1.5">
                     {user.displayName || "Google User"}
-                    <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider border border-emerald-500/20">
+                    <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider border border-emerald-500/20">
                       <UserCheck className="h-2.5 w-2.5" />
-                      Connected
+                      {t.workspace.connectedBadge}
                     </span>
                   </p>
-                  <p className="text-xs text-slate-400 font-medium">{user.email}</p>
+                  <p className="text-xs text-[var(--text-muted)] font-medium">{user.email}</p>
                 </div>
               </div>
 
@@ -688,26 +690,26 @@ export function WorkspaceAutomation() {
                 <button
                   onClick={() => token && fetchWorkspaceData(token)}
                   disabled={isRefreshing}
-                  className="flex h-9 items-center justify-center gap-1.5 px-3 rounded-lg border border-white/10 bg-white/5 text-xs text-slate-300 font-medium hover:bg-white/10 active:scale-95 transition-all disabled:opacity-50 cursor-pointer"
+                  className="flex h-9 items-center justify-center gap-1.5 px-3 rounded-lg border border-[var(--card-border)] bg-[var(--surface-hover)] text-xs text-[var(--text-secondary)] font-medium hover:text-[var(--text-primary)] active:scale-95 transition-all disabled:opacity-50 cursor-pointer"
                   title="Reload events and email data"
                 >
                   <RefreshCw className={`h-3.5 w-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
-                  <span>{isRefreshing ? "Refreshing..." : "Refresh"}</span>
+                  <span>{isRefreshing ? t.workspace.refreshing : t.workspace.refresh}</span>
                 </button>
 
                 <button
                   onClick={handleLogout}
-                  className="flex h-9 items-center justify-center gap-1.5 px-3 rounded-lg border border-red-500/20 bg-red-500/5 text-xs text-red-400 font-medium hover:bg-red-500/15 active:scale-95 transition-all cursor-pointer"
+                  className="flex h-9 items-center justify-center gap-1.5 px-3 rounded-lg border border-red-500/20 bg-red-500/5 text-xs text-red-500 font-medium hover:bg-red-500/15 active:scale-95 transition-all cursor-pointer"
                 >
                   <LogOut className="h-3.5 w-3.5" />
-                  <span>Disconnect</span>
+                  <span>{t.workspace.disconnect}</span>
                 </button>
               </div>
             </div>
 
             {/* Error banner */}
             {errorMsg && (
-              <div className="flex items-center gap-2 text-sm text-red-400 bg-red-950/20 border border-red-500/20 p-4 rounded-2xl">
+              <div className="flex items-center gap-2 text-sm text-red-500 dark:text-red-400 bg-red-500/10 border border-red-500/20 p-4 rounded-2xl">
                 <AlertCircle className="h-5 w-5 shrink-0" />
                 <span>{errorMsg}</span>
               </div>
@@ -717,31 +719,31 @@ export function WorkspaceAutomation() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               
               {/* 1. GOOGLE CALENDAR CARD */}
-              <div className={`rounded-3xl border p-6 md:p-8 flex flex-col justify-between transition-all duration-700 ${highlightCalendar ? "border-blue-500 ring-4 ring-blue-500/20 bg-blue-950/10 scale-[1.01]" : "border-white/10 bg-zinc-900/20"}`}>
+              <div className={`rounded-3xl border p-6 md:p-8 flex flex-col justify-between transition-all duration-700 shadow-sm ${highlightCalendar ? "border-blue-500 ring-4 ring-blue-500/20 bg-blue-500/5 scale-[1.01]" : "border-[var(--card-border)] bg-[var(--surface)]"}`}>
                 <div>
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center">
+                      <div className="h-10 w-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-500 flex items-center justify-center">
                         <Calendar className="h-5 w-5" />
                       </div>
                       <div className="text-left">
-                        <h3 className="text-lg font-bold text-white leading-snug">Google Calendar</h3>
-                        <p className="text-xs text-slate-400">View and schedule strategy consultations</p>
+                        <h3 className="text-lg font-bold text-[var(--text-primary)] leading-snug">{t.workspace.calTitle}</h3>
+                        <p className="text-xs text-[var(--text-secondary)]">{t.workspace.calDesc}</p>
                       </div>
                     </div>
                   </div>
 
                   {/* List recent calendar events */}
                   <div className="space-y-3 mb-8">
-                    <h4 className="text-xs font-extrabold text-blue-400 uppercase tracking-widest text-left mb-1.5">Upcoming Schedule</h4>
+                    <h4 className="text-xs font-extrabold text-blue-500 uppercase tracking-widest text-left mb-1.5">{t.workspace.upcomingSchedule}</h4>
                     {isRefreshing && events.length === 0 ? (
-                      <div className="py-8 flex justify-center text-slate-500 text-xs">
+                      <div className="py-8 flex justify-center text-[var(--text-muted)] text-xs">
                         <Loader2 className="h-5 w-5 animate-spin mr-2" /> Loading calendar events...
                       </div>
                     ) : events.length === 0 ? (
-                      <div className="rounded-2xl border border-dashed border-white/5 bg-white/[0.01] p-6 text-center text-slate-500 text-xs leading-relaxed">
-                        <CalendarDays className="h-8 w-8 text-slate-600 mx-auto mb-2 opacity-50" />
-                        No upcoming Flowstra sessions found on your primary calendar. Use the scheduler below to book one!
+                      <div className="rounded-2xl border border-dashed border-[var(--card-border)] bg-[var(--surface-hover)] p-6 text-center text-[var(--text-muted)] text-xs leading-relaxed">
+                        <CalendarDays className="h-8 w-8 text-[var(--text-muted)] mx-auto mb-2 opacity-50" />
+                        {t.workspace.noEvents}
                       </div>
                     ) : (
                       events.map((evt) => {
@@ -752,18 +754,18 @@ export function WorkspaceAutomation() {
                             target="_blank" 
                             rel="noopener noreferrer"
                             key={evt.id}
-                            className="flex items-center justify-between gap-4 p-3 rounded-xl border border-white/5 bg-white/[0.01] hover:bg-white/[0.04] hover:border-blue-500/30 transition-all duration-300 group text-left"
+                            className="flex items-center justify-between gap-4 p-3 rounded-xl border border-[var(--card-border)] bg-[var(--surface-hover)] hover:border-blue-500/40 transition-all duration-300 group text-left"
                           >
                             <div className="overflow-hidden">
-                              <p className="text-sm font-bold text-white truncate group-hover:text-blue-400 transition-colors">
+                              <p className="text-sm font-bold text-[var(--text-primary)] truncate group-hover:text-blue-500 transition-colors">
                                 {evt.summary || "(No Title)"}
                               </p>
-                              <p className="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
+                              <p className="text-[11px] text-[var(--text-muted)] flex items-center gap-1.5 mt-0.5">
                                 <Clock className="h-3 w-3" />
                                 {eventDate ? eventDate.toLocaleString() : "Date/Time Unknown"}
                               </p>
                             </div>
-                            <span className="text-[10px] font-extrabold text-zinc-500 uppercase border border-zinc-800 px-2 py-0.5 rounded-md shrink-0">
+                            <span className="text-[10px] font-extrabold text-[var(--text-muted)] uppercase border border-[var(--card-border)] px-2 py-0.5 rounded-md shrink-0">
                               View
                             </span>
                           </a>
@@ -774,43 +776,41 @@ export function WorkspaceAutomation() {
                 </div>
 
                 {/* Event Creation Form */}
-                <div className="border-t border-white/5 pt-6">
-                  <h4 className="text-xs font-extrabold text-white uppercase tracking-widest text-left mb-4 flex items-center gap-1.5">
-                    <Plus className="h-3.5 w-3.5 text-blue-400" />
-                    <span>Auto-Schedule Strategy Call</span>
+                <div className="border-t border-[var(--card-border)] pt-6">
+                  <h4 className="text-xs font-extrabold text-[var(--text-primary)] uppercase tracking-widest text-left mb-4 flex items-center gap-1.5">
+                    <Plus className="h-3.5 w-3.5 text-blue-500" />
+                    <span>{t.workspace.autoScheduleTitle}</span>
                   </h4>
 
                   {bookingSuccess ? (
                     <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/20 p-4 text-center">
-                      <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto mb-2 animate-bounce" />
-                      <p className="text-sm font-bold text-white">Event Confirmed!</p>
-                      <p className="text-xs text-emerald-400 mt-1">
-                        We scheduled the "Flowstra AI Strategy Consultation" successfully inside your actual Google Calendar.
+                      <CheckCircle2 className="h-8 w-8 text-emerald-500 mx-auto mb-2 animate-bounce" />
+                      <p className="text-sm font-bold text-[var(--text-primary)]">{t.workspace.eventConfirmed}</p>
+                      <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
+                        {t.workspace.eventConfirmedDesc}
                       </p>
                     </div>
                   ) : (
                     <form onSubmit={scheduleEvent} className="space-y-4">
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest text-left mb-1.5">Date</label>
+                          <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest text-left mb-1.5">{t.workspace.dateLabel}</label>
                           <input 
                             type="date"
                             required
                             value={bookingDate}
                             onChange={(e) => setBookingDate(e.target.value)}
-                            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500"
-                            style={{ colorScheme: "dark" }}
+                            className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--surface-hover)] px-3 py-2.5 text-xs text-[var(--text-primary)] outline-none focus:border-blue-500"
                           />
                         </div>
                         <div>
-                          <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest text-left mb-1.5">Time</label>
+                          <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest text-left mb-1.5">{t.workspace.timeLabel}</label>
                           <input 
                             type="time"
                             required
                             value={bookingTime}
                             onChange={(e) => setBookingTime(e.target.value)}
-                            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-xs text-white outline-none focus:border-blue-500"
-                            style={{ colorScheme: "dark" }}
+                            className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--surface-hover)] px-3 py-2.5 text-xs text-[var(--text-primary)] outline-none focus:border-blue-500"
                           />
                         </div>
                       </div>
@@ -823,11 +823,11 @@ export function WorkspaceAutomation() {
                         {isBooking ? (
                           <span className="flex items-center gap-2">
                             <Loader2 className="h-4 w-4 animate-spin text-white" />
-                            Booking Strategy Slot...
+                            {t.workspace.bookingSlot}
                           </span>
                         ) : (
                           <>
-                            <span>Add Strategy Call to Calendar</span>
+                            <span>{t.workspace.addSlotBtn}</span>
                             <Plus className="h-4 w-4" />
                           </>
                         )}
@@ -839,44 +839,44 @@ export function WorkspaceAutomation() {
 
 
               {/* 2. GMAIL INTEGRATION CARD */}
-              <div className="rounded-3xl border border-white/10 bg-zinc-900/20 p-6 md:p-8 flex flex-col justify-between">
+              <div className="rounded-3xl border border-[var(--card-border)] bg-[var(--surface)] p-6 md:p-8 flex flex-col justify-between shadow-sm">
                 <div>
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                      <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 flex items-center justify-center">
                         <Mail className="h-5 w-5" />
                       </div>
                       <div className="text-left">
-                        <h3 className="text-lg font-bold text-white leading-snug">Gmail</h3>
-                        <p className="text-xs text-slate-400">View recent messages & send automated emails</p>
+                        <h3 className="text-lg font-bold text-[var(--text-primary)] leading-snug">{t.workspace.gmailTitle}</h3>
+                        <p className="text-xs text-[var(--text-secondary)]">{t.workspace.gmailDesc}</p>
                       </div>
                     </div>
                   </div>
 
                   {/* List recent emails */}
                   <div className="space-y-3 mb-8">
-                    <h4 className="text-xs font-extrabold text-indigo-400 uppercase tracking-widest text-left mb-1.5">Recent Mailbox Events</h4>
+                    <h4 className="text-xs font-extrabold text-indigo-500 uppercase tracking-widest text-left mb-1.5">{t.workspace.recentMailbox}</h4>
                     {isRefreshing && emails.length === 0 ? (
-                      <div className="py-8 flex justify-center text-slate-500 text-xs">
+                      <div className="py-8 flex justify-center text-[var(--text-muted)] text-xs">
                         <Loader2 className="h-5 w-5 animate-spin mr-2" /> Loading recent emails...
                       </div>
                     ) : emails.length === 0 ? (
-                      <div className="rounded-2xl border border-dashed border-white/5 bg-white/[0.01] p-6 text-center text-slate-500 text-xs leading-relaxed">
-                        <Mail className="h-8 w-8 text-slate-600 mx-auto mb-2 opacity-50" />
-                        No recent messages retrieved from Gmail primary inbox.
+                      <div className="rounded-2xl border border-dashed border-[var(--card-border)] bg-[var(--surface-hover)] p-6 text-center text-[var(--text-muted)] text-xs leading-relaxed">
+                        <Mail className="h-8 w-8 text-[var(--text-muted)] mx-auto mb-2 opacity-50" />
+                        {t.workspace.noEmails}
                       </div>
                     ) : (
                       emails.map((msg) => (
                         <div 
                           key={msg.id}
-                          className="p-3 rounded-xl border border-white/5 bg-white/[0.01] text-left"
+                          className="p-3 rounded-xl border border-[var(--card-border)] bg-[var(--surface-hover)] text-left"
                         >
                           <div className="flex items-center justify-between gap-2 mb-1">
-                            <span className="text-xs font-bold text-indigo-400 truncate max-w-[70%]">{msg.from}</span>
-                            <span className="text-[10px] text-zinc-500 shrink-0">{msg.date}</span>
+                            <span className="text-xs font-bold text-indigo-500 truncate max-w-[70%]">{msg.from}</span>
+                            <span className="text-[10px] text-[var(--text-muted)] shrink-0">{msg.date}</span>
                           </div>
-                          <p className="text-xs font-bold text-white truncate mb-0.5">{msg.subject}</p>
-                          <p className="text-[11px] text-slate-400 line-clamp-1">{msg.snippet}</p>
+                          <p className="text-xs font-bold text-[var(--text-primary)] truncate mb-0.5">{msg.subject}</p>
+                          <p className="text-[11px] text-[var(--text-secondary)] line-clamp-1">{msg.snippet}</p>
                         </div>
                       ))
                     )}
@@ -884,31 +884,31 @@ export function WorkspaceAutomation() {
                 </div>
 
                 {/* Email Sending Form */}
-                <div className="border-t border-white/5 pt-6">
-                  <h4 className="text-xs font-extrabold text-white uppercase tracking-widest text-left mb-4 flex items-center gap-1.5">
-                    <Send className="h-3.5 w-3.5 text-indigo-400" />
-                    <span>Send Automated Report</span>
+                <div className="border-t border-[var(--card-border)] pt-6">
+                  <h4 className="text-xs font-extrabold text-[var(--text-primary)] uppercase tracking-widest text-left mb-4 flex items-center gap-1.5">
+                    <Send className="h-3.5 w-3.5 text-indigo-500" />
+                    <span>{t.workspace.sendReportTitle}</span>
                   </h4>
 
                   {emailSuccess ? (
                     <div className="rounded-2xl bg-emerald-500/10 border border-emerald-500/20 p-4 text-center">
-                      <CheckCircle2 className="h-8 w-8 text-emerald-400 mx-auto mb-2 animate-bounce" />
-                      <p className="text-sm font-bold text-white">Email Sent!</p>
-                      <p className="text-xs text-emerald-400 mt-1">
-                        Automated confirmation report was dispatched successfully from your real Gmail address.
+                      <CheckCircle2 className="h-8 w-8 text-emerald-500 mx-auto mb-2 animate-bounce" />
+                      <p className="text-sm font-bold text-[var(--text-primary)]">{t.workspace.emailSent}</p>
+                      <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
+                        {t.workspace.emailSentDesc}
                       </p>
                     </div>
                   ) : (
                     <form onSubmit={sendEmailMessage} className="space-y-4">
                       <div>
-                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest text-left mb-1.5">Recipient Email Address</label>
+                        <label className="block text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest text-left mb-1.5">{t.workspace.recipientLabel}</label>
                         <input 
                           type="email"
                           required
                           value={emailTo}
                           onChange={(e) => setEmailTo(e.target.value)}
                           placeholder="e.g. contact@flowstra.org or yourself"
-                          className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-xs text-white placeholder-slate-600 outline-none focus:border-indigo-500"
+                          className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--surface-hover)] px-3 py-2.5 text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none focus:border-indigo-500"
                         />
                       </div>
 
@@ -920,11 +920,11 @@ export function WorkspaceAutomation() {
                         {isSendingEmail ? (
                           <span className="flex items-center gap-2">
                             <Loader2 className="h-4 w-4 animate-spin text-white" />
-                            Dispatching Email Report...
+                            {t.workspace.sendingBtn}
                           </span>
                         ) : (
                           <>
-                            <span>Dispatch Automated Gmail Report</span>
+                            <span>{t.workspace.sendBtn}</span>
                             <Send className="h-4 w-4" />
                           </>
                         )}

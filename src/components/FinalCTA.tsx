@@ -5,14 +5,11 @@ import { GlowCard } from "./ui/spotlight-card";
 import { Check, Calendar, ExternalLink } from "lucide-react";
 import { HyperText } from "./ui/hyper-text";
 import { initAuth, googleSignIn } from "../lib/workspaceAuth";
-
-const benefits = [
-  "Custom AI workflow outline",
-  "ROI & cost-saving analysis",
-  "Implementation roadmap",
-];
+import { useLanguage } from "@/context/LanguageContext";
+import { MagneticButton } from "./ui/magnetic-button";
 
 export function FinalCTA() {
+  const { t } = useLanguage();
   const [user, setUser] = useState<any>(null);
   const [token, setToken] = useState<string | null>(null);
 
@@ -74,13 +71,13 @@ export function FinalCTA() {
         >
           <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto mb-10">
             <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
-              Acquisition Enhancement
+              {t.finalCta.badge}
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              <HyperText text="Ready to See How Much More You Could Be Earning?" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight">
+              <HyperText text={t.finalCta.title} className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] inline-block" />
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
-              Book a free strategy call and discover how AI can transform your lead generation.
+            <p className="text-sm md:text-base leading-relaxed text-[var(--text-secondary)] max-w-2xl mt-1.5 font-medium">
+              {t.finalCta.description}
             </p>
           </div>
           
@@ -88,7 +85,7 @@ export function FinalCTA() {
             variants={fadeUp}
             className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 mb-16 max-w-3xl pointer-events-auto"
           >
-            {benefits.map((text, i) => (
+            {[t.finalCta.benefit1, t.finalCta.benefit2, t.finalCta.benefit3].map((text, i) => (
               <div
                 key={i}
                 className="flex items-center gap-3 text-left"
@@ -110,24 +107,24 @@ export function FinalCTA() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
               {user ? (
                 /* Authenticated User state - Schedule live in Google Calendar */
-                <button
+                <MagneticButton
                   onClick={handleLiveCalendarBooking}
-                  className="relative z-10 flex items-center justify-center px-8 py-4 text-sm font-bold text-black bg-white rounded-full shadow-[0_0_40px_8px_rgba(59,130,246,0.3)] hover:shadow-[0_0_50px_12px_rgba(59,130,246,0.4)] hover:bg-gray-100 transition-all duration-300 w-full sm:w-auto text-center hover:-translate-y-1 cursor-pointer"
+                  className="relative z-10 flex items-center justify-center px-8 py-4 text-sm font-bold text-slate-900 bg-white rounded-full shadow-[0_0_40px_8px_rgba(59,130,246,0.3)] hover:shadow-[0_0_50px_14px_rgba(59,130,246,0.45)] hover:bg-slate-50 transition-shadow duration-300 w-full sm:w-auto text-center cursor-pointer border border-white/40"
                 >
                   <Calendar className="w-4 h-4 mr-2 text-blue-600 animate-pulse" />
-                  <span>Book live in your Google Calendar</span>
+                  <span>{t.finalCta.bookCal}</span>
                   <span className="ml-2 font-normal text-sm">→</span>
-                </button>
+                </MagneticButton>
               ) : (
                 /* Unauthenticated state - option 1: Authorize and schedule directly */
-                <button
+                <MagneticButton
                   onClick={handleSignInAndBook}
-                  className="relative z-10 flex items-center justify-center px-8 py-4 text-sm font-bold text-black bg-white rounded-full shadow-[0_0_40px_8px_rgba(59,130,246,0.3)] hover:shadow-[0_0_50px_12px_rgba(59,130,246,0.4)] hover:bg-gray-100 transition-all duration-300 w-full sm:w-auto text-center hover:-translate-y-1 cursor-pointer border border-white/20"
+                  className="relative z-10 flex items-center justify-center px-8 py-4 text-sm font-bold text-slate-900 bg-white rounded-full shadow-[0_0_40px_8px_rgba(59,130,246,0.3)] hover:shadow-[0_0_50px_14px_rgba(59,130,246,0.45)] hover:bg-slate-50 transition-shadow duration-300 w-full sm:w-auto text-center cursor-pointer border border-white/40"
                 >
                   <Calendar className="w-4 h-4 mr-2 text-blue-500" />
-                  <span>Schedule in your Google Calendar</span>
+                  <span>{t.finalCta.scheduleDirect}</span>
                   <span className="ml-2 font-normal text-sm">→</span>
-                </button>
+                </MagneticButton>
               )}
 
               {/* Option 2: Fallback to external Cal.com link */}
@@ -135,15 +132,15 @@ export function FinalCTA() {
                 href="https://cal.com/flowstra/30min"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative z-10 flex items-center justify-center px-8 py-4 text-sm font-bold text-slate-300 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition-all duration-300 w-full sm:w-auto text-center hover:-translate-y-1"
+                className="relative z-10 flex items-center justify-center px-8 py-4 text-sm font-bold text-slate-300 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition-all duration-300 w-full sm:w-auto text-center hover:-translate-y-0.5"
               >
-                <span>Use external Cal.com link</span>
+                <span>Cal.com</span>
                 <ExternalLink className="w-3.5 h-3.5 ml-2 text-slate-400" />
               </a>
             </div>
 
             <p className="text-sm md:text-base text-[var(--text-muted)] font-medium mt-4">
-              or mail us at{" "}
+              {t.finalCta.orMail}{" "}
               <a
                 href="mailto:contact@flowstra.org"
                 className="text-[var(--text-primary)] hover:underline"
@@ -157,7 +154,7 @@ export function FinalCTA() {
             variants={fadeUp}
             className="text-xs md:text-sm text-[var(--text-muted)] font-medium mt-8"
           >
-            No credit card required · 100% free · Takes 2 minutes to book
+            {t.finalCta.noCardNeeded}
           </motion.p>
         </motion.div>
       </div>

@@ -16,7 +16,6 @@ import {
 
 const SECTIONS = [
   "hero",
-  "case-studies",
   "testimonials",
   "tools",
   "features",
@@ -29,7 +28,6 @@ const SECTIONS = [
 
 const SECTION_INFO: Record<string, { title: string; badge: string }> = {
   "hero": { title: "Introduction & Identity", badge: "Hero" },
-  "case-studies": { title: "Deep-Dive Case Studies", badge: "Case Studies" },
   "testimonials": { title: "What Our Clients Say", badge: "Testimonials" },
   "tools": { title: "Core Integrations & Tech", badge: "Integrations" },
   "features": { title: "Advanced Automation System", badge: "System" },

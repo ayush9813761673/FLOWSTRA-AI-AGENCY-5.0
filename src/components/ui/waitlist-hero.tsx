@@ -2,8 +2,10 @@
 
 import React, { useState, useRef } from "react";
 import { HyperText } from "./hyper-text";
+import { useLanguage } from "@/context/LanguageContext";
 
 export const WaitlistHero = () => {
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle"); // 'idle' | 'loading' | 'success'
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -100,13 +102,8 @@ export const WaitlistHero = () => {
 
   // Color tokens
   const colors = {
-    textMain: "#ffffff",
-    textSecondary: "#94a3b8",
     bluePrimary: "#0079da",
     success: "#10b981", // emerald-500
-    inputBg: "#27272a",
-    baseBg: "transparent",
-    inputShadow: "rgba(255, 255, 255, 0.1)",
   };
 
   return (
@@ -249,25 +246,25 @@ export const WaitlistHero = () => {
         <div
           className="absolute inset-0 z-10 pointer-events-none"
           style={{
-            background: `linear-gradient(to top, ${colors.baseBg} 10%, rgba(9, 9, 11, 0.1) 80%, transparent 100%)`,
+            background: `linear-gradient(to top, var(--bg) 10%, rgba(9, 9, 11, 0.05) 80%, transparent 100%)`,
           }}
         />
 
         {/* Content Container */}
         <div className="relative z-20 w-full h-full flex flex-col items-center justify-end pb-24 px-4">
           <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto mb-6">
-            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
-              Pricing & Implementation
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-500 dark:text-blue-400 font-mono">
+              {t.pricing.badge}
             </span>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight w-full flex justify-center">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight w-full flex justify-center">
               <HyperText 
-                text="Custom Solutions, Custom Pricing" 
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block"
+                text={t.pricing.title} 
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] inline-block"
                 containerClassName="justify-center text-center w-full"
               />
             </h1>
-            <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
-              Every business is unique. That's why we don't believe in one-size-fits-all pricing. Get a personalized AI growth strategy.
+            <p className="text-sm md:text-base leading-relaxed text-[var(--text-secondary)] max-w-2xl mt-1.5 font-medium">
+              {t.pricing.description}
             </p>
           </div>
 
@@ -329,7 +326,7 @@ export const WaitlistHero = () => {
                     />
                   </svg>
                 </div>
-                <span>You're on the list!</span>
+                <span>{t.pricing.successTitle}</span>
               </div>
             </div>
 
@@ -345,16 +342,11 @@ export const WaitlistHero = () => {
               <input
                 type="email"
                 required
-                placeholder="name@email.com"
+                placeholder={t.pricing.emailPlaceholder}
                 value={email}
                 disabled={status === "loading"}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-[60px] pl-6 pr-[150px] rounded-full outline-none transition-all duration-200 placeholder-zinc-500 disabled:opacity-70 disabled:cursor-not-allowed"
-                style={{
-                  backgroundColor: colors.inputBg,
-                  color: colors.textMain,
-                  boxShadow: `inset 0 0 0 1px ${colors.inputShadow}`,
-                }}
+                className="w-full h-[60px] pl-6 pr-[150px] rounded-full outline-none transition-all duration-200 bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--card-border)] shadow-md placeholder:text-[var(--text-muted)] focus:border-blue-500 disabled:opacity-70 disabled:cursor-not-allowed"
               />
 
               <div className="absolute top-[6px] right-[6px] bottom-[6px]">
@@ -386,7 +378,7 @@ export const WaitlistHero = () => {
                       ></path>
                     </svg>
                   ) : (
-                    "Join Waitlist"
+                    t.pricing.joinWaitlist
                   )}
                 </button>
               </div>

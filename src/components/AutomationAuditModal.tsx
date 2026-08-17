@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, Gift, ArrowRight, CheckCircle2, Sparkles, Copy, Check, TrendingUp, ArrowUpRight, Calendar } from "lucide-react";
 import { ConfettiEffect } from "./ConfettiEffect";
 import { initAuth, googleSignIn } from "../lib/workspaceAuth";
+import { useLanguage } from "@/context/LanguageContext";
 
 // A simple localStorage hook to persist state across sessions
 function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((val: T) => T)) => void] {
@@ -38,6 +39,7 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((val
 }
 
 export function AutomationAuditModal() {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -454,16 +456,16 @@ export function AutomationAuditModal() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", stiffness: 300, damping: 28 }}
-              className="relative w-full max-w-[540px] max-h-[calc(100vh-2rem)] overflow-y-auto rounded-[28px] border border-blue-500/10 bg-[#07070d]/90 backdrop-blur-3xl text-white shadow-[0_30px_80px_rgba(0,0,0,0.9),0_0_80px_rgba(59,130,246,0.12)] p-6 md:p-8 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full"
+              className="relative w-full max-w-[540px] max-h-[calc(100vh-2rem)] overflow-y-auto rounded-[28px] border border-[var(--card-border)] bg-[var(--surface)]/95 backdrop-blur-3xl text-[var(--text-primary)] shadow-2xl p-6 md:p-8 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[var(--card-border)] [&::-webkit-scrollbar-thumb]:rounded-full"
             >
               {/* Ambient background glow effect */}
-              <div className="absolute -top-32 -right-32 w-64 h-64 bg-blue-500/15 rounded-full blur-[90px] pointer-events-none" />
-              <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-indigo-500/15 rounded-full blur-[90px] pointer-events-none" />
+              <div className="absolute -top-32 -right-32 w-64 h-64 bg-blue-500/10 rounded-full blur-[90px] pointer-events-none" />
+              <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-indigo-500/10 rounded-full blur-[90px] pointer-events-none" />
 
               {/* Close Button */}
               <button
                 onClick={handleClose}
-                className="absolute top-6 right-6 flex h-8 w-8 items-center justify-center rounded-full border border-white/5 bg-white/[0.02] text-slate-400 transition-all hover:bg-white/10 hover:text-white active:scale-95 cursor-pointer"
+                className="absolute top-6 right-6 flex h-8 w-8 items-center justify-center rounded-full border border-[var(--card-border)] bg-[var(--surface)]/60 text-[var(--text-muted)] transition-all hover:bg-[var(--surface)] hover:text-[var(--text-primary)] active:scale-95 cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="h-4 w-4" />
@@ -472,50 +474,50 @@ export function AutomationAuditModal() {
               {!isSubmitted ? (
                 <div>
                   {/* Eyebrow badge matching Flowstra signature */}
-                  <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-blue-500/10 bg-blue-500/5 w-fit mb-5">
+                  <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-blue-500/20 bg-blue-500/10 w-fit mb-5">
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                    <span className="text-[10px] text-blue-400 uppercase tracking-[0.2em] font-mono font-semibold">
-                      Flowstra AI Operations Engine
+                    <span className="text-[10px] text-blue-500 uppercase tracking-[0.2em] font-mono font-semibold">
+                      {t.auditModal.badge}
                     </span>
                   </div>
 
                   {/* Heading */}
-                  <h2 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent leading-tight">
-                    Secure Your Custom AI Operations Blueprint
+                  <h2 className="text-3xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight">
+                    {t.auditModal.title}
                   </h2>
-                  <p className="mt-2.5 text-sm leading-relaxed text-slate-400 font-medium">
-                    Flowstra automatically analyzes your current workflow constraints. Access our strategic diagnostic roadmap to immediately save up to 15+ hours of weekly manual overhead.
+                  <p className="mt-2.5 text-sm leading-relaxed text-[var(--text-muted)] font-medium">
+                    {t.auditModal.description}
                   </p>
 
                   {/* Bullet benefits - styled as premium tech list */}
                   <div className="mt-6 space-y-3.5">
-                    <div className="flex items-start gap-3.5 text-left p-3 rounded-xl border border-white/[0.03] bg-white/[0.01] hover:bg-white/[0.02] transition-colors">
-                      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
+                    <div className="flex items-start gap-3.5 text-left p-3 rounded-xl border border-[var(--card-border)] bg-[var(--surface)]/40 hover:bg-[var(--surface)]/80 transition-colors">
+                      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-500">
                         <Sparkles className="h-3 w-3" />
                       </div>
                       <div>
-                        <p className="text-xs uppercase tracking-wider font-mono text-slate-200 font-semibold">01 / The AI Transition Blueprint</p>
-                        <p className="text-xs text-slate-400 mt-0.5">How to seamlessly deploy autonomous trigger actions inside your active funnel.</p>
+                        <p className="text-xs uppercase tracking-wider font-mono text-[var(--text-primary)] font-semibold">{t.auditModal.step1Title}</p>
+                        <p className="text-xs text-[var(--text-muted)] mt-0.5">{t.auditModal.step1Desc}</p>
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-3.5 text-left p-3 rounded-xl border border-white/[0.03] bg-white/[0.01] hover:bg-white/[0.02] transition-colors">
-                      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
+                    <div className="flex items-start gap-3.5 text-left p-3 rounded-xl border border-[var(--card-border)] bg-[var(--surface)]/40 hover:bg-[var(--surface)]/80 transition-colors">
+                      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-500">
                         <CheckCircle2 className="h-3 w-3" />
                       </div>
                       <div>
-                        <p className="text-xs uppercase tracking-wider font-mono text-slate-200 font-semibold">02 / Live Workspace Integration Matrix</p>
-                        <p className="text-xs text-slate-400 mt-0.5">Step-by-step diagnostic on configuring Google Workspace triggers & CRM pipes.</p>
+                        <p className="text-xs uppercase tracking-wider font-mono text-[var(--text-primary)] font-semibold">{t.auditModal.step2Title}</p>
+                        <p className="text-xs text-[var(--text-muted)] mt-0.5">{t.auditModal.step2Desc}</p>
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-3.5 text-left p-3 rounded-xl border border-white/[0.03] bg-white/[0.01] hover:bg-white/[0.02] transition-colors">
-                      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
+                    <div className="flex items-start gap-3.5 text-left p-3 rounded-xl border border-[var(--card-border)] bg-[var(--surface)]/40 hover:bg-[var(--surface)]/80 transition-colors">
+                      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-500">
                         <Gift className="h-3.5 w-3.5" />
                       </div>
                       <div>
-                        <p className="text-xs uppercase tracking-wider font-mono text-slate-200 font-semibold">03 / Exclusive Scaling Bonus Included</p>
-                        <p className="text-xs text-slate-400 mt-0.5">Unlock a 20% discount coupon (FLOWSTRA20) for customized custom agent setups.</p>
+                        <p className="text-xs uppercase tracking-wider font-mono text-[var(--text-primary)] font-semibold">{t.auditModal.step3Title}</p>
+                        <p className="text-xs text-[var(--text-muted)] mt-0.5">{t.auditModal.step3Desc}</p>
                       </div>
                     </div>
                   </div>
@@ -525,7 +527,7 @@ export function AutomationAuditModal() {
                     <div className="mt-8 space-y-4">
                       <div className="flex items-center gap-2.5 text-xs text-emerald-400 bg-emerald-500/5 border border-emerald-500/10 p-3.5 rounded-xl justify-center font-mono">
                         <CheckCircle2 className="h-4 w-4 shrink-0 animate-pulse text-emerald-500" />
-                        <span className="font-semibold text-center tracking-wide">Workspace Connected: {user.email}</span>
+                        <span className="font-semibold text-center tracking-wide">{t.auditModal.connectedStatus} {user.email}</span>
                       </div>
 
                       <button
@@ -540,11 +542,11 @@ export function AutomationAuditModal() {
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                             </svg>
-                            <span>Dispatching Live HTML Report...</span>
+                            <span>{t.auditModal.dispatchingBtn}</span>
                           </span>
                         ) : (
                           <>
-                            <span>Send Custom Operations Blueprint</span>
+                            <span>{t.auditModal.sendBtn}</span>
                             <ArrowRight className="h-4 w-4" />
                           </>
                         )}
@@ -553,52 +555,52 @@ export function AutomationAuditModal() {
                   ) : (
                     <div className="mt-8 space-y-4">
                       {/* Direct Email Submission Form */}
-                      <form onSubmit={handleDirectEmailSubmit} className="space-y-3.5 p-5 rounded-2xl border border-white/5 bg-white/[0.01]">
-                        <p className="text-[11px] text-slate-400 font-mono uppercase tracking-wider text-center mb-1">
-                          ⚡ Direct Access Inquiry & Audit Form
+                      <form onSubmit={handleDirectEmailSubmit} className="space-y-3.5 p-5 rounded-2xl border border-[var(--card-border)] bg-[var(--surface)]/60">
+                        <p className="text-[11px] text-[var(--text-muted)] font-mono uppercase tracking-wider text-center mb-1">
+                          {t.auditModal.directFormTitle}
                         </p>
                         
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="block text-[10px] uppercase tracking-wider font-mono text-slate-400 mb-1">Professional Email *</label>
+                            <label className="block text-[10px] uppercase tracking-wider font-mono text-[var(--text-muted)] mb-1">{t.auditModal.emailLabel}</label>
                             <input 
                               type="email"
                               required
                               placeholder="you@company.com"
                               value={directEmail}
                               onChange={(e) => setDirectEmail(e.target.value)}
-                              className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-blue-500 transition-all"
+                              className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none focus:border-blue-500 transition-all shadow-sm"
                             />
                           </div>
                           <div>
-                            <label className="block text-[10px] uppercase tracking-wider font-mono text-slate-400 mb-1">Full Name</label>
+                            <label className="block text-[10px] uppercase tracking-wider font-mono text-[var(--text-muted)] mb-1">{t.auditModal.nameLabel}</label>
                             <input 
                               type="text"
                               placeholder="Alex Carter"
                               value={leadName}
                               onChange={(e) => setLeadName(e.target.value)}
-                              className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-blue-500 transition-all"
+                              className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none focus:border-blue-500 transition-all shadow-sm"
                             />
                           </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="block text-[10px] uppercase tracking-wider font-mono text-slate-400 mb-1">Company Name</label>
+                            <label className="block text-[10px] uppercase tracking-wider font-mono text-[var(--text-muted)] mb-1">{t.auditModal.companyLabel}</label>
                             <input 
                               type="text"
                               placeholder="Flowstra Inc."
                               value={leadCompany}
                               onChange={(e) => setLeadCompany(e.target.value)}
-                              className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-blue-500 transition-all"
+                              className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none focus:border-blue-500 transition-all shadow-sm"
                             />
                           </div>
                           <div>
-                            <label className="block text-[10px] uppercase tracking-wider font-mono text-slate-400 mb-1">Primary Bottleneck</label>
+                            <label className="block text-[10px] uppercase tracking-wider font-mono text-[var(--text-muted)] mb-1">{t.auditModal.bottleneckLabel}</label>
                             <select
                               value={leadBottleneck}
                               onChange={(e) => setLeadBottleneck(e.target.value)}
-                              className="w-full rounded-xl border border-white/10 bg-zinc-900 px-3 py-2 text-xs text-white outline-none focus:border-blue-500 transition-all cursor-pointer"
+                              className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--text-primary)] outline-none focus:border-blue-500 transition-all cursor-pointer shadow-sm"
                             >
                               <option value="Google Workspace & CRM Syncing">Google Workspace Syncing</option>
                               <option value="Email & Lead Capture routing">Email & Lead Routing</option>
@@ -609,13 +611,13 @@ export function AutomationAuditModal() {
                         </div>
 
                         <div>
-                          <label className="block text-[10px] uppercase tracking-wider font-mono text-slate-400 mb-1">Notes / Goals</label>
+                          <label className="block text-[10px] uppercase tracking-wider font-mono text-[var(--text-muted)] mb-1">{t.auditModal.notesLabel}</label>
                           <textarea 
-                            placeholder="Help us understand your automation objective..."
+                            placeholder={t.auditModal.notesPlaceholder}
                             value={leadMessage}
                             onChange={(e) => setLeadMessage(e.target.value)}
                             rows={2}
-                            className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white placeholder-slate-600 outline-none focus:border-blue-500 transition-all resize-none"
+                            className="w-full rounded-xl border border-[var(--card-border)] bg-[var(--surface)] px-3 py-2 text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] outline-none focus:border-blue-500 transition-all resize-none shadow-sm"
                           />
                         </div>
 
@@ -630,11 +632,11 @@ export function AutomationAuditModal() {
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                               </svg>
-                              <span>Registering & Generating Blueprint...</span>
+                              <span>{t.auditModal.generatingBtn}</span>
                             </span>
                           ) : (
                             <>
-                              <span>Register & Get Strategic Blueprint</span>
+                              <span>{t.auditModal.submitBtn}</span>
                               <ArrowRight className="h-4 w-4" />
                             </>
                           )}
@@ -643,20 +645,20 @@ export function AutomationAuditModal() {
 
                       {/* Divider */}
                       <div className="relative flex py-2 items-center">
-                        <div className="flex-grow border-t border-white/5"></div>
-                        <span className="flex-shrink mx-4 text-[10px] font-mono text-slate-500 uppercase tracking-widest">or authorize with workspace</span>
-                        <div className="flex-grow border-t border-white/5"></div>
+                        <div className="flex-grow border-t border-[var(--card-border)]"></div>
+                        <span className="flex-shrink mx-4 text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-widest">{t.auditModal.orAuthorize}</span>
+                        <div className="flex-grow border-t border-[var(--card-border)]"></div>
                       </div>
 
                       <button
                         type="button"
                         disabled={isSubmitting}
                         onClick={handleGoogleSignInAndSubmit}
-                        className="relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-white/10 bg-zinc-900/40 hover:bg-zinc-800/40 text-slate-300 px-4 py-2.5 text-xs font-bold shadow-md transition-all transform active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer tracking-wide"
+                        className="relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-[var(--card-border)] bg-[var(--surface)] hover:bg-[var(--card-border)] text-[var(--text-primary)] px-4 py-2.5 text-xs font-bold shadow-sm transition-all transform active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer tracking-wide"
                       >
                         {isSubmitting ? (
                           <span className="flex items-center gap-2">
-                            <svg className="animate-spin h-4 w-4 text-slate-300" fill="none" viewBox="0 0 24 24">
+                            <svg className="animate-spin h-4 w-4 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24">
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                             </svg>
@@ -670,22 +672,22 @@ export function AutomationAuditModal() {
                               <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
                               <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
                             </svg>
-                            <span>Continue with Google Workspace</span>
+                            <span>{t.auditModal.continueGoogle}</span>
                           </>
                         )}
                       </button>
 
                       {authError && (
-                        <div className="rounded-xl border border-rose-500/10 bg-rose-500/5 p-3.5 text-center text-xs text-rose-300 space-y-1">
-                          <p className="font-mono text-[10px] uppercase tracking-wider font-bold">⚠️ Workspace Auth Notice</p>
-                          <p className="text-slate-300 leading-relaxed text-[11px]">{authError}</p>
+                        <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 p-3.5 text-center text-xs text-rose-500 space-y-1">
+                          <p className="font-mono text-[10px] uppercase tracking-wider font-bold">⚠️ {t.auditModal.authNotice}</p>
+                          <p className="text-[var(--text-secondary)] leading-relaxed text-[11px]">{authError}</p>
                         </div>
                       )}
                     </div>
                   )}
 
-                  <p className="mt-5 text-center text-[10px] text-slate-500 font-mono tracking-wide uppercase">
-                    🔒 Authorized securely via official Google Workspace Scopes
+                  <p className="mt-5 text-center text-[10px] text-[var(--text-muted)] font-mono tracking-wide uppercase">
+                    🔒 {t.auditModal.secureNotice}
                   </p>
                 </div>
               ) : (
@@ -695,19 +697,19 @@ export function AutomationAuditModal() {
                   className="flex flex-col items-center py-2"
                 >
                   {/* Eyebrow badge matching Flowstra signature */}
-                  <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/10 bg-emerald-500/5 w-fit mb-4">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[9px] text-emerald-400 uppercase tracking-[0.2em] font-mono font-bold">
-                      Audit Status: Complete
+                  <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 w-fit mb-4">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[9px] text-emerald-500 uppercase tracking-[0.2em] font-mono font-bold">
+                      {t.auditModal.completeStatus}
                     </span>
                   </div>
 
                   {/* Heading */}
-                  <h2 className="text-2xl font-extrabold tracking-tight text-white leading-tight text-center bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
-                    Your Operational Blueprint is Live
+                  <h2 className="text-2xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight text-center">
+                    {t.auditModal.completeTitle}
                   </h2>
-                  <p className="mt-2 text-xs text-slate-400 max-w-md text-center leading-relaxed">
-                    We have dispatched your custom <span className="text-blue-400 font-semibold">Flowstra AI Operations Blueprint</span> HTML email directly to <span className="text-white underline font-mono font-semibold">{user?.email || "your inbox"}</span>.
+                  <p className="mt-2 text-xs text-[var(--text-muted)] max-w-md text-center leading-relaxed">
+                    {t.auditModal.completeDesc} <span className="text-[var(--text-primary)] underline font-mono font-semibold">{user?.email || "your inbox"}</span>.
                   </p>
 
                   {previewUrl && (
@@ -718,10 +720,10 @@ export function AutomationAuditModal() {
                     >
                       <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
                       <p className="text-xs text-blue-200 leading-relaxed font-semibold">
-                        🚀 Sandbox Mode Active
+                        {t.auditModal.sandboxModeActive}
                       </p>
                       <p className="text-[11px] text-slate-400 mt-1 leading-relaxed">
-                        To inspect your compiled strategic email diagnostic instantly in the browser environment, click the link below:
+                        {t.auditModal.sandboxDesc}
                       </p>
                       <a
                         href={previewUrl}
@@ -729,7 +731,7 @@ export function AutomationAuditModal() {
                         rel="noopener noreferrer"
                         className="mt-3.5 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer hover:shadow-blue-500/20"
                       >
-                        <span>🔍 View Compiled HTML Email Report</span>
+                        <span>{t.auditModal.viewReportBtn}</span>
                         <ArrowUpRight className="h-3.5 w-3.5" />
                       </a>
                     </motion.div>
@@ -745,9 +747,9 @@ export function AutomationAuditModal() {
 
                       <div className="flex items-center justify-between">
                         <div className="space-y-1">
-                          <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">AUTOMATION POTENTIAL</p>
+                          <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">{t.auditModal.automationPotential}</p>
                           <p className="text-2xl font-black text-white tracking-tight flex items-baseline gap-1 bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-                            94% <span className="text-xs font-semibold text-slate-400">RATING</span>
+                            94% <span className="text-xs font-semibold text-slate-400">{t.auditModal.rating}</span>
                           </p>
                         </div>
                         <div className="h-10 w-10 shrink-0 flex items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
@@ -766,8 +768,8 @@ export function AutomationAuditModal() {
                           />
                         </div>
                         <div className="flex justify-between items-center mt-2 text-[9px] font-mono text-slate-500 uppercase tracking-wider">
-                          <span>Legacy Manual</span>
-                          <span className="text-emerald-400 font-semibold">Autonomous Ready</span>
+                          <span>{t.auditModal.legacyManual}</span>
+                          <span className="text-emerald-400 font-semibold">{t.auditModal.autonomousReady}</span>
                         </div>
                       </div>
                     </div>
@@ -775,19 +777,19 @@ export function AutomationAuditModal() {
                     {/* Funnel diagnostics grid */}
                     <div className="grid grid-cols-2 gap-3">
                       <div className="rounded-xl border border-white/[0.04] bg-white/[0.01] p-3 text-left">
-                        <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest block">WORKSPACE TRIGGER</span>
-                        <span className="text-xs font-bold text-white block mt-1">Calendar & Gmail</span>
+                        <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest block">{t.auditModal.workspaceTrigger}</span>
+                        <span className="text-xs font-bold text-white block mt-1">{t.auditModal.calendarGmail}</span>
                         <div className="flex items-center gap-1.5 mt-2.5">
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                          <span className="text-[9px] font-mono text-emerald-400 font-bold uppercase tracking-wider">OPTIMIZED</span>
+                          <span className="text-[9px] font-mono text-emerald-400 font-bold uppercase tracking-wider">{t.auditModal.optimized}</span>
                         </div>
                       </div>
                       <div className="rounded-xl border border-white/[0.04] bg-white/[0.01] p-3 text-left">
-                        <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest block">ADMIN REDUCTION</span>
-                        <span className="text-xs font-bold text-white block mt-1">15 Hours / Week</span>
+                        <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest block">{t.auditModal.adminReduction}</span>
+                        <span className="text-xs font-bold text-white block mt-1">{t.auditModal.hoursPerWeek}</span>
                         <div className="flex items-center gap-1.5 mt-2.5">
                           <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-                          <span className="text-[9px] font-mono text-blue-400 font-bold uppercase tracking-wider">RECOVERED</span>
+                          <span className="text-[9px] font-mono text-blue-400 font-bold uppercase tracking-wider">{t.auditModal.recovered}</span>
                         </div>
                       </div>
                     </div>
@@ -805,7 +807,7 @@ export function AutomationAuditModal() {
                         }
                       }}
                       className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-900/30 backdrop-blur-xl p-4 text-center transition-all duration-300 hover:border-white/20 active:scale-[0.99] shadow-[inset_0_1px_1px_rgba(255,255,255,0.08),0_10px_30px_rgba(0,0,0,0.4)]"
-                      title="Click to copy coupon code"
+                      title={t.auditModal.clickToCopy}
                     >
                       {/* Ambient subtle animation element */}
                       <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-white/5 to-blue-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
@@ -816,8 +818,8 @@ export function AutomationAuditModal() {
                             <Gift className="h-4 w-4" />
                           </div>
                           <div>
-                            <p className="text-[10px] font-mono text-amber-400 font-bold uppercase tracking-widest">Scaling Coupon Unlocked</p>
-                            <p className="text-xs font-semibold text-slate-200 mt-0.5">FLOWSTRA20 (Click to copy)</p>
+                            <p className="text-[10px] font-mono text-amber-400 font-bold uppercase tracking-widest">{t.auditModal.couponTitle}</p>
+                            <p className="text-xs font-semibold text-slate-200 mt-0.5">FLOWSTRA20 ({t.auditModal.couponSubtitle})</p>
                           </div>
                         </div>
 
@@ -825,7 +827,7 @@ export function AutomationAuditModal() {
                           {copied ? (
                             <>
                               <Check className="h-3.5 w-3.5 text-emerald-400" />
-                              <span className="text-emerald-400">Copied</span>
+                              <span className="text-emerald-400">{t.auditModal.copied}</span>
                             </>
                           ) : (
                             <>
@@ -850,7 +852,7 @@ export function AutomationAuditModal() {
                       {/* Sweeping gloss shine lines */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
                       <Calendar className="h-4 w-4 shrink-0 text-blue-200" />
-                      <span>Schedule 30-Min Strategy Consultation</span>
+                      <span>{t.auditModal.scheduleStrategyBtn}</span>
                       <ArrowUpRight className="h-4 w-4 shrink-0 opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </a>
 

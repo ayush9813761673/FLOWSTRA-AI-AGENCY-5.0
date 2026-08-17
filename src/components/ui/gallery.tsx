@@ -3,6 +3,7 @@ import { motion, useMotionValue, useInView } from "motion/react";
 import { cn } from "../../lib/utils";
 import { Button } from "./button";
 import { HyperText } from "./hyper-text";
+import { useLanguage } from "@/context/LanguageContext";
 
 type Direction = "left" | "right";
 
@@ -11,6 +12,7 @@ export const PhotoGallery = ({
 }: {
   animationDelay?: number;
 }) => {
+  const { t } = useLanguage();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -167,13 +169,13 @@ export const PhotoGallery = ({
       
       <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto mb-16">
         <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-400 font-mono">
-          Integration Ecosystem
+          {t.tools.badge}
         </span>
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-          <HyperText text="Tools We Use" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
+          <HyperText text={t.tools.title} className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white inline-block" />
         </h2>
         <p className="text-sm md:text-base leading-relaxed text-slate-400 max-w-2xl mt-1.5 font-medium">
-          Our modular pipelines interface with top-tier business applications, databases, and LLM providers in real-time.
+          {t.tools.description}
         </p>
       </div>
       <div

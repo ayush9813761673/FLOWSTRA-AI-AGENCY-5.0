@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useLanguage } from "@/context/LanguageContext";
 import { 
   Users, 
   MessageSquare, 
@@ -12,6 +13,7 @@ import {
 } from "lucide-react";
 
 export function FloatingDock() {
+  const { t } = useLanguage();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -29,38 +31,38 @@ export function FloatingDock() {
   const dockItems = [
     {
       id: "clients",
-      label: "Clients",
+      label: t.dock?.clients || "Clients",
       icon: Briefcase,
-      action: { type: "scroll", value: "#case-studies" },
-      tooltip: "View Our Client Success Stories"
+      action: { type: "scroll", value: "#testimonials" },
+      tooltip: t.dock?.clientsTooltip || "View Our Client Success Stories"
     },
     {
       id: "team",
-      label: "Team",
+      label: t.dock?.team || "Team",
       icon: Users,
       action: { type: "scroll", value: "#team" },
-      tooltip: "Meet the Automation Experts"
+      tooltip: t.dock?.teamTooltip || "Meet the Automation Experts"
     },
     {
       id: "pricing",
-      label: "Pricing",
+      label: t.dock?.pricing || "Pricing",
       icon: DollarSign,
       action: { type: "scroll", value: "#pricing" },
-      tooltip: "Explore Pricing & ROI Calculator"
+      tooltip: t.dock?.pricingTooltip || "Explore Pricing & ROI Calculator"
     },
     {
       id: "support",
-      label: "Support",
+      label: t.dock?.support || "Support",
       icon: MessageSquare,
       action: { type: "link", value: "https://cal.com/flowstra/30min" },
-      tooltip: "Book a 30-Min Growth Session"
+      tooltip: t.dock?.supportTooltip || "Book a 30-Min Growth Session"
     },
     {
       id: "audit",
-      label: "Audit",
+      label: t.dock?.audit || "Audit",
       icon: Sparkles,
       action: { type: "callback", value: triggerAuditModal },
-      tooltip: "Get Free AI Operations Audit",
+      tooltip: t.dock?.auditTooltip || "Get Free AI Operations Audit",
       highlight: true
     }
   ];

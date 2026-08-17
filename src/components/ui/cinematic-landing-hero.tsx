@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { cn } from "@/lib/utils";
 import { SparklesText } from "./sparkles-text";
+import { useLanguage } from "@/context/LanguageContext";
 
 const INJECTED_STYLES = `
   .gsap-reveal { visibility: hidden; }
@@ -70,16 +71,20 @@ export interface CinematicHeroProps extends React.ComponentProps<"div"> {
 
 export function CinematicHero({
   brandName = "Flowstra",
-  tagline1 = "Automate your flow,",
-  tagline2 = "Get more clients.",
+  tagline1,
+  tagline2,
   className,
   ...props
 }: CinematicHeroProps) {
+  const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const lastSpaceIndex = tagline2.lastIndexOf(" ");
-  const otherWords = lastSpaceIndex !== -1 ? tagline2.substring(0, lastSpaceIndex).trim() : "";
-  const lastWord = lastSpaceIndex !== -1 ? tagline2.substring(lastSpaceIndex + 1) : tagline2;
+  const displayTagline1 = tagline1 || t.hero.tagline1;
+  const displayTagline2 = tagline2 || t.hero.tagline2;
+
+  const lastSpaceIndex = displayTagline2.lastIndexOf(" ");
+  const otherWords = lastSpaceIndex !== -1 ? displayTagline2.substring(0, lastSpaceIndex).trim() : "";
+  const lastWord = lastSpaceIndex !== -1 ? displayTagline2.substring(lastSpaceIndex + 1) : displayTagline2;
 
   useEffect(() => {
     let ctx: gsap.Context | null = null;
@@ -177,7 +182,7 @@ export function CinematicHero({
       {/* BACKGROUND LAYER: Hero Texts */}
       <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-4 mt-20 will-change-transform transform-style-3d">
         <h1 className="text-track gsap-reveal text-3d-matte text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight mb-2">
-          {tagline1}
+          {displayTagline1}
         </h1>
         <h1 
           className="text-days gsap-reveal text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter flex items-center justify-center flex-wrap gap-x-2 md:gap-x-4"
@@ -195,3 +200,4 @@ export function CinematicHero({
     </div>
   );
 }
+

@@ -1,6 +1,7 @@
 "use client";
 
 import { LogoCloud } from "./ui/logo-cloud-4";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Logo {
   id: string;
@@ -16,7 +17,7 @@ interface Logos3Props {
 }
 
 export function TrustedBy({
-  heading = "Powering Workflows With",
+  heading,
   logos = [
     {
       id: "logo-1",
@@ -60,6 +61,9 @@ export function TrustedBy({
     },
   ],
 }: Logos3Props) {
+  const { t } = useLanguage();
+  const displayHeading = heading || t.trustedBy.title;
+
   // Map logos to the format expected by LogoCloud
   const cloudLogos = logos.map((logo) => ({
     src: logo.image,
@@ -69,7 +73,7 @@ export function TrustedBy({
   return (
     <section className="w-full relative z-10 flex flex-col items-center pb-16 -mt-16 sm:-mt-24">
       <p className="text-center text-[10px] font-bold tracking-[0.2em] text-[var(--text-muted)] uppercase mb-12">
-        {heading}
+        {displayHeading}
       </p>
 
       <div className="w-full relative px-0 flex justify-center">

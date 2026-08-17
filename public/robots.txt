@@ -1,5 +1,4 @@
-User-agent: Google-Extended
-Disallow: /
-
 User-agent: *
 Allow: /
+
+Sitemap: https://flowstra.org/sitemap.xml

@@ -1,10 +1,11 @@
 import React from "react";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 import { Navbar } from "@/components/ui/mini-navbar";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { CinematicHero } from "@/components/ui/cinematic-landing-hero";
 import { TrustedBy } from "./components/TrustedBy";
 import { SocialProofCounters } from "./components/SocialProofCounters";
-import { CaseStudies } from "./components/CaseStudies";
 import { Features } from "./components/Features";
 import { ToolsWeUse } from "./components/ToolsWeUse";
 import { Testimonials } from "./components/Testimonials";
@@ -24,51 +25,55 @@ import { KeyboardNavigation } from "./components/KeyboardNavigation";
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { LanguageTransitionOverlay } from "@/components/ui/LanguageTransitionOverlay";
+import { LanguageDetectionToast } from "@/components/ui/LanguageDetectionToast";
 
 export default function App() {
   return (
-    <div className="min-h-screen selection:bg-[var(--accent-blue)] selection:text-white overflow-x-hidden">
-      <DynamicSEO />
-      <ScrollProgress />
-      <SmoothCursor />
-      <GradientBackground />
-      <Navbar />
-      <FloatingDock />
-      <main>
-        <div className="relative w-full">
-          <CinematicHero
-            brandName="Flowstra"
-            tagline1="Automate your flow,"
-            tagline2="Get more Clients."
-            className="pt-20 pb-16"
-          />
-          <TrustedBy />
-          <SocialProofCounters />
+    <ThemeProvider>
+      <LanguageProvider>
+        <div className="min-h-screen selection:bg-[var(--accent-blue)] selection:text-white overflow-x-hidden transition-colors duration-300">
+          <DynamicSEO />
+          <LanguageTransitionOverlay />
+          <ScrollProgress />
+          <SmoothCursor />
+          <GradientBackground />
+          <Navbar />
+          <FloatingDock />
+          <main>
+            <div className="relative w-full">
+              <CinematicHero
+                brandName="Flowstra"
+                className="pt-20 pb-16"
+              />
+              <TrustedBy />
+              <SocialProofCounters />
+            </div>
+            <SectionDivider glowColor="rgba(16, 185, 129, 0.08)" />
+            <Testimonials />
+            <SectionDivider glowColor="rgba(99, 102, 241, 0.08)" />
+            <ToolsWeUse />
+            <SectionDivider glowColor="rgba(59, 130, 246, 0.1)" />
+            <Features />
+            <SectionDivider glowColor="rgba(168, 85, 247, 0.08)" />
+            <Team />
+            <SectionDivider glowColor="rgba(59, 130, 246, 0.1)" />
+            <Calculator />
+            <SectionDivider glowColor="rgba(16, 185, 129, 0.08)" />
+            <WorkspaceAutomation />
+            <SectionDivider glowColor="rgba(99, 102, 241, 0.12)" />
+            <Pricing />
+            <SectionDivider glowColor="rgba(99, 102, 241, 0.12)" />
+            <FinalCTA />
+          </main>
+          <Footer />
+          <AutomationAuditModal />
+          <LanguageDetectionToast />
+          <AmbientMusicPlayer />
+          <BackToTop />
+          <KeyboardNavigation />
         </div>
-        <SectionDivider glowColor="rgba(59, 130, 246, 0.12)" />
-        <CaseStudies />
-        <SectionDivider glowColor="rgba(16, 185, 129, 0.08)" />
-        <Testimonials />
-        <SectionDivider glowColor="rgba(99, 102, 241, 0.08)" />
-        <ToolsWeUse />
-        <SectionDivider glowColor="rgba(59, 130, 246, 0.1)" />
-        <Features />
-        <SectionDivider glowColor="rgba(168, 85, 247, 0.08)" />
-        <Team />
-        <SectionDivider glowColor="rgba(59, 130, 246, 0.1)" />
-        <Calculator />
-        <SectionDivider glowColor="rgba(16, 185, 129, 0.08)" />
-        <WorkspaceAutomation />
-        <SectionDivider glowColor="rgba(99, 102, 241, 0.12)" />
-        <Pricing />
-        <SectionDivider glowColor="rgba(99, 102, 241, 0.12)" />
-        <FinalCTA />
-      </main>
-      <Footer />
-      <AutomationAuditModal />
-      <AmbientMusicPlayer />
-      <BackToTop />
-      <KeyboardNavigation />
-    </div>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }

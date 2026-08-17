@@ -2,6 +2,10 @@ import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import { initPerformanceObserver } from './lib/performanceObserver.ts';
+
+// Initialize lightweight performance monitoring for TTI, LCP, and Web Vitals
+initPerformanceObserver();
 
 // Enable smooth scrolling for all anchor links
 document.addEventListener('click', (e) => {

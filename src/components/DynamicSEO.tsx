@@ -62,52 +62,36 @@ const seoMap: Record<string, SEOConfig> = {
       ]
     }
   },
-  "case-studies": {
-    title: "Our Impact & Case Studies | Flowstra AI Automation",
-    description: "Deep dive into Flowstra case studies showing how we streamlined operations, built lead-scraping pipelines, and scaled B2B clients.",
-    keywords: "Automation Case Studies, AI Success Stories, Client Acquisition Case Study, Flowstra Results",
-    ogTitle: "Flowstra Case Studies | AI-Driven Success",
-    ogDescription: "Discover how Flowstra streamlined workflows, built dynamic scraping pipelines, and achieved massive ROI for our clients.",
-    ogImage: "https://flowstra.org/logo.png",
-    schema: {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": "Flowstra AI Automation Case Studies",
-      "description": "Real examples of business scaling and operation automation using AI.",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Airtable CRM Sync & Lead Routing Pipeline",
-          "description": "Fully automated workflow that synchronizes newly scraped leads directly into client CRM pipelines."
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Autonomous Sales Outreach System",
-          "description": "Cold outreach pipeline executing hundreds of personalized hyper-targeted outreach messages daily."
-        }
-      ]
-    }
-  },
   testimonials: {
     title: "Client Testimonials & Feedback | Flowstra AI Trust",
-    description: "Read real reviews and feedback from founders and operators who scaled their operations and sales using Flowstra automation systems.",
-    keywords: "Flowstra Reviews, AI Automation Agency Reviews, Flowstra Testimonials, Customer Success",
+    description: "Read verified feedback from founders and operators like Thomas Shelly (Real Estate, Sydney) and Leena Amsel (Founder, Mscrubs™) who automated their growth with Flowstra.",
+    keywords: "Flowstra Reviews, AI Automation Agency Reviews, Flowstra Testimonials, Thomas Shelly Real Estate, Mscrubs Case Study, Customer Success",
     ogTitle: "What Founders Say About Flowstra AI",
-    ogDescription: "Our clients save thousands of hours and secure hundreds of high-quality leads. Read their true stories.",
+    ogDescription: "From real estate CRM automation to fashion e-commerce storefronts, read how Flowstra transforms businesses.",
     ogImage: "https://flowstra.org/logo.png",
     schema: {
       "@context": "https://schema.org",
       "@type": "Product",
-      "name": "Flowstra AI Automation Service",
+      "name": "Flowstra AI Automation & Systems",
       "image": "https://flowstra.org/logo.png",
-      "description": "Full-scale AI-driven operations and lead routing system built for high-growth modern companies.",
+      "description": "Full-scale AI-driven operations, CRM lead routing, and custom web systems.",
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "28"
-      }
+        "ratingValue": "5.0",
+        "reviewCount": "2"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Thomas Shelly" },
+          "reviewBody": "Flowstra's AI automation completely revolutionized our real estate lead management in Sydney. Enquiries get qualified and engaged via instant WhatsApp & CRM triggers."
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Leena Amsel" },
+          "reviewBody": "I was genuinely impressed—even before I shared all my ideas, you had already designed it using the colors from my logo. That level of attention to detail was brilliant."
+        }
+      ]
     }
   },
   tools: {
@@ -346,7 +330,6 @@ export function DynamicSEO() {
     };
 
     const observedSections = [
-      "case-studies",
       "testimonials",
       "tools",
       "features",

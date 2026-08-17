@@ -6,6 +6,7 @@ import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { useScroll } from "@/components/ui/use-scroll";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export function Header() {
   const [open, setOpen] = React.useState(false);
@@ -88,6 +89,7 @@ export function Header() {
                 {link.label}
               </a>
             ))}
+            <ThemeToggle compact={false} />
             <a
               href="https://cal.com/flowstra/30min"
               target="_blank"

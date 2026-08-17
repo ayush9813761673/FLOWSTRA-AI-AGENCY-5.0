@@ -198,6 +198,42 @@ export function GlowingShadow({
           transition: --bg-size var(--interaction-speed) ease;
         }
 
+        /* Daytime Luminous Theme Overrides */
+        [data-theme="light"] .glow-container {
+          --card-color: #ffffff;
+        }
+
+        [data-theme="light"] .glow-content {
+          background: #ffffff;
+          box-shadow: 0 1px 3px 0 rgba(11, 19, 41, 0.04), 
+                      0 4px 12px -2px rgba(37, 99, 235, 0.06), 
+                      0 16px 32px -6px rgba(37, 99, 235, 0.08);
+        }
+
+        [data-theme="light"] .glow-content:before {
+          box-shadow: none;
+          mix-blend-mode: normal;
+          opacity: 0.5;
+          background: radial-gradient(
+            50% 50% at 50% 50%,
+            rgba(59, 130, 246, 0.15) 0%,
+            rgba(99, 102, 241, 0.08) 50%,
+            transparent 100%
+          );
+        }
+
+        [data-theme="light"] .glow:after {
+          opacity: 0.25;
+          background: rgba(59, 130, 246, 0.4);
+          filter: blur(20px);
+        }
+
+        [data-theme="light"] .glow-container:hover .glow-content {
+          box-shadow: 0 4px 10px 0 rgba(11, 19, 41, 0.05), 
+                      0 12px 28px -3px rgba(37, 99, 235, 0.12), 
+                      0 24px 48px -6px rgba(37, 99, 235, 0.12);
+        }
+
         .glow-container:hover .glow {
           --glow-blur: 1.5;
           --glow-opacity: 0.6;
