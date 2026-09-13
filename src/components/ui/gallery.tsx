@@ -180,7 +180,7 @@ export const PhotoGallery = ({
       </div>
       <div
         ref={ref}
-        className="relative mb-8 h-[350px] w-full items-center justify-center lg:flex"
+        className="relative mb-8 h-[350px] w-full items-center justify-center lg:flex overflow-hidden"
       >
         <motion.div
           className="relative mx-auto flex w-full max-w-7xl justify-center"

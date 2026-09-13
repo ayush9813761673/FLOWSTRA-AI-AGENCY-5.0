@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { Navbar } from "@/components/ui/mini-navbar";
@@ -13,6 +13,7 @@ import { Calculator } from "./components/Calculator";
 import { WorkspaceAutomation } from "./components/WorkspaceAutomation";
 import { Pricing } from "./components/Pricing";
 import { Team } from "./components/Team";
+import { FAQ } from "./components/FAQ";
 import { FinalCTA } from "./components/FinalCTA";
 import { Footer } from "./components/Footer";
 import { AutomationAuditModal } from "./components/AutomationAuditModal";
@@ -21,6 +22,7 @@ import { AmbientMusicPlayer } from "@/components/ui/ambient-music-player";
 import { DynamicSEO } from "./components/DynamicSEO";
 import { BackToTop } from "./components/BackToTop";
 import { KeyboardNavigation } from "./components/KeyboardNavigation";
+import { initGlobalClickSound } from "@/lib/soundEffects";
 
 import { GradientBackground } from "@/components/ui/paper-design-shader-background";
 import { SmoothCursor } from "@/components/ui/smooth-cursor";
@@ -29,6 +31,13 @@ import { LanguageTransitionOverlay } from "@/components/ui/LanguageTransitionOve
 import { LanguageDetectionToast } from "@/components/ui/LanguageDetectionToast";
 
 export default function App() {
+  useEffect(() => {
+    const cleanupSounds = initGlobalClickSound();
+    return () => {
+      cleanupSounds();
+    };
+  }, []);
+
   return (
     <ThemeProvider>
       <LanguageProvider>
@@ -42,27 +51,30 @@ export default function App() {
           <FloatingDock />
           <main>
             <div className="relative w-full">
-              <CinematicHero
-                brandName="Flowstra"
-                className="pt-20 pb-16"
-              />
-              <TrustedBy />
-              <SocialProofCounters />
+              <CinematicHero brandName="Flowstra" />
+              <div className="mt-20 sm:mt-28 md:mt-36 mb-16 sm:mb-24">
+                <TrustedBy />
+              </div>
+              <div className="mt-8 sm:mt-12 mb-24 sm:mb-32">
+                <SocialProofCounters />
+              </div>
             </div>
-            <SectionDivider glowColor="rgba(16, 185, 129, 0.08)" />
+            <SectionDivider glowColor="rgba(59, 130, 246, 0.12)" />
+            <Calculator />
+            <SectionDivider glowColor="rgba(16, 185, 129, 0.1)" />
+            <WorkspaceAutomation />
+            <SectionDivider glowColor="rgba(99, 102, 241, 0.1)" />
             <Testimonials />
-            <SectionDivider glowColor="rgba(99, 102, 241, 0.08)" />
-            <ToolsWeUse />
             <SectionDivider glowColor="rgba(59, 130, 246, 0.1)" />
             <Features />
             <SectionDivider glowColor="rgba(168, 85, 247, 0.08)" />
-            <Team />
+            <ToolsWeUse />
             <SectionDivider glowColor="rgba(59, 130, 246, 0.1)" />
-            <Calculator />
-            <SectionDivider glowColor="rgba(16, 185, 129, 0.08)" />
-            <WorkspaceAutomation />
+            <Team />
             <SectionDivider glowColor="rgba(99, 102, 241, 0.12)" />
             <Pricing />
+            <SectionDivider glowColor="rgba(59, 130, 246, 0.1)" />
+            <FAQ />
             <SectionDivider glowColor="rgba(99, 102, 241, 0.12)" />
             <FinalCTA />
           </main>

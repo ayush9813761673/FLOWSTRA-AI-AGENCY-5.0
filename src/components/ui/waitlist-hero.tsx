@@ -107,7 +107,7 @@ export const WaitlistHero = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center">
+    <div className="w-full flex items-center justify-center">
       {/* Animation Styles */}
       <style>{`
         @keyframes spin-slow {
@@ -168,7 +168,7 @@ export const WaitlistHero = () => {
 
       {/* Main Container */}
       <div
-        className="relative w-full h-screen overflow-hidden shadow-2xl rounded-3xl"
+        className="relative w-full min-h-[580px] md:min-h-[660px] overflow-hidden shadow-2xl rounded-3xl py-12 md:py-16 flex flex-col justify-center"
         style={{
           fontFamily:
             'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -251,7 +251,7 @@ export const WaitlistHero = () => {
         />
 
         {/* Content Container */}
-        <div className="relative z-20 w-full h-full flex flex-col items-center justify-end pb-24 px-4">
+        <div className="relative z-20 w-full flex flex-col items-center justify-center px-4">
           <div className="flex flex-col gap-3 max-w-3xl items-center text-center mx-auto mb-6">
             <span className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-500 dark:text-blue-400 font-mono">
               {t.pricing.badge}
@@ -266,11 +266,33 @@ export const WaitlistHero = () => {
             <p className="text-sm md:text-base leading-relaxed text-[var(--text-secondary)] max-w-2xl mt-1.5 font-medium">
               {t.pricing.description}
             </p>
+
+            {/* Visual Customization Flow Diagram */}
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 my-6 max-w-3xl">
+              {[
+                { step: "01", title: "Your Business" },
+                { step: "02", title: "Your Workflows" },
+                { step: "03", title: "Your Tech Stack" },
+                { step: "04", title: "Custom AI System" },
+              ].map((item, idx, arr) => (
+                <React.Fragment key={item.step}>
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--card-border)] bg-[var(--surface)]/80 text-xs font-semibold text-[var(--text-primary)] shadow-sm">
+                    <span className="w-4 h-4 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-[10px] font-mono">
+                      {idx + 1}
+                    </span>
+                    <span>{item.title}</span>
+                  </div>
+                  {idx < arr.length - 1 && (
+                    <span className="text-blue-500/60 font-bold hidden sm:inline">→</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
 
           {/* Form / Success Container */}
           <div
-            className="w-full max-w-md mt-4 h-[60px] relative mt-8"
+            className="w-full max-w-md h-[60px] relative mt-6"
             style={{ perspective: "1000px" }}
           >
             {/* Confetti Canvas - overlays everything but ignores clicks */}

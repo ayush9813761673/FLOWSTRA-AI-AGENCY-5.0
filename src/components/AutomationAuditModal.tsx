@@ -132,33 +132,20 @@ export function AutomationAuditModal() {
   }, []);
 
   useEffect(() => {
-    // Prevent showing if already shown in this session
-    const hasBeenShown = sessionStorage.getItem("automation_audit_shown");
-    if (hasBeenShown === "true") return;
-
-    const triggerModal = () => {
-      const shown = sessionStorage.getItem("automation_audit_shown");
-      if (shown !== "true") {
-        setIsOpen(true);
-        sessionStorage.setItem("automation_audit_shown", "true");
-        cleanup();
-      }
+    const handleOpenAuditModal = () => {
+      setIsOpen(true);
+      trackEvent("USER_MANUAL_AUDIT_TRIGGER");
     };
 
-    const handleMouseLeave = (e: MouseEvent) => {
-      // Trigger if mouse moves out of the top of the window
-      if (e.clientY <= 20) {
-        triggerModal();
-      }
+    window.addEventListener("flowstra-open-audit-modal", handleOpenAuditModal);
+    window.addEventListener("open-automation-audit", handleOpenAuditModal);
+    (window as any).__openAuditModal = handleOpenAuditModal;
+
+    return () => {
+      window.removeEventListener("flowstra-open-audit-modal", handleOpenAuditModal);
+      window.removeEventListener("open-automation-audit", handleOpenAuditModal);
+      delete (window as any).__openAuditModal;
     };
-
-    document.addEventListener("mouseleave", handleMouseLeave);
-
-    const cleanup = () => {
-      document.removeEventListener("mouseleave", handleMouseLeave);
-    };
-
-    return cleanup;
   }, []);
 
   // Handle Escape key to close

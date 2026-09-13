@@ -47,6 +47,10 @@ export interface Translations {
     pricing: string;
     bookCall: string;
     workspace: string;
+    calculator?: string;
+    solutions?: string;
+    results?: string;
+    faq?: string;
   };
   common: {
     language: string;

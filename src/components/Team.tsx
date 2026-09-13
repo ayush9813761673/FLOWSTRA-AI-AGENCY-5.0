@@ -42,18 +42,6 @@ const team: TeamMember[] = [
     instagram: "https://www.instagram.com/ayush.yadav.ai/",
     linkedin: "https://www.linkedin.com/in/ayush-yadav-pro/",
   },
-  {
-    image: "/tasmia.png",
-    name: "Tasmia Nadeem",
-    role: "Co-Founder",
-    bio: "Specializing in operational data intelligence, predictive metrics, and automated performance tracking across growth workflows.",
-    achievements: [
-      "Built custom data pipelines & real-time analytics dashboards",
-      "Optimized lead scoring models to maximize conversion efficiency",
-      "Transforms complex workflow data into actionable growth insights"
-    ],
-    instagram: "https://www.instagram.com/elitedata.solution/",
-  },
 ];
 
 const headingVariants = {
@@ -129,7 +117,7 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
 
   return (
     <div
-      className="h-[32rem] min-w-[320px] max-w-[320px] md:min-w-[400px] md:max-w-[400px] perspective-[1000px] cursor-pointer"
+      className="h-[32rem] w-[85vw] sm:w-[320px] max-w-[320px] md:w-[400px] md:max-w-[400px] perspective-[1000px] cursor-pointer"
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -185,12 +173,12 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
                   {member.name}
                 </h3>
                 <div className="flex items-center justify-between mt-2">
-                  <p className="text-lg font-medium text-[var(--accent-blue)] drop-shadow-md">
+                  <p className="text-lg font-semibold text-blue-400 dark:text-blue-400 !text-blue-400 drop-shadow-md">
                     {member.role}
                   </p>
                   <span className="text-xs font-medium text-white/80 bg-white/10 border border-white/25 backdrop-blur-md py-1 px-2.5 rounded-full flex items-center gap-1 shadow-sm transition-all duration-300 hover:bg-white/20 active:scale-95">
                     <span>View More</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 text-[var(--accent-blue)] animate-pulse" />
+                    <ArrowUpRight className="w-3.5 h-3.5 text-blue-400 animate-pulse" />
                   </span>
                 </div>
               </div>
@@ -214,7 +202,7 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
                     {member.name}
                   </h3>
                   <div className="flex items-center gap-3 mt-1">
-                    <p className="text-lg font-medium text-[var(--accent-blue)]">
+                    <p className="text-lg font-semibold text-blue-400 dark:text-blue-400 !text-blue-400">
                       {member.role}
                     </p>
                     {member.instagram && (
@@ -222,7 +210,7 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
                         href={member.instagram}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white/60 hover:text-[var(--accent-blue)] transition-colors pointer-events-auto cursor-pointer relative z-50 inline-block"
+                        className="text-white/60 hover:text-blue-400 transition-colors pointer-events-auto cursor-pointer relative z-50 inline-block"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Instagram className="w-5 h-5" />
@@ -233,7 +221,7 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
                         href={member.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white/60 hover:text-[var(--accent-blue)] transition-colors pointer-events-auto cursor-pointer relative z-50 inline-block"
+                        className="text-white/60 hover:text-blue-400 transition-colors pointer-events-auto cursor-pointer relative z-50 inline-block"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <Linkedin className="w-5 h-5" />
@@ -263,13 +251,13 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
                   transition={{ duration: 0.4, delay: 0.25 }}
                   className="space-y-2 border-t border-white/10 pt-3"
                 >
-                  <span className="text-[11px] font-bold tracking-wider uppercase text-[var(--accent-blue)] block">
+                  <span className="text-[11px] font-bold tracking-wider uppercase text-blue-400 !text-blue-400 block">
                     Key Achievements
                   </span>
                   <ul className="space-y-1.5">
                     {member.achievements.map((achievement, aIdx) => (
                       <li key={aIdx} className="flex items-start gap-2 text-xs text-white/85">
-                        <Award className="w-3.5 h-3.5 text-[var(--accent-blue)] shrink-0 mt-0.5" />
+                        <Award className="w-3.5 h-3.5 text-blue-400 shrink-0 mt-0.5" />
                         <span>{achievement}</span>
                       </li>
                     ))}
@@ -286,7 +274,7 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
 
 const SkeletonTeamCard = () => {
   return (
-    <div className="h-[32rem] min-w-[320px] max-w-[320px] md:min-w-[400px] md:max-w-[400px] rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-8 flex flex-col justify-end overflow-hidden animate-pulse relative">
+    <div className="h-[32rem] w-[85vw] sm:w-[320px] max-w-[320px] md:w-[400px] md:max-w-[400px] rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-8 flex flex-col justify-end overflow-hidden animate-pulse relative">
       {/* Outer border & glass glare */}
       <div className="absolute inset-0 border border-white/5 rounded-2xl pointer-events-none" />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />

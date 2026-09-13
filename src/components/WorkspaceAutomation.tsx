@@ -564,7 +564,7 @@ export function WorkspaceAutomation() {
   };
 
   return (
-    <section id="workspace-integration" className="relative w-full py-24 md:py-32 border-t border-[var(--card-border)] bg-transparent overflow-hidden">
+    <section id="workspace" className="relative w-full py-24 md:py-32 border-t border-[var(--card-border)] bg-transparent overflow-hidden">
       {/* Decorative dynamic ambient background glows */}
       <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none" />

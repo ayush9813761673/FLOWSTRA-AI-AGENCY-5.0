@@ -71,7 +71,7 @@ export function TrustedBy({
   }));
 
   return (
-    <section className="w-full relative z-10 flex flex-col items-center pb-16 -mt-16 sm:-mt-24">
+    <section className="w-full relative z-10 flex flex-col items-center py-4 sm:py-6 overflow-x-hidden">
       <p className="text-center text-[10px] font-bold tracking-[0.2em] text-[var(--text-muted)] uppercase mb-12">
         {displayHeading}
       </p>

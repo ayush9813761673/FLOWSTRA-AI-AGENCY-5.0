@@ -96,6 +96,9 @@ html.theme-transitioning *::after {
 }
 
 @layer base {
+  html, body {
+    overflow-x: hidden;
+  }
   html {
     scroll-behavior: smooth;
   }
@@ -107,6 +110,7 @@ html.theme-transitioning *::after {
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     position: relative;
+    width: 100%;
   }
   body::before {
     content: "";
@@ -259,10 +263,10 @@ html.theme-transitioning *::after {
   color: #0b1329;
 }
 
-/* Text adaptations: ensure dark text for readable content while preserving light text on dark CTA buttons/badges */
-[data-theme="light"] p,
-[data-theme="light"] span:not([class*="bg-blue"]):not([class*="bg-indigo"]):not([class*="bg-slate-900"]):not([class*="bg-black"]):not([class*="badge"]),
-[data-theme="light"] a:not([class*="bg-"]):not([class*="rounded-full bg-white"]):not([class*="from-blue"]) {
+/* Text adaptations: ensure dark text for readable content while preserving light text on dark CTA buttons/badges and colored accents */
+[data-theme="light"] p:not([class*="text-blue"]):not([class*="text-indigo"]):not([class*="text-cyan"]):not([class*="text-[var(--accent-blue)]"]):not([class*="text-sky"]):not([class*="text-emerald"]):not([class*="text-amber"]):not([class*="text-purple"]):not([class*="text-rose"]):not([class*="text-red"]):not([class*="text-yellow"]):not([class*="text-teal"]):not([class*="text-violet"]),
+[data-theme="light"] span:not([class*="bg-blue"]):not([class*="bg-indigo"]):not([class*="bg-slate-900"]):not([class*="bg-black"]):not([class*="badge"]):not([class*="text-blue"]):not([class*="text-indigo"]):not([class*="text-cyan"]):not([class*="text-[var(--accent-blue)]"]):not([class*="text-sky"]),
+[data-theme="light"] a:not([class*="bg-"]):not([class*="rounded-full bg-white"]):not([class*="from-blue"]):not([class*="text-blue"]) {
   color: inherit;
 }
 
@@ -325,8 +329,30 @@ html.theme-transitioning *::after {
   border-color: rgba(59, 130, 246, 0.16);
 }
 
+/* Custom Cursor Active State: hide native cursor on desktop so it never overlaps */
+@media (pointer: fine) {
+  html.custom-cursor-active,
+  html.custom-cursor-active body,
+  html.custom-cursor-active *:not(input):not(textarea):not([contenteditable="true"]) {
+    cursor: none !important;
+  }
+
+  html.custom-cursor-active input,
+  html.custom-cursor-active textarea,
+  html.custom-cursor-active [contenteditable="true"] {
+    cursor: text !important;
+  }
+}
+
 /* Day Mode Navbar & Floating Elements */
-[data-theme="light"] header,
+[data-theme="light"] header {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
 [data-theme="light"] .fixed.top-6 {
   background-color: rgba(255, 255, 255, 0.82) !important;
   backdrop-filter: blur(20px);

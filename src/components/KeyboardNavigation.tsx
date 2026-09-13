@@ -16,25 +16,27 @@ import {
 
 const SECTIONS = [
   "hero",
-  "testimonials",
-  "tools",
-  "features",
-  "team",
   "calculator",
-  "workspace-integration",
+  "workspace",
+  "testimonials",
+  "features",
+  "tools",
+  "team",
   "pricing",
+  "faq",
   "final-cta"
 ];
 
 const SECTION_INFO: Record<string, { title: string; badge: string }> = {
   "hero": { title: "Introduction & Identity", badge: "Hero" },
-  "testimonials": { title: "What Our Clients Say", badge: "Testimonials" },
-  "tools": { title: "Core Integrations & Tech", badge: "Integrations" },
-  "features": { title: "Advanced Automation System", badge: "System" },
-  "team": { title: "Our Elite Expert Team", badge: "Team" },
   "calculator": { title: "Interactive ROI Calculator", badge: "ROI Analysis" },
-  "workspace-integration": { title: "Google Workspace Sandbox", badge: "Workspace" },
+  "workspace": { title: "Google Workspace Sandbox", badge: "Workspace" },
+  "testimonials": { title: "What Our Clients Say", badge: "Testimonials" },
+  "features": { title: "Advanced Automation System", badge: "System" },
+  "tools": { title: "Core Integrations & Tech", badge: "Integrations" },
+  "team": { title: "Our Elite Expert Team", badge: "Team" },
   "pricing": { title: "Scalable Pricing Plans", badge: "Pricing" },
+  "faq": { title: "Frequently Asked Questions", badge: "FAQ" },
   "final-cta": { title: "Strategy Session Booking", badge: "CTA" },
 };
 
@@ -165,7 +167,13 @@ export function KeyboardNavigation() {
       }
       if (key === "g") {
         e.preventDefault();
-        const el = document.getElementById("workspace-integration");
+        const el = document.getElementById("workspace") || document.getElementById("workspace-integration");
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      if (key === "f") {
+        e.preventDefault();
+        const el = document.getElementById("faq");
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
         return;
       }

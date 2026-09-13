@@ -1,19 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { HyperText } from "./hyper-text";
 import { useLanguage } from "@/context/LanguageContext";
 import {
-  Globe,
-  BrainCircuit,
-  Bot,
   Database,
   CheckCircle2,
   LoaderCircle,
   Circle,
-  Cpu,
-  Lock,
   Zap,
   Brain,
   Mic,
@@ -188,6 +183,14 @@ const items = [
 export function ClippedVideoTab() {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const activeItem = items[activeTab];
 
@@ -221,8 +224,9 @@ export function ClippedVideoTab() {
         <div
           className="relative overflow-hidden h-[550px] md:h-[690px] order-1 md:order-none"
           style={{
-            clipPath:
-              "polygon(0 0, 92% 0, 100% 12%, 100% 100%, 30% 100%, 22% 88%, 0 88%)",
+            clipPath: isDesktop
+              ? "polygon(0 0, 92% 0, 100% 12%, 100% 100%, 30% 100%, 22% 88%, 0 88%)"
+              : undefined,
             borderRadius: "34px",
           }}
         >

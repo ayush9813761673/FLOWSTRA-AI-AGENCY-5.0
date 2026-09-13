@@ -18,9 +18,11 @@ export function FloatingDock() {
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const target = document.querySelector(href);
+    const target = document.querySelector(href) as HTMLElement | null;
     if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      const yOffset = -90;
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
   };
 

@@ -3,199 +3,125 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { cn } from "@/lib/utils";
-import { SparklesText } from "./sparkles-text";
 import { useLanguage } from "@/context/LanguageContext";
-
-const INJECTED_STYLES = `
-  .gsap-reveal { visibility: hidden; }
-
-  /* Environment Overlays */
-  .film-grain {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 50; opacity: 0.03; mix-blend-mode: overlay;
-      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
-  }
-
-  @media (max-width: 1024px) {
-    .film-grain {
-      display: none;
-    }
-  }
-
-  @keyframes slow-pan {
-    0% { background-position: 0 0; }
-    100% { background-position: -60px -60px; }
-  }
-
-  .bg-grid-theme {
-      background-size: 60px 60px;
-      background-image: 
-          linear-gradient(to right, color-mix(in srgb, var(--color-foreground) 5%, transparent) 1px, transparent 1px),
-          linear-gradient(to bottom, color-mix(in srgb, var(--color-foreground) 5%, transparent) 1px, transparent 1px);
-      mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
-      -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
-      animation: slow-pan 15s linear infinite;
-  }
-
-  .text-3d-matte {
-      color: var(--color-foreground);
-      text-shadow: 
-          0 10px 30px color-mix(in srgb, var(--color-foreground) 20%, transparent), 
-          0 2px 4px color-mix(in srgb, var(--color-foreground) 10%, transparent);
-  }
-
-  .text-silver-matte {
-      background: linear-gradient(180deg, var(--color-foreground) 0%, color-mix(in srgb, var(--color-foreground) 40%, transparent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      transform: translateZ(0);
-      filter: 
-          drop-shadow(0px 10px 20px color-mix(in srgb, var(--color-foreground) 15%, transparent)) 
-          drop-shadow(0px 2px 4px color-mix(in srgb, var(--color-foreground) 10%, transparent));
-  }
-`;
+import { ArrowRight, Calculator, Calendar } from "lucide-react";
 
 export interface CinematicHeroProps extends React.ComponentProps<"div"> {
   brandName?: string;
-  tagline1?: string;
-  tagline2?: string;
-  cardHeading?: string;
-  cardDescription?: React.ReactNode;
-  metricValue?: number;
-  metricLabel?: string;
-  ctaHeading?: string;
-  ctaDescription?: string;
   className?: string;
 }
 
 export function CinematicHero({
   brandName = "Flowstra",
-  tagline1,
-  tagline2,
   className,
   ...props
 }: CinematicHeroProps) {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const displayTagline1 = tagline1 || t.hero.tagline1;
-  const displayTagline2 = tagline2 || t.hero.tagline2;
-
-  const lastSpaceIndex = displayTagline2.lastIndexOf(" ");
-  const otherWords = lastSpaceIndex !== -1 ? displayTagline2.substring(0, lastSpaceIndex).trim() : "";
-  const lastWord = lastSpaceIndex !== -1 ? displayTagline2.substring(lastSpaceIndex + 1) : displayTagline2;
-
   useEffect(() => {
-    let ctx: gsap.Context | null = null;
+    const ctx = gsap.context(() => {
+      gsap.set(".hero-fade", {
+        autoAlpha: 0,
+        y: 24,
+      });
+      gsap.set(".hero-headline", {
+        autoAlpha: 0,
+        y: 32,
+        scale: 0.96,
+      });
 
-    const playHeroAnimation = () => {
-      if (ctx) return; // Prevent duplicate animations if somehow called twice
-      ctx = gsap.context(() => {
-        gsap.set(".text-track", {
-          autoAlpha: 0,
-          y: 60,
-          scale: 0.85,
-          filter: "blur(20px)",
-          rotationX: -20,
-        });
-        gsap.set(".text-days", {
+      const introTl = gsap.timeline({ delay: 0.1 });
+      introTl
+        .to(".hero-headline", {
+          duration: 1.1,
           autoAlpha: 1,
-          clipPath: "inset(0 100% 0 0)",
-          WebkitClipPath: "inset(0 100% 0 0)",
-        });
-
-        const introTl = gsap.timeline({ delay: 0.2 });
-        introTl
-          .to(".text-track", {
-            duration: 1.8,
+          y: 0,
+          scale: 1,
+          ease: "expo.out",
+        })
+        .to(
+          ".hero-fade",
+          {
+            duration: 0.8,
             autoAlpha: 1,
             y: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            rotationX: 0,
-            ease: "expo.out",
-          })
-          .to(
-            ".text-days",
-            {
-              duration: 1.6,
-              clipPath: "inset(0 0% 0 0)",
-              WebkitClipPath: "inset(0 0% 0 0)",
-              ease: "power4.inOut",
-            },
-            "-=1.0",
-          );
-      }, containerRef);
-    };
+            stagger: 0.12,
+            ease: "power3.out",
+          },
+          "-=0.6"
+        );
+    }, containerRef);
 
-    // Initialize elements to hidden/invisible state instantly on mount
-    gsap.set(".text-track", {
-      autoAlpha: 0,
-      y: 60,
-      scale: 0.85,
-      filter: "blur(20px)",
-      rotationX: -20,
-    });
-    gsap.set(".text-days", {
-      autoAlpha: 0,
-      clipPath: "inset(0 100% 0 0)",
-      WebkitClipPath: "inset(0 100% 0 0)",
-    });
-
-    if ((window as any).__flowstraIntroGateDismissed) {
-      playHeroAnimation();
-    } else {
-      const handleStart = () => {
-        playHeroAnimation();
-      };
-      document.addEventListener("flowstra-experience-start", handleStart);
-      return () => {
-        document.removeEventListener("flowstra-experience-start", handleStart);
-        if (ctx) ctx.revert();
-      };
-    }
-
-    return () => {
-      if (ctx) ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
+
+  const scrollToCalculator = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const el = document.getElementById("calculator");
+    if (el) {
+      const yOffset = -90;
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
 
   return (
     <div
       id="hero"
       ref={containerRef}
       className={cn(
-        "relative w-full min-h-[100vh] pb-32 overflow-hidden flex flex-col items-center justify-center bg-transparent text-foreground font-sans antialiased",
-        className,
+        "relative w-full min-h-[85vh] md:min-h-[88vh] pt-40 pb-28 md:pt-48 md:pb-36 lg:pt-56 lg:pb-44 overflow-hidden flex flex-col items-center justify-center bg-transparent text-foreground font-sans antialiased",
+        className
       )}
-      style={{ perspective: "1500px" }}
       {...props}
     >
-      <style dangerouslySetInnerHTML={{ __html: INJECTED_STYLES }} />
-      <div className="film-grain" aria-hidden="true" />
+      {/* Soft ambient background glow */}
       <div
-        className="bg-grid-theme absolute inset-0 z-0 pointer-events-none opacity-50"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-blue-600/[0.04] dark:bg-blue-500/[0.06] rounded-full blur-[180px] pointer-events-none"
         aria-hidden="true"
       />
 
-      {/* BACKGROUND LAYER: Hero Texts */}
-      <div className="hero-text-wrapper absolute z-10 flex flex-col items-center justify-center text-center w-full px-4 mt-20 will-change-transform transform-style-3d">
-        <h1 className="text-track gsap-reveal text-3d-matte text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-bold tracking-tight mb-2">
-          {displayTagline1}
+      <div className="relative z-10 flex flex-col items-center text-center max-w-5xl px-6 w-full mx-auto">
+        {/* Understated context badge */}
+        <div className="hero-fade inline-flex items-center px-4 py-1.5 rounded-full border border-[var(--card-border)] bg-[var(--surface)]/70 backdrop-blur-md mb-8 shadow-xs">
+          <span className="text-xs font-medium text-[var(--text-secondary)] tracking-wide">
+            Enterprise Workflow Automation
+          </span>
+        </div>
+
+        {/* Primary Headline */}
+        <h1 className="hero-headline text-4xl sm:text-6xl md:text-7xl lg:text-[4.75rem] font-bold tracking-tight leading-[1.08] max-w-4xl mx-auto text-[var(--text-primary)]">
+          Stop paying people for work AI can handle
         </h1>
-        <h1 
-          className="text-days gsap-reveal text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter flex items-center justify-center flex-wrap gap-x-2 md:gap-x-4"
-          style={{ opacity: 0, clipPath: "inset(0 100% 0 0)", WebkitClipPath: "inset(0 100% 0 0)" }}
-        >
-          <span className="text-silver-matte">{otherWords}</span>
-          <SparklesText
-            text={lastWord}
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-extrabold tracking-tighter text-silver-matte inline-block"
-            starColors={["#FFD700", "#FF2E93", "#3b82f6", "#06b6d4", "#a855f7", "#10b981"]}
-            sparklesCount={10}
-          />
-        </h1>
+
+        {/* Sub-headline copy */}
+        <p className="hero-fade text-base sm:text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto mt-8 mb-12 font-normal">
+          We engineer custom AI systems that take over lead qualification, CRM updates, and client outreach in 7 days — without altering your existing software stack.
+        </p>
+
+        {/* Dual High-Conversion CTA Buttons */}
+        <div className="hero-fade flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+          <a
+            href="#calculator"
+            onClick={scrollToCalculator}
+            className="w-full sm:w-auto px-8 py-4 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer active:scale-[0.98] shadow-sm hover:shadow"
+          >
+            <Calculator className="w-4 h-4 text-blue-100" />
+            <span>Calculate Savings (60s)</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </a>
+
+          <a
+            href="https://cal.com/flowstra/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto px-8 py-4 rounded-full bg-[var(--surface)] border border-[var(--card-border)] hover:border-[var(--card-border-hover)] text-[var(--text-primary)] font-semibold text-sm hover:bg-[var(--surface-hover)] transition-all duration-200 flex items-center justify-center gap-2 shadow-xs active:scale-[0.98]"
+          >
+            <Calendar className="w-4 h-4 text-blue-500" />
+            <span>Book a 30-Min Strategy Call</span>
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -13,7 +13,20 @@ interface LanguageSwitcherProps {
 export function LanguageSwitcher({ compact = false, className = "" }: LanguageSwitcherProps) {
   const { language, setLanguage, currentOption, isChangingLanguage, isDetectingLanguage, targetLanguage, t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const menuRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Focus search input on open
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 50);
+    } else {
+      setSearchQuery("");
+    }
+  }, [isOpen]);
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -46,6 +59,17 @@ export function LanguageSwitcher({ compact = false, className = "" }: LanguageSw
     setLanguage(code);
     setIsOpen(false);
   };
+
+  const filteredLanguages = LANGUAGES.filter((opt) => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      opt.label.toLowerCase().includes(q) ||
+      opt.nativeLabel.toLowerCase().includes(q) ||
+      opt.country.toLowerCase().includes(q) ||
+      opt.shortLabel.toLowerCase().includes(q)
+    );
+  });
 
   return (
     <div ref={menuRef} className={`relative inline-block text-left ${className}`}>
@@ -131,62 +155,96 @@ export function LanguageSwitcher({ compact = false, className = "" }: LanguageSw
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.96 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute right-0 mt-2 w-72 max-h-80 overflow-y-auto rounded-2xl border border-white/15 bg-zinc-950/85 p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(59,130,246,0.12),inset_0_1px_1px_rgba(255,255,255,0.12)] backdrop-blur-2xl z-[150] focus:outline-none glass-scrollbar"
+            className="absolute right-0 mt-2 w-72 max-h-96 overflow-hidden flex flex-col rounded-2xl border border-white/15 bg-zinc-950/90 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(59,130,246,0.12),inset_0_1px_1px_rgba(255,255,255,0.12)] backdrop-blur-2xl z-[150] focus:outline-none"
             role="menu"
             aria-orientation="vertical"
           >
-            <div className="flex items-center justify-between px-3 py-1.5 text-[10px] font-semibold text-zinc-400 uppercase tracking-wider border-b border-white/[0.08] mb-1 sticky top-0 bg-zinc-950/90 backdrop-blur-xl z-10 rounded-t-lg">
-              <span className="flex items-center gap-1.5 text-zinc-300">
-                <Globe className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                {t.common?.switchLanguage || "Select Language"}
-              </span>
-              <span className="text-[9px] text-blue-300/80 bg-blue-500/10 px-1.5 py-0.5 rounded-full font-mono border border-blue-500/20">14 Languages</span>
-            </div>
-            <div className="space-y-0.5 pr-0.5" dir="ltr">
-              {LANGUAGES.map((opt) => {
-                const isSelected = opt.code === language;
-                const isTarget = isChangingLanguage && opt.code === targetLanguage;
-                return (
-                  <button
-                    key={opt.code}
-                    type="button"
-                    id={`lang-opt-${opt.code}`}
-                    disabled={isChangingLanguage}
-                    onClick={() => handleSelect(opt.code)}
-                    className={`w-full flex items-center justify-between px-3 py-2 text-xs rounded-xl transition-colors text-left group cursor-pointer ${
-                      isSelected
-                        ? "bg-blue-600/20 text-blue-300 font-semibold border border-blue-500/30"
-                        : "text-zinc-300 hover:bg-zinc-800/70 hover:text-white border border-transparent"
-                    }`}
-                    role="menuitem"
-                  >
-                    <div className="flex items-center gap-3 min-w-0 text-left">
-                      <span className="text-lg leading-none shrink-0 select-none" role="img" aria-label={opt.label}>
-                        {opt.flag}
-                      </span>
-                      <div className="flex flex-col min-w-0 text-left items-start">
-                        <span className="font-semibold text-xs truncate text-zinc-100 group-hover:text-white text-left">
-                          {opt.label}
-                        </span>
-                        <span className="text-[10px] text-zinc-400 font-normal truncate text-left mt-0.5">
-                          {opt.nativeLabel}
-                        </span>
-                      </div>
-                    </div>
+            {/* Header & Search Bar */}
+            <div className="p-2 border-b border-white/[0.08] bg-zinc-950/95 sticky top-0 z-10 space-y-1.5">
+              <div className="flex items-center justify-between px-1 text-[10px] font-semibold text-zinc-400 uppercase tracking-wider">
+                <span className="flex items-center gap-1.5 text-zinc-300">
+                  <Globe className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                  {t.common?.switchLanguage || "Select Language"}
+                </span>
+                <span className="text-[9px] text-blue-300/80 bg-blue-500/10 px-1.5 py-0.5 rounded-full font-mono border border-blue-500/20">
+                  {LANGUAGES.length} Languages
+                </span>
+              </div>
 
-                    <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                      <span className="text-[9px] tracking-wider uppercase font-semibold text-zinc-400 group-hover:text-zinc-200 px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/[0.08]">
-                        {opt.country}
-                      </span>
-                      {isTarget ? (
-                        <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin shrink-0" />
-                      ) : isSelected ? (
-                        <Check className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                      ) : null}
-                    </div>
+              {/* Instant Search Filter Input */}
+              <div className="relative">
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search language or country..."
+                  className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-2.5 py-1.5 text-xs text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-blue-500/60 focus:ring-1 focus:ring-blue-500/30 transition-all"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-zinc-400 hover:text-white"
+                  >
+                    ✕
                   </button>
-                );
-              })}
+                )}
+              </div>
+            </div>
+
+            {/* Language Options List */}
+            <div className="p-1.5 space-y-0.5 overflow-y-auto max-h-64 glass-scrollbar" dir="ltr">
+              {filteredLanguages.length === 0 ? (
+                <div className="py-4 text-center text-xs text-zinc-500">
+                  No matching languages found.
+                </div>
+              ) : (
+                filteredLanguages.map((opt) => {
+                  const isSelected = opt.code === language;
+                  const isTarget = isChangingLanguage && opt.code === targetLanguage;
+                  return (
+                    <button
+                      key={opt.code}
+                      type="button"
+                      id={`lang-opt-${opt.code}`}
+                      disabled={isChangingLanguage}
+                      onClick={() => handleSelect(opt.code)}
+                      className={`w-full flex items-center justify-between px-3 py-2 text-xs rounded-xl transition-colors text-left group cursor-pointer ${
+                        isSelected
+                          ? "bg-blue-600/20 text-blue-300 font-semibold border border-blue-500/30"
+                          : "text-zinc-300 hover:bg-zinc-800/70 hover:text-white border border-transparent"
+                      }`}
+                      role="menuitem"
+                    >
+                      <div className="flex items-center gap-3 min-w-0 text-left">
+                        <span className="text-lg leading-none shrink-0 select-none" role="img" aria-label={opt.label}>
+                          {opt.flag}
+                        </span>
+                        <div className="flex flex-col min-w-0 text-left items-start">
+                          <span className="font-semibold text-xs truncate text-zinc-100 group-hover:text-white text-left">
+                            {opt.label}
+                          </span>
+                          <span className="text-[10px] text-zinc-400 font-normal truncate text-left mt-0.5">
+                            {opt.nativeLabel}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                        <span className="text-[9px] tracking-wider uppercase font-semibold text-zinc-400 group-hover:text-zinc-200 px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/[0.08]">
+                          {opt.country}
+                        </span>
+                        {isTarget ? (
+                          <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin shrink-0" />
+                        ) : isSelected ? (
+                          <Check className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                        ) : null}
+                      </div>
+                    </button>
+                  );
+                })
+              )}
             </div>
           </motion.div>
         )}

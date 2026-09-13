@@ -301,8 +301,8 @@ const ScannerCardStream = ({
         }
       `}</style>
       
-      <canvas ref={particleCanvasRef} className="absolute top-1/2 left-[50%] -translate-x-[50%] -translate-y-1/2 w-full max-w-[100vw] h-[250px] z-0 pointer-events-none" />
-      <canvas ref={scannerCanvasRef} className="absolute top-1/2 left-[50%] -translate-x-[50%] -translate-y-1/2 w-full max-w-[100vw] h-[300px] z-10 pointer-events-none" />
+      <canvas ref={particleCanvasRef} className="absolute top-1/2 left-[50%] -translate-x-[50%] -translate-y-1/2 w-full max-w-full h-[250px] z-0 pointer-events-none" />
+      <canvas ref={scannerCanvasRef} className="absolute top-1/2 left-[50%] -translate-x-[50%] -translate-y-1/2 w-full max-w-full h-[300px] z-10 pointer-events-none" />
       
    
       <div

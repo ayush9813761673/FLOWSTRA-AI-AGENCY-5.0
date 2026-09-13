@@ -36,7 +36,7 @@ export function BackToTop() {
           exit={{ opacity: 0, scale: 0.8, y: 15 }}
           transition={{ type: "spring", stiffness: 300, damping: 22 }}
           onClick={scrollToTop}
-          className="fixed bottom-24 md:bottom-8 right-6 md:right-8 z-[9999] p-3 rounded-full border border-white/25 text-white cursor-pointer select-none overflow-hidden transition-colors shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_15px_rgba(59,130,246,0.15)] group hover:border-blue-500/50 hover:bg-blue-600/10 active:scale-95"
+          className="fixed bottom-24 md:bottom-8 right-4 sm:right-6 md:right-8 z-[9999] p-3 rounded-full border border-white/25 text-white cursor-pointer select-none overflow-hidden transition-colors shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_15px_rgba(59,130,246,0.15)] group hover:border-blue-500/50 hover:bg-blue-600/10 active:scale-95"
           style={{
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)'

@@ -223,7 +223,7 @@ export function LanguageDetectionToast() {
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-[125] max-w-[calc(100vw-2rem)] sm:max-w-md w-full shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_20px_rgba(59,130,246,0.15)]"
+          className="fixed bottom-28 left-4 right-4 sm:left-auto sm:bottom-6 sm:right-6 z-[125] sm:max-w-md w-auto shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_20px_rgba(59,130,246,0.15)]"
         >
           <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-zinc-950/92 backdrop-blur-2xl p-4 text-zinc-100 transition-all duration-300">
             {/* Ambient background glow */}

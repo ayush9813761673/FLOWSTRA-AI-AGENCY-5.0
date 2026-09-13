@@ -255,7 +255,7 @@ export function Testimonials() {
       {/* Video Modal Player (Thomas Shelly) */}
       <AnimatePresence>
         {activeVideo && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
+          <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 sm:p-6 md:p-10">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -340,7 +340,7 @@ export function Testimonials() {
       {/* Proof & Case Showcase Modal (Mscrubs / Leena Amsel) */}
       <AnimatePresence>
         {activeProofModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+          <div className="fixed inset-0 z-[10000] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

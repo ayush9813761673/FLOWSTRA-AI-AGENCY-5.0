@@ -135,14 +135,14 @@ export function Calculator() {
               {/* Input Section */}
               <div className="w-full lg:w-1/2 p-8 lg:p-12 border-b lg:border-b-0 lg:border-r border-[var(--card-border)] bg-[var(--surface)]/40 backdrop-blur-sm">
                 <h3 className="text-2xl font-semibold text-[var(--text-primary)] mb-8">
-                  {t.calculator.yourNumbers}
+                  {t.calculator.numbersTitle || t.calculator.yourNumbers || "Your Current Numbers"}
                 </h3>
 
                 <div className="flex flex-col gap-8">
                   <div className="flex flex-col gap-3">
                     <div className="flex justify-between">
                       <label className="text-sm font-medium text-[var(--text-secondary)]">
-                        {t.calculator.leadsPerMonth}
+                        {t.calculator.leadsPerMonth || "Leads per Month"}
                       </label>
                       <span className="text-sm font-semibold text-[var(--text-primary)]">
                         {leads}
@@ -164,7 +164,7 @@ export function Calculator() {
                   <div className="flex flex-col gap-3">
                     <div className="flex justify-between">
                       <label className="text-sm font-medium text-[var(--text-secondary)]">
-                        {t.calculator.avgDealValue}
+                        {t.calculator.avgDealValue || "Avg Deal Value ($)"}
                       </label>
                       <span className="text-sm font-semibold text-[var(--text-primary)]">
                         ${dealValue.toLocaleString()}
@@ -186,7 +186,7 @@ export function Calculator() {
                   <div className="flex flex-col gap-3">
                     <div className="flex justify-between">
                       <label className="text-sm font-medium text-[var(--text-secondary)]">
-                        {t.calculator.currentCloseRate}
+                        {t.calculator.currentCloseRate || "Current Close Rate (%)"}
                       </label>
                       <span className="text-sm font-semibold text-[var(--text-primary)]">
                         {closeRate}%
@@ -211,7 +211,7 @@ export function Calculator() {
               <div className="w-full lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center bg-[var(--surface)]/40 backdrop-blur-sm relative overflow-hidden z-0">
                 <div className="absolute -top-24 -right-24 w-48 h-48 bg-[var(--accent-blue)] rounded-full blur-[100px] opacity-10 pointer-events-none z-0"></div>
 
-                <div className="flex flex-col gap-8 relative z-10 pointer-events-none">
+                <div className="flex flex-col gap-8 relative z-10 pointer-events-auto select-text">
                   <div className="flex flex-col gap-1">
                     <p className="text-sm font-medium text-[var(--text-secondary)]">
                       {t.calculator.currentRevenue}
@@ -251,8 +251,12 @@ export function Calculator() {
             <div className="w-full border-t border-[var(--card-border)] p-8 lg:p-12 flex flex-col items-center justify-center relative z-10 bg-[var(--surface)]/20">
               <div className="w-full max-w-4xl flex flex-col gap-8">
                 <div className="text-center md:text-left">
-                  <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">{t.calculator.milestonesTitle}</h3>
-                  <p className="text-sm text-[var(--text-secondary)]">{t.calculator.milestonesDesc}</p>
+                  <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">
+                    {t.calculator.projectedRoiMilestones || t.calculator.milestonesTitle || "Projected ROI Milestones"}
+                  </h3>
+                  <p className="text-sm text-[var(--text-secondary)]">
+                    {t.calculator.milestonesDesc || "Cumulative financial recovery over a 12-month automation deployment."}
+                  </p>
                 </div>
 
                 {/* Milestone Summary Cards */}
@@ -265,7 +269,9 @@ export function Calculator() {
                 >
                   <div className="p-6 rounded-xl border border-[var(--card-border)] bg-[var(--surface)]/60 backdrop-blur-sm relative overflow-hidden group hover:border-blue-500/30 transition-all duration-300 shadow-sm">
                     <div className="absolute top-0 right-0 p-3 text-xs font-mono text-blue-500 bg-blue-500/10 rounded-bl-lg">6-Month Mark</div>
-                    <p className="text-sm font-medium text-[var(--text-secondary)]">{t.calculator.recovered6Mo}</p>
+                    <p className="text-sm font-medium text-[var(--text-secondary)]">
+                      {t.calculator.recovered6mo || t.calculator.recovered6Mo || "Recovered Revenue (6 Mo)"}
+                    </p>
                     <p className="text-3xl font-bold text-emerald-500 mt-2 filter drop-shadow-[0_0_8px_rgba(74,222,128,0.25)]">
                       +{formatCurrency(gain6Month)}
                     </p>
@@ -277,7 +283,9 @@ export function Calculator() {
 
                   <div className="p-6 rounded-xl border border-[var(--card-border)] bg-[var(--surface)]/60 backdrop-blur-sm relative overflow-hidden group hover:border-blue-500/30 transition-all duration-300 shadow-sm">
                     <div className="absolute top-0 right-0 p-3 text-xs font-mono text-blue-500 bg-blue-500/10 rounded-bl-lg">12-Month Mark</div>
-                    <p className="text-sm font-medium text-[var(--text-secondary)]">{t.calculator.recovered12Mo}</p>
+                    <p className="text-sm font-medium text-[var(--text-secondary)]">
+                      {t.calculator.recovered12mo || t.calculator.recovered12Mo || "Recovered Revenue (12 Mo)"}
+                    </p>
                     <p className="text-3xl font-bold text-blue-500 mt-2 filter drop-shadow-[0_0_8px_rgba(59,130,246,0.35)]">
                       +{formatCurrency(gain12Month)}
                     </p>
@@ -298,8 +306,12 @@ export function Calculator() {
                 >
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 relative z-30">
                     <div>
-                      <h4 className="text-lg font-semibold text-[var(--text-primary)]">{t.calculator.chartTitle}</h4>
-                      <p className="text-xs text-[var(--text-secondary)]">{t.calculator.chartDesc}</p>
+                      <h4 className="text-lg font-semibold text-[var(--text-primary)]">
+                        {t.calculator.chartTitle || "Revenue Growth Trajectory"}
+                      </h4>
+                      <p className="text-xs text-[var(--text-secondary)]">
+                        {t.calculator.chartDesc || "Comparison between status quo and Flowstra AI implementation."}
+                      </p>
                     </div>
                     <div className="flex bg-[var(--card-border)] p-0.5 rounded-lg border border-[var(--card-border)] relative z-50 pointer-events-auto">
                       <button
@@ -311,7 +323,7 @@ export function Calculator() {
                             : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                         }`}
                       >
-                        {t.calculator.cumulative}
+                        {t.calculator.cumulative || "Cumulative"}
                       </button>
                       <button
                         type="button"
@@ -322,7 +334,7 @@ export function Calculator() {
                             : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                         }`}
                       >
-                        {t.calculator.monthly}
+                        {t.calculator.monthlyRunRate || t.calculator.monthly || "Monthly"}
                       </button>
                     </div>
                   </div>
@@ -394,10 +406,10 @@ export function Calculator() {
                 rel="noopener noreferrer"
                 className="relative z-50 inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/35 transition-all duration-300 hover:-translate-y-1 pointer-events-auto cursor-pointer"
               >
-                {t.calculator.ctaButton}
+                {t.calculator.ctaBtn || t.calculator.ctaButton || "Stop the Bleeding — Book Free Audit"}
               </a>
-              <p className="text-sm font-semibold text-[var(--text-secondary)] mt-6">
-                {t.calculator.ctaSubtitle}
+              <p className="text-sm font-semibold text-[var(--text-secondary)] mt-4">
+                {t.calculator.ctaSubtext || t.calculator.ctaSubtitle || "⚡ 20-min revenue audit • Zero pressure • Immediate insights"}
               </p>
             </div>
           </GlowCard>
