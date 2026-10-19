@@ -30,7 +30,7 @@ const cardGradients = [
 
 const team: TeamMember[] = [
   {
-    image: "/Ayush Yadav.jpeg",
+    image: "/AYUSH YADAV.jpeg",
     name: "Ayush Yadav",
     role: "Founder & CEO",
     bio: "5+ years architecting AI solutions and automation strategies for enterprise growth.",
@@ -148,7 +148,7 @@ function TeamMemberCard({ member, idx, grad }: TeamMemberCardProps) {
               <img
                 src={member.image}
                 alt={member.name}
-                className={`inline-block size-full max-h-full max-w-full object-cover align-middle object-top transition-all duration-700 ease-out ${
+                className={`inline-block size-full max-h-full max-w-full object-cover align-middle object-[center_48%] transition-all duration-700 ease-out ${
                   isHovered ? "scale-105 opacity-100" : "scale-100 opacity-80"
                 }`}
                 referrerPolicy="no-referrer"

@@ -168,8 +168,8 @@ const seoMap: Record<string, SEOConfig> = {
         "employee": [
           {
             "@type": "Person",
-            "name": "Aayush Raj",
-            "jobTitle": "Co-Founder & Systems Architect"
+            "name": "Ayush Yadav",
+            "jobTitle": "Founder & CEO"
           }
         ]
       }
