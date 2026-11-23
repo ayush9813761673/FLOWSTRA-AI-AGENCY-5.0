@@ -39,7 +39,7 @@ const team: TeamMember[] = [
       "Pioneered proprietary lead-scraping & routing systems",
       "Premier AI automation consultant & strategy architect"
     ],
-    instagram: "https://www.instagram.com/ayush.yadav.ai/",
+    instagram: "https://www.instagram.com/ayush6z/",
     linkedin: "https://www.linkedin.com/in/ayush-yadav-pro/",
   },
 ];
